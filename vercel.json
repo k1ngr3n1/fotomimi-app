@@ -1,5 +1,5 @@
 {
-  "buildCommand": "composer install --no-dev --optimize-autoloader && npm ci && npm run build",
+  "buildCommand": "npm run vercel-build",
   "outputDirectory": "public",
   "functions": {
     "api/index.php": {
@@ -11,5 +11,9 @@
       "source": "/(.*)",
       "destination": "/api/index.php"
     }
-  ]
+  ],
+  "env": {
+    "APP_ENV": "production",
+    "APP_DEBUG": "false"
+  }
 }
