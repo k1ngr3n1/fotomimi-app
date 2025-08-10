@@ -1,0 +1,21 @@
+[build]
+builder = "nixpacks"
+
+[deploy]
+startCommand = "php artisan serve --host=0.0.0.0 --port=$PORT"
+healthcheckPath = "/"
+healthcheckTimeout = 300
+restartPolicyType = "on_failure"
+
+[env]
+APP_ENV = "production"
+APP_DEBUG = "false"
+APP_KEY = "base64:YH8kPK28CCbyGx3E6EAhMXs15YHpCy5Wjmr6/siXU8s="
+LOG_CHANNEL = "stderr"
+CACHE_DRIVER = "array"
+CACHE_STORE = "array"
+SESSION_DRIVER = "cookie"
+QUEUE_CONNECTION = "sync"
+FILESYSTEM_DISK = "local"
+DB_CONNECTION = "sqlite"
+DB_DATABASE = "/tmp/database.sqlite"
