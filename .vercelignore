@@ -1,14 +1,28 @@
+# Dependencies
 node_modules
 vendor
+
+# Laravel specific
 storage
 bootstrap/cache
 .env
 .env.*
+.env.example
+
+# Git
 .git
 .gitignore
+
+# Documentation
 README.md
+CHANGELOG.md
+
+# Testing
 tests
 phpunit.xml
+.phpunit.result.cache
+
+# Development tools
 .editorconfig
 .prettierrc
 .prettierignore
@@ -16,9 +30,19 @@ eslint.config.js
 tsconfig.json
 tailwind.config.js
 vite.config.ts
-composer.json
-composer.lock
-package.json
-package-lock.json
-artisan
+
+# Build artifacts
 dist
+
+# Laravel artisan
+artisan
+
+# IDE files
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db

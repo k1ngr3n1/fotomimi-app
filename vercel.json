@@ -1,20 +1,15 @@
 {
   "buildCommand": "composer install --no-dev --optimize-autoloader && npm ci && npm run build",
   "outputDirectory": "public",
-  "framework": "laravel",
   "functions": {
-    "app/Http/Controllers/**/*.php": {
+    "api/index.php": {
       "runtime": "vercel-php@0.6.0"
     }
   },
   "rewrites": [
     {
       "source": "/(.*)",
-      "destination": "/index.php"
+      "destination": "/api/index.php"
     }
-  ],
-  "env": {
-    "APP_ENV": "production",
-    "APP_DEBUG": "false"
-  }
+  ]
 }
