@@ -1,0 +1,241 @@
+{
+    "navigation": {
+        "home": "Početna",
+        "about": "O nama",
+        "gallery": "Galerija",
+        "contact": "Kontakt",
+        "booking": "Rezervacija",
+        "admin": "Admin",
+        "dashboard": "Nadzorna ploča",
+        "settings": "Postavke",
+        "profile": "Profil",
+        "logout": "Odjava"
+    },
+    "home": {
+        "hero": {
+            "title": "Svaka fotografija",
+            "titleHighlight": "priča vašu priču",
+            "subtitle": "Profesionalna fotografija vjenčanja, proslava i posebnih događaja - zauvijek sačuvajte uspomene koje vrijede.",
+            "galleryButton": "Galerija",
+            "contactButton": "Kontaktiraj me"
+        },
+        "services": {
+            "title": "Naše usluge",
+            "subtitle": "Od intimnih vjenčanja do velikih događaja, specijalizirani smo za snimanje trenutaka koji su najvažniji.",
+            "weddings": {
+                "title": "Vjenčanja",
+                "description": "Snimite svoj poseban dan s elegancijom i stilom. Svaki trenutak zauvijek sačuvan."
+            },
+            "video": {
+                "title": "Video",
+                "description": "Profesionalna video produkcija za događaje, reklame i kreativni sadržaj."
+            },
+            "onSet": {
+                "title": "Na setu",
+                "description": "Fotografija iza scene i produkcijska fotografija za filmove i komercijalne snimanja."
+            },
+            "studio": {
+                "title": "Studio",
+                "description": "Profesionalne studio sesije za portrete, headshotove i kreativnu fotografiju."
+            },
+            "modelling": {
+                "title": "Modeling",
+                "description": "Modna i portretna fotografija za modele i talentirane osobe."
+            },
+            "concerts": {
+                "title": "Koncerti",
+                "description": "Dinamična fotografija događaja koja snima energiju i uzbuđenje uživo nastupa."
+            },
+            "baptism": {
+                "title": "Krštenja",
+                "description": "Proslavite nove početke s prekrasnim obiteljskim portretima i pokrivanjem ceremonije."
+            }
+        },
+        "about": {
+            "title": "Upoznajte svog fotografa",
+            "description1": "S više od 10 godina iskustva u profesionalnoj fotografiji, imao sam privilegiju snimiti bezbroj posebnih trenutaka i stvoriti trajne uspomene za obitelji i parove.",
+            "description2": "Moja strast leži u razumijevanju vaše vizije i prenošenju je u prekrasne, vremenske fotografije koje ćete čuvati zauvijek.",
+            "button": "Saznajte više o meni",
+            "stats": {
+                "clients": "Zadovoljnih klijenata"
+            }
+        },
+        "cta": {
+            "title": "Spremni stvoriti prekrasne uspomene?",
+            "subtitle": "Razgovarajmo o vašoj viziji i stvorimo nešto izvanredno zajedno.",
+            "contactButton": "Javite se",
+            "bookingButton": "Rezervirajte svoju sesiju"
+        },
+        "footer": {
+            "tagline": "Profesionalne fotografijske usluge za sve vaše posebne trenutke.",
+            "services": "Usluge",
+            "quickLinks": "Brze poveznice",
+            "contactInfo": "Kontakt informacije",
+            "copyright": "Sva prava pridržana."
+        }
+    },
+    "gallery": {
+        "title": "Fotografska galerija",
+        "subtitle": "Istražite našu kolekciju prekrasnih trenutaka snimljenih u različitim stilovima fotografije i događajima.",
+        "filter": {
+            "title": "Filtriraj po kategoriji",
+            "allPhotos": "Sve fotografije",
+            "weddings": "Vjenčanja",
+            "video": "Video",
+            "onSet": "Na setu",
+            "studio": "Studio",
+            "modelling": "Modeling",
+            "concerts": "Koncerti",
+            "baptism": "Krštenja"
+        },
+        "emptyState": {
+            "title": "Nema pronađenih slika",
+            "description": "Pokušajte odabrati drugu kategoriju ili provjerite kasnije za nove dodatke."
+        },
+        "cta": {
+            "title": "Sviđa vam se ono što vidite?",
+            "subtitle": "Spremni stvoriti vlastite prekrasne uspomene? Razgovarajmo o vašim fotografskim potrebama.",
+            "contactButton": "Javite se",
+            "bookingButton": "Rezervirajte svoju sesiju"
+        }
+    },
+    "about": {
+        "title": "O meni",
+        "subtitle": "Strastvena sam u hvatanju vaših najvažnijih trenutaka s stilom i srcem.",
+        "greeting": "Bok, ja sam Mimi!",
+        "description1": "S više od desetljeća iskustva, specijalizirana sam za fotografiju vjenčanja, događaja i studio fotografiju. Moj pristup je osobni, kreativan i uvijek usmjeren na prenošenje vaše jedinstvene priče.",
+        "description2": "Vjerujem da svaka fotografija treba izazvati emocije i sačuvati uspomene za cijeli život. Radimo zajedno da stvorimo nešto prekrasno!",
+        "contactButton": "Kontaktiraj me",
+        "stats": {
+            "sessionsCompleted": "Završenih sesija",
+            "happyCouples": "Sretnih parova",
+            "yearsExperience": "Godina iskustva",
+            "eventsCovered": "Pokrivenih događaja"
+        },
+        "testimonials": {
+            "title": "Što kažu moji klijenti",
+            "wedding": "Vjenčanje",
+            "baptism": "Krštenje",
+            "studioSession": "Studio sesija"
+        },
+        "footer": {
+            "copyright": "Sva prava pridržana."
+        }
+    },
+    "booking": {
+        "title": "Rezervirajte svoju sesiju",
+        "subtitle": "Rezervirajte svoj datum i stvorimo nešto prekrasno zajedno.",
+        "form": {
+            "name": "Ime",
+            "email": "E-mail",
+            "phone": "Telefon",
+            "eventType": "Vrsta događaja",
+            "eventDate": "Datum događaja",
+            "location": "Lokacija",
+            "guests": "Broj gostiju",
+            "budget": "Raspon proračuna",
+            "message": "Poruka",
+            "submitButton": "Rezerviraj sada"
+        },
+        "eventTypes": {
+            "wedding": "Vjenčanje",
+            "baptism": "Krštenje",
+            "concert": "Koncert",
+            "studio": "Studio sesija",
+            "modelling": "Modeling",
+            "other": "Drugi događaj"
+        },
+        "budgetRanges": {
+            "under500": "Ispod $500",
+            "500to1000": "$500 - $1,000",
+            "1000to2000": "$1,000 - $2,000",
+            "2000to5000": "$2,000 - $5,000",
+            "over5000": "Preko $5,000",
+            "custom": "Prilagođeni proračun"
+        },
+        "packages": {
+            "basic": {
+                "title": "Osnovni paket",
+                "price": "$500",
+                "description": "Savršen za male događaje i sesije",
+                "features": [
+                    "2 sata pokrivanja",
+                    "50 uređenih fotografija",
+                    "Online galerija",
+                    "Osnovno uređivanje",
+                    "Dostava u roku od 2 tjedna"
+                ]
+            },
+            "standard": {
+                "title": "Standardni paket",
+                "price": "$1,200",
+                "description": "Najpopularniji izbor za događaje",
+                "features": [
+                    "4 sata pokrivanja",
+                    "100 uređenih fotografija",
+                    "Online galerija",
+                    "Napredno uređivanje",
+                    "Dostava u roku od 1 tjedna",
+                    "Dozvola za tiskanje"
+                ]
+            },
+            "premium": {
+                "title": "Premium paket",
+                "price": "$2,500",
+                "description": "Potpuno pokrivanje za posebne prigode",
+                "features": [
+                    "Cjelodnevno pokrivanje",
+                    "200+ uređenih fotografija",
+                    "Online galerija",
+                    "Premium uređivanje",
+                    "Prioritetna dostava",
+                    "Dozvola za tiskanje",
+                    "Uključena sesija za zaruke"
+                ]
+            }
+        },
+        "footer": {
+            "copyright": "Sva prava pridržana."
+        }
+    },
+    "auth": {
+        "login": {
+            "title": "Prijava",
+            "email": "E-mail",
+            "password": "Lozinka",
+            "rememberMe": "Zapamti me",
+            "forgotPassword": "Zaboravili ste lozinku?",
+            "loginButton": "Prijavi se",
+            "noAccount": "Trebate račun?"
+        },
+        "register": {
+            "title": "Registracija",
+            "name": "Ime",
+            "email": "E-mail",
+            "password": "Lozinka",
+            "confirmPassword": "Potvrdi lozinku",
+            "registerButton": "Registriraj se",
+            "hasAccount": "Već ste registrirani?"
+        }
+    },
+    "common": {
+        "loading": "Učitavanje...",
+        "save": "Spremi",
+        "cancel": "Odustani",
+        "delete": "Obriši",
+        "edit": "Uredi",
+        "view": "Pogledaj",
+        "back": "Natrag",
+        "next": "Sljedeće",
+        "previous": "Prethodno",
+        "close": "Zatvori",
+        "submit": "Pošalji",
+        "search": "Pretraži",
+        "filter": "Filtriraj",
+        "sort": "Sortiraj",
+        "language": "Jezik",
+        "theme": "Tema",
+        "darkMode": "Tamni način",
+        "lightMode": "Svijetli način"
+    }
+} 
