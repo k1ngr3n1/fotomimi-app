@@ -94,8 +94,21 @@ php artisan storage:link
 ### Health Check
 The application includes a health check endpoint at `/up` that Railway uses to verify the application is running.
 
+### Nixpacks Issues
+If you encounter Nixpacks errors like "nix-env -if .nixpacks/nixpkgs-*.nix did not complete successfully":
+1. The project is now configured to use Dockerfile by default (more reliable)
+2. If you need to use Nixpacks, ensure you have the latest version
+3. Try clearing Railway's build cache
+4. Check that all environment variables are properly set
+
 ## File Structure
-- `railway.json` - Railway deployment configuration
-- `nixpacks.toml` - Build configuration
+- `railway.json` - Railway deployment configuration (uses Dockerfile)
+- `Dockerfile` - Docker configuration for reliable builds
+- `nixpacks.toml` - Alternative build configuration (if needed)
 - `Procfile` - Alternative deployment method
+- `deploy.sh` - Deployment script for post-deployment tasks
 - `public/index.php` - Application entry point
+
+## Build Configuration
+
+This project uses **Dockerfile** for deployment, which is more reliable than Nixpacks. If you encounter issues with Docker, you can switch to Nixpacks by changing the `builder` in `railway.json` from `"DOCKERFILE"` to `"NIXPACKS"`.
