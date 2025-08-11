@@ -25,11 +25,9 @@ Route::get('/booking', function () {
 Route::post('/contact', [PhotographyController::class, 'sendContact'])->name('contact.send');
 Route::post('/booking', [PhotographyController::class, 'sendBooking'])->name('booking.send');
 
-// Media management routes
+// Media management routes (public)
 Route::post('/media/import', [App\Http\Controllers\MediaController::class, 'importFromDirectory'])->name('media.import');
 Route::post('/media/bulk-import', [App\Http\Controllers\MediaController::class, 'bulkImport'])->name('media.bulk-import');
-Route::put('/media/{media}', [App\Http\Controllers\MediaController::class, 'update'])->name('media.update');
-Route::delete('/media/{media}', [App\Http\Controllers\MediaController::class, 'destroy'])->name('media.destroy');
 
 // Admin routes
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(function () {

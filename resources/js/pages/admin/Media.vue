@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { Head, Link, useForm, router } from '@inertiajs/vue3';
 import { ref, computed } from 'vue';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import { 
@@ -32,8 +32,7 @@ const form = useForm({
 
 const viewMode = ref('grid'); // 'grid' or 'list'
 const selectedItems = ref([]);
-const showDeleteModal = ref(false);
-const itemToDelete = ref(null);
+const isDeleting = ref(false);
 
 const categories = [
     { value: '', label: 'All Categories' },
@@ -101,20 +100,33 @@ const selectAll = () => {
 };
 
 const deleteItem = (item) => {
-    itemToDelete.value = item;
-    showDeleteModal.value = true;
-};
-
-const confirmDelete = () => {
-    if (itemToDelete.value) {
-        form.delete(route('admin.media.destroy', itemToDelete.value.id), {
+    if (isDeleting.value) return; // Prevent multiple clicks
+    
+    console.log('Delete item clicked:', item);
+    
+    // Simple confirmation without modal
+    if (confirm(`Are you sure you want to delete "${item.title}"? This action cannot be undone.`)) {
+        isDeleting.value = true;
+        console.log('Delete confirmed for item:', item);
+        console.log('Delete route:', route('admin.media.destroy', item.id));
+        
+        // Use router.delete instead of form.delete for better compatibility
+        router.delete(route('admin.media.destroy', item.id), {
             onSuccess: () => {
-                showDeleteModal.value = false;
-                itemToDelete.value = null;
+                console.log('Delete successful');
+                isDeleting.value = false;
+                // The page will automatically refresh due to Inertia
+            },
+            onError: (errors) => {
+                console.error('Delete failed:', errors);
+                isDeleting.value = false;
+                alert('Failed to delete media: ' + (errors.error || 'Unknown error'));
             }
         });
     }
 };
+
+
 
 const toggleFeatured = (item) => {
     form.patch(route('admin.media.update', item.id), {
@@ -328,7 +340,11 @@ const formatDate = (dateString) => {
                                 </Link>
                                 <button
                                     @click="deleteItem(item)"
-                                    class="p-2 bg-red-500 hover:bg-red-600 rounded-full text-white transition-colors"
+                                    :disabled="isDeleting"
+                                    :class="[
+                                        'p-2 rounded-full text-white transition-colors',
+                                        isDeleting ? 'bg-gray-400 cursor-not-allowed' : 'bg-red-500 hover:bg-red-600'
+                                    ]"
                                 >
                                     <Trash2 class="w-4 h-4" />
                                 </button>
@@ -472,7 +488,11 @@ const formatDate = (dateString) => {
                                         </Link>
                                         <button
                                             @click="deleteItem(item)"
-                                            class="text-red-600 hover:text-red-700"
+                                            :disabled="isDeleting"
+                                            :class="[
+                                                'transition-colors',
+                                                isDeleting ? 'text-gray-400 cursor-not-allowed' : 'text-red-600 hover:text-red-700'
+                                            ]"
                                         >
                                             <Trash2 class="w-4 h-4" />
                                         </button>
@@ -503,56 +523,6 @@ const formatDate = (dateString) => {
             </div>
         </div>
 
-        <!-- Delete Confirmation Modal -->
-        <div
-            v-if="showDeleteModal"
-            class="fixed inset-0 z-50 overflow-y-auto"
-            aria-labelledby="modal-title"
-            role="dialog"
-            aria-modal="true"
-        >
-            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-                <div
-                    class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
-                    @click="showDeleteModal = false"
-                ></div>
 
-                <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                        <div class="sm:flex sm:items-start">
-                            <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-                                <Trash2 class="h-6 w-6 text-red-600" />
-                            </div>
-                            <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                                <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
-                                    Delete Media
-                                </h3>
-                                <div class="mt-2">
-                                    <p class="text-sm text-gray-500">
-                                        Are you sure you want to delete "{{ itemToDelete?.title }}"? This action cannot be undone.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                        <button
-                            @click="confirmDelete"
-                            type="button"
-                            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
-                        >
-                            Delete
-                        </button>
-                        <button
-                            @click="showDeleteModal = false"
-                            type="button"
-                            class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                        >
-                            Cancel
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </AdminLayout>
 </template> 

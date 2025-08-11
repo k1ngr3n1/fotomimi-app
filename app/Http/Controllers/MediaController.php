@@ -239,24 +239,66 @@ class MediaController extends Controller
 
     public function destroy(Media $media)
     {
-        // Delete file from storage
         try {
-            Storage::disk('main_disk')->delete($media->filepath);
+            // Log the deletion attempt
+            \Log::info('Attempting to delete media', [
+                'media_id' => $media->id,
+                'filepath' => $media->filepath,
+                'title' => $media->title,
+                'request_method' => request()->method(),
+                'user_id' => auth()->id()
+            ]);
+
+            // Delete file from storage
+            $fileDeleted = false;
+            try {
+                if (Storage::disk('main_disk')->exists($media->filepath)) {
+                    Storage::disk('main_disk')->delete($media->filepath);
+                    $fileDeleted = true;
+                    \Log::info('File deleted from main_disk', ['filepath' => $media->filepath]);
+                }
+            } catch (\Exception $e) {
+                \Log::error('File deletion failed from main_disk', [
+                    'file' => $media->filepath,
+                    'error' => $e->getMessage(),
+                    'disk' => 'main_disk'
+                ]);
+                
+                // Fallback to public disk if main_disk fails
+                try {
+                    if (Storage::disk('public')->exists($media->filepath)) {
+                        Storage::disk('public')->delete($media->filepath);
+                        $fileDeleted = true;
+                        \Log::info('File deleted from public disk (fallback)', ['filepath' => $media->filepath]);
+                    }
+                } catch (\Exception $e2) {
+                    \Log::error('File deletion failed from public disk', [
+                        'file' => $media->filepath,
+                        'error' => $e2->getMessage(),
+                        'disk' => 'public'
+                    ]);
+                }
+            }
+
+            // Delete database record
+            $media->delete();
+            
+            \Log::info('Media deleted successfully', [
+                'media_id' => $media->id,
+                'file_deleted' => $fileDeleted
+            ]);
+
+            return back()->with('success', 'Media deleted successfully.');
+            
         } catch (\Exception $e) {
-            \Log::error('File deletion failed', [
-                'file' => $media->filepath,
+            \Log::error('Media deletion failed', [
+                'media_id' => $media->id,
                 'error' => $e->getMessage(),
-                'disk' => 'main_disk'
+                'trace' => $e->getTraceAsString()
             ]);
             
-            // Fallback to public disk if main_disk fails
-            Storage::disk('public')->delete($media->filepath);
+            return back()->withErrors(['error' => 'Failed to delete media: ' . $e->getMessage()]);
         }
-        
-        // Delete database record
-        $media->delete();
-        
-        return back()->with('success', 'Media deleted successfully.');
     }
 
     public function importFromDirectory(Request $request)
