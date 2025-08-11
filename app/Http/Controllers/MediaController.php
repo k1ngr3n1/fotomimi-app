@@ -45,46 +45,67 @@ class MediaController extends Controller
     // Admin methods
     public function adminIndex(Request $request)
     {
-        $query = Media::query();
-        
-        if ($request->filled('search')) {
-            $search = $request->get('search');
-            $query->where(function($q) use ($search) {
-                $q->where('title', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%");
-            });
-        }
-        
-        if ($request->filled('category')) {
-            $query->byCategory($request->get('category'));
-        }
-        
-        if ($request->filled('type')) {
-            if ($request->get('type') === 'image') {
-                $query->photos();
-            } elseif ($request->get('type') === 'video') {
-                $query->videos();
+        try {
+            $query = Media::query();
+            
+            if ($request->filled('search')) {
+                $search = $request->get('search');
+                $query->where(function($q) use ($search) {
+                    $q->where('title', 'like', "%{$search}%")
+                      ->orWhere('description', 'like', "%{$search}%");
+                });
             }
+            
+            if ($request->filled('category')) {
+                $query->byCategory($request->get('category'));
+            }
+            
+            if ($request->filled('type')) {
+                if ($request->get('type') === 'image') {
+                    $query->photos();
+                } elseif ($request->get('type') === 'video') {
+                    $query->videos();
+                }
+            }
+            
+            if ($request->filled('featured')) {
+                $query->where('is_featured', $request->get('featured'));
+            }
+            
+            $media = $query->orderBy('created_at', 'desc')->get();
+            
+            return Inertia::render('admin/Media', [
+                'media' => $media,
+                'categories' => [
+                    'wedding' => 'Weddings',
+                    'baptism' => 'Baptisms',
+                    'concert' => 'Concerts',
+                    'studio' => 'Studio',
+                    'modelling' => 'Modelling',
+                    'other' => 'Other'
+                ],
+                'filters' => $request->only(['search', 'category', 'type', 'featured'])
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Admin media index error', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            
+            return Inertia::render('admin/Media', [
+                'media' => [],
+                'categories' => [
+                    'wedding' => 'Weddings',
+                    'baptism' => 'Baptisms',
+                    'concert' => 'Concerts',
+                    'studio' => 'Studio',
+                    'modelling' => 'Modelling',
+                    'other' => 'Other'
+                ],
+                'filters' => $request->only(['search', 'category', 'type', 'featured']),
+                'error' => 'Failed to load media data'
+            ]);
         }
-        
-        if ($request->filled('featured')) {
-            $query->where('is_featured', $request->get('featured'));
-        }
-        
-        $media = $query->orderBy('created_at', 'desc')->get();
-        
-        return Inertia::render('admin/Media', [
-            'media' => $media,
-            'categories' => [
-                'wedding' => 'Weddings',
-                'baptism' => 'Baptisms',
-                'concert' => 'Concerts',
-                'studio' => 'Studio',
-                'modelling' => 'Modelling',
-                'other' => 'Other'
-            ],
-            'filters' => $request->only(['search', 'category', 'type', 'featured'])
-        ]);
     }
 
     public function adminUpload()
@@ -147,7 +168,18 @@ class MediaController extends Controller
             $filepath = $storagePath . '/' . $newFilename;
             
             // Store file
-            Storage::disk('main_disk')->put($filepath, file_get_contents($file));
+            try {
+                Storage::disk('main_disk')->put($filepath, file_get_contents($file));
+            } catch (\Exception $e) {
+                \Log::error('File upload failed', [
+                    'file' => $file->getClientOriginalName(),
+                    'error' => $e->getMessage(),
+                    'disk' => 'main_disk'
+                ]);
+                
+                // Fallback to public disk if main_disk fails
+                Storage::disk('public')->put($filepath, file_get_contents($file));
+            }
             
             // Get file info
             $fileSize = $file->getSize();
@@ -208,7 +240,18 @@ class MediaController extends Controller
     public function destroy(Media $media)
     {
         // Delete file from storage
-        Storage::disk('main_disk')->delete($media->filepath);
+        try {
+            Storage::disk('main_disk')->delete($media->filepath);
+        } catch (\Exception $e) {
+            \Log::error('File deletion failed', [
+                'file' => $media->filepath,
+                'error' => $e->getMessage(),
+                'disk' => 'main_disk'
+            ]);
+            
+            // Fallback to public disk if main_disk fails
+            Storage::disk('public')->delete($media->filepath);
+        }
         
         // Delete database record
         $media->delete();
@@ -255,7 +298,18 @@ class MediaController extends Controller
                 $newFilename = $filename . '_' . time() . '.' . $extension;
                 $filepath = $storagePath . '/' . $newFilename;
                 
-                Storage::disk('main_disk')->put($filepath, file_get_contents($file));
+                try {
+                    Storage::disk('main_disk')->put($filepath, file_get_contents($file));
+                } catch (\Exception $e) {
+                    \Log::error('File import failed', [
+                        'file' => $file,
+                        'error' => $e->getMessage(),
+                        'disk' => 'main_disk'
+                    ]);
+                    
+                    // Fallback to public disk if main_disk fails
+                    Storage::disk('public')->put($filepath, file_get_contents($file));
+                }
                 
                 // Get file info
                 $fileSize = filesize($file);

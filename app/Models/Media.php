@@ -34,7 +34,12 @@ class Media extends Model
 
     public function getUrlAttribute()
     {
-        return Storage::disk('main_disk')->url($this->filepath);
+        try {
+            return Storage::disk('main_disk')->url($this->filepath);
+        } catch (\Exception $e) {
+            // Fallback to local storage if main_disk is not available
+            return asset('storage/' . $this->filepath);
+        }
     }
 
     public function getThumbnailUrlAttribute()

@@ -54,7 +54,13 @@ foreach ($categories as $category) {
             $filepath = $storagePath . '/' . $newFilename;
             
             try {
-                Storage::disk('main_disk')->put($filepath, file_get_contents($file));
+                // Try main_disk first, fallback to public disk
+                try {
+                    Storage::disk('main_disk')->put($filepath, file_get_contents($file));
+                } catch (Exception $e) {
+                    echo "Error with main_disk, trying public disk: " . $e->getMessage() . "\n";
+                    Storage::disk('public')->put($filepath, file_get_contents($file));
+                }
                 
                 // Get file info
                 $fileSize = filesize($file);
