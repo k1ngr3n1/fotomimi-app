@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Media extends Model
 {
@@ -33,7 +34,7 @@ class Media extends Model
 
     public function getUrlAttribute()
     {
-        return asset('storage/' . $this->filepath);
+        return Storage::disk('main_disk')->url($this->filepath);
     }
 
     public function getThumbnailUrlAttribute()

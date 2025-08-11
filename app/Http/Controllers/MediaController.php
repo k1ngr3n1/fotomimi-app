@@ -147,7 +147,7 @@ class MediaController extends Controller
             $filepath = $storagePath . '/' . $newFilename;
             
             // Store file
-            Storage::disk('public')->put($filepath, file_get_contents($file));
+            Storage::disk('main_disk')->put($filepath, file_get_contents($file));
             
             // Get file info
             $fileSize = $file->getSize();
@@ -208,7 +208,7 @@ class MediaController extends Controller
     public function destroy(Media $media)
     {
         // Delete file from storage
-        Storage::disk('public')->delete($media->filepath);
+        Storage::disk('main_disk')->delete($media->filepath);
         
         // Delete database record
         $media->delete();
@@ -255,7 +255,7 @@ class MediaController extends Controller
                 $newFilename = $filename . '_' . time() . '.' . $extension;
                 $filepath = $storagePath . '/' . $newFilename;
                 
-                Storage::disk('public')->put($filepath, file_get_contents($file));
+                Storage::disk('main_disk')->put($filepath, file_get_contents($file));
                 
                 // Get file info
                 $fileSize = filesize($file);

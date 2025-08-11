@@ -54,7 +54,7 @@ foreach ($categories as $category) {
             $filepath = $storagePath . '/' . $newFilename;
             
             try {
-                Storage::disk('public')->put($filepath, file_get_contents($file));
+                Storage::disk('main_disk')->put($filepath, file_get_contents($file));
                 
                 // Get file info
                 $fileSize = filesize($file);
