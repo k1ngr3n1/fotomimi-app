@@ -112,8 +112,8 @@ onUnmounted(() => {
         <Navigation />
 
         <!-- Header -->
-        <section class="py-20 px-4 bg-black dark:bg-white transition-colors duration-300">
-            <div class="max-w-7xl mx-auto text-center text-white dark:text-black">
+        <section class="py-20 px-4 bg-white dark:bg-black transition-colors duration-300">
+            <div class="max-w-7xl mx-auto text-center text-black dark:text-white">
                 <h1 class="text-4xl md:text-6xl font-bold mb-6">{{ t('gallery.title') }}</h1>
                 <p class="text-xl text-red-600 dark:text-red-500 max-w-3xl mx-auto">
                     {{ t('gallery.subtitle') }}
@@ -308,8 +308,8 @@ onUnmounted(() => {
         </div>
 
         <!-- CTA Section -->
-        <section class="py-20 px-4 bg-black dark:bg-white transition-colors duration-300">
-            <div class="max-w-4xl mx-auto text-center text-white dark:text-black">
+        <section class="py-20 px-4 bg-white dark:bg-black transition-colors duration-300">
+            <div class="max-w-4xl mx-auto text-center text-black dark:text-white">
                 <h2 class="text-3xl md:text-4xl font-bold mb-6">
                     {{ t('gallery.cta.title') }}
                 </h2>
@@ -319,7 +319,7 @@ onUnmounted(() => {
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
                     <Link
                         :href="route('booking')"
-                        class="border-2 border-red-600 text-white dark:text-black px-8 py-4 rounded-lg font-semibold hover:bg-red-600 hover:text-white dark:hover:bg-red-600 dark:hover:text-white transition-all duration-200 btn-camera"
+                        class="border-2 border-red-600 text-black dark:text-white px-8 py-4 rounded-lg font-semibold hover:bg-red-600 hover:text-black dark:hover:bg-red-600 dark:hover:text-white transition-all duration-200 btn-camera"
                     >
                         {{ t('gallery.cta.bookingButton') }}
                     </Link>

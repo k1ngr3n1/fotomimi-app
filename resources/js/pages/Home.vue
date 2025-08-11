@@ -40,7 +40,7 @@ const services = [
         icon: Camera,
         titleKey: 'home.services.studio.title',
         descriptionKey: 'home.services.studio.description',
-        image: '/studio.jpg'
+        image: '/studio.JPG'
     },
     {
         icon: Users,
@@ -87,14 +87,14 @@ const services = [
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
                     <Link 
                         :href="route('gallery')" 
-                        class="bg-red-600 text-white border-2 border-black px-8 py-4 rounded-lg font-semibold hover:bg-black hover:text-red-600 dark:bg-red-600 dark:hover:bg-white dark:hover:text-black transition-all duration-200 flex items-center justify-center gap-2"
+                        class="hero-btn bg-red-600 text-white border-2 border-black px-8 py-4 rounded-lg font-semibold hover:bg-black hover:text-red-600 dark:bg-red-600 dark:hover:bg-white dark:hover:text-black transition-all duration-300 transform hover:scale-110 hover:shadow-xl flex items-center justify-center gap-2"
                     >
                         {{ t('home.hero.galleryButton') }}
-                        <ArrowRight class="w-5 h-5" />
+                        <ArrowRight class="w-5 h-5 arrow-animate" />
                     </Link>
                     <Link 
                         :href="route('contact')" 
-                        class="bg-black text-white border-2 border-red-600 px-8 py-4 rounded-lg font-semibold hover:bg-red-600 hover:text-white dark:bg-white dark:text-black dark:hover:bg-red-600 dark:hover:text-white transition-all duration-200"
+                        class="hero-btn bg-black text-white border-2 border-red-600 px-8 py-4 rounded-lg font-semibold hover:bg-red-600 hover:text-white dark:bg-white dark:text-black dark:hover:bg-red-600 dark:hover:text-white transition-all duration-300 transform hover:scale-110 hover:shadow-xl"
                     >
                         {{ t('home.hero.contactButton') }}
                     </Link>
@@ -118,7 +118,7 @@ const services = [
                     <div 
                         v-for="service in services" 
                         :key="service.title"
-                        class="group relative overflow-hidden rounded-xl bg-white dark:bg-black shadow-lg hover:shadow-xl transition-all duration-300 border border-black/10 dark:border-white/10"
+                        class="group relative overflow-hidden rounded-xl bg-white dark:bg-black shadow-lg hover:shadow-xl transition-all duration-300 border border-black/10 dark:border-white/10 transform hover:scale-105 cursor-pointer service-card"
                     >
                         <div class="aspect-[4/3] overflow-hidden">
                             <img 
@@ -158,10 +158,10 @@ const services = [
                         </p>
                         <Link 
                             :href="route('about')" 
-                            class="inline-flex items-center gap-2 bg-red-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-black hover:text-red-600 dark:bg-red-600 dark:hover:bg-white dark:hover:text-black transition-all duration-200"
+                            class="btn-camera inline-flex items-center gap-2 bg-red-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-black hover:text-red-600 dark:bg-red-600 dark:hover:bg-white dark:hover:text-black transition-all duration-300 transform hover:scale-110 hover:shadow-xl group"
                         >
                             {{ t('home.about.button') }}
-                            <ArrowRight class="w-5 h-5" />
+                            <ArrowRight class="w-5 h-5 arrow-animate" />
                         </Link>
                     </div>
                     <div class="relative">
@@ -182,8 +182,8 @@ const services = [
         </section>
 
         <!-- CTA Section -->
-        <section class="py-20 px-4 bg-black dark:bg-white transition-colors duration-300">
-            <div class="max-w-4xl mx-auto text-center text-white dark:text-black">
+        <section class="py-20 px-4 bg-white dark:bg-black transition-colors duration-300">
+            <div class="max-w-4xl mx-auto text-center text-black dark:text-white">
                 <h2 class="text-4xl md:text-5xl font-bold mb-6">
                     {{ t('home.cta.title') }}
                 </h2>
@@ -193,13 +193,13 @@ const services = [
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
                     <Link 
                         :href="route('contact')" 
-                        class="bg-red-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-black hover:text-red-600 dark:bg-red-600 dark:hover:bg-white dark:hover:text-black transition-all duration-200 btn-camera"
+                        class="btn-camera bg-red-600 text-black px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-red-600 dark:bg-red-600 dark:hover:bg-black dark:hover:text-white transition-all duration-300 transform hover:scale-110 hover:shadow-xl"
                     >
                         {{ t('home.cta.contactButton') }}
                     </Link>
                     <Link 
                         :href="route('booking')" 
-                        class="border-2 border-red-600 text-white dark:text-black px-8 py-4 rounded-lg font-semibold hover:bg-red-600 hover:text-white dark:hover:bg-red-600 dark:hover:text-white transition-all duration-200 btn-camera"
+                        class="btn-camera border-2 border-red-600 text-black dark:text-white px-8 py-4 rounded-lg font-semibold hover:bg-red-600 hover:text-black dark:hover:bg-red-600 dark:hover:text-black transition-all duration-300 transform hover:scale-110 hover:shadow-xl"
                     >
                         {{ t('home.cta.bookingButton') }}
                     </Link>
@@ -224,22 +224,22 @@ const services = [
                     <div>
                         <h3 class="font-semibold mb-4">{{ t('home.footer.services') }}</h3>
                         <ul class="space-y-2 text-black/70 dark:text-white/70">
-                            <li><Link :href="route('gallery', 'wedding')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors">{{ t('gallery.filter.weddings') }}</Link></li>
-                            <li><Link :href="route('gallery', 'baptism')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors">{{ t('gallery.filter.baptism') }}</Link></li>
-                            <li><Link :href="route('gallery', 'video')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors">{{ t('gallery.filter.video') }}</Link></li>
-                            <li><Link :href="route('gallery', 'on-set')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors">{{ t('gallery.filter.onSet') }}</Link></li>
-                            <li><Link :href="route('gallery', 'studio')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors">{{ t('gallery.filter.studio') }}</Link></li>
-                            <li><Link :href="route('gallery', 'modelling')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors">{{ t('gallery.filter.modelling') }}</Link></li>
-                            <li><Link :href="route('gallery', 'concert')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors">{{ t('gallery.filter.concerts') }}</Link></li>
+                            <li><Link :href="route('gallery', 'wedding')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors cursor-pointer">{{ t('gallery.filter.weddings') }}</Link></li>
+                            <li><Link :href="route('gallery', 'baptism')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors cursor-pointer">{{ t('gallery.filter.baptism') }}</Link></li>
+                            <li><Link :href="route('gallery', 'video')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors cursor-pointer">{{ t('gallery.filter.video') }}</Link></li>
+                            <li><Link :href="route('gallery', 'on-set')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors cursor-pointer">{{ t('gallery.filter.onSet') }}</Link></li>
+                            <li><Link :href="route('gallery', 'studio')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors cursor-pointer">{{ t('gallery.filter.studio') }}</Link></li>
+                            <li><Link :href="route('gallery', 'modelling')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors cursor-pointer">{{ t('gallery.filter.modelling') }}</Link></li>
+                            <li><Link :href="route('gallery', 'concert')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors cursor-pointer">{{ t('gallery.filter.concerts') }}</Link></li>
                         </ul>
                     </div>
                     <div>
                         <h3 class="font-semibold mb-4">{{ t('home.footer.quickLinks') }}</h3>
                         <ul class="space-y-2 text-black/70 dark:text-white/70">
-                            <li><Link :href="route('home')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors">{{ t('navigation.home') }}</Link></li>
-                            <li><Link :href="route('about')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors">{{ t('navigation.about') }}</Link></li>
-                            <li><Link :href="route('contact')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors">{{ t('navigation.contact') }}</Link></li>
-                            <li><Link :href="route('booking')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors">{{ t('navigation.booking') }}</Link></li>
+                            <li><Link :href="route('home')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors cursor-pointer">{{ t('navigation.home') }}</Link></li>
+                            <li><Link :href="route('about')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors cursor-pointer">{{ t('navigation.about') }}</Link></li>
+                            <li><Link :href="route('contact')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors cursor-pointer">{{ t('navigation.contact') }}</Link></li>
+                            <li><Link :href="route('booking')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors cursor-pointer">{{ t('navigation.booking') }}</Link></li>
                         </ul>
                     </div>
                     <div>
@@ -257,4 +257,98 @@ const services = [
             </div>
         </footer>
     </div>
-</template> 
+</template>
+
+<style scoped>
+/* Hero section buttons with camera cursor and enhanced animations */
+.hero-btn {
+    cursor: url('/cursor-camera.svg') 16 16, auto;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hero-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+    pointer-events: none;
+    cursor: inherit;
+}
+
+.hero-btn:hover::before {
+    left: 100%;
+}
+
+.hero-btn:hover {
+    transform: scale(1.15);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+}
+
+.hero-btn:active {
+    transform: scale(1.05);
+}
+
+/* Service cards camera cursor */
+.btn-camera {
+    cursor: url('/cursor-camera.svg') 16 16, auto;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-camera::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+    pointer-events: none;
+    cursor: inherit;
+}
+
+.btn-camera:hover::before {
+    left: 100%;
+}
+
+.btn-camera:hover {
+    transform: scale(1.1);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.arrow-animate {
+    transition: transform 0.3s ease;
+}
+
+.hero-btn:hover .arrow-animate,
+.btn-camera:hover .arrow-animate {
+    transform: translateX(4px);
+}
+
+/* Additional hover effects for better visual feedback */
+.btn-camera:active {
+    transform: scale(1.05);
+}
+
+/* Ensure smooth transitions */
+.btn-camera {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Enhanced service card hover effects */
+.service-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.service-card:hover {
+    transform: scale(1.05) translateY(-5px);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+}
+</style> 

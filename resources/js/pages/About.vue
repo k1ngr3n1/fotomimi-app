@@ -44,10 +44,10 @@ const testimonials = [
     <Head :title="t('about.title')">
         <meta name="description" :content="t('about.subtitle')" />
     </Head>
-    <div class="min-h-screen bg-white dark:bg-black transition-colors duration-300">
+    <div class="min-h-screen bg-black dark:bg-white transition-colors duration-300">
         <Navigation />
-        <section class="py-20 px-4 bg-black dark:bg-white transition-colors duration-300">
-            <div class="max-w-4xl mx-auto text-center text-white dark:text-black">
+        <section class="py-20 px-4 bg-white dark:bg-black transition-colors duration-300">
+            <div class="max-w-4xl mx-auto text-center text-black dark:text-white">
                 <h1 class="text-4xl md:text-6xl font-bold mb-6">{{ t('about.title') }}</h1>
                 <p class="text-xl text-red-600 dark:text-red-500 max-w-2xl mx-auto">
                     {{ t('about.subtitle') }}

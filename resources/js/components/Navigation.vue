@@ -51,7 +51,7 @@ onMounted(() => {
                         {{ t('navigation.about') }}
                     </Link>
                     <Link 
-                        :href="route('booking')" 
+                        :href="route('contact')" 
                         class="bg-red-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-black hover:text-red-600 dark:bg-red-600 dark:hover:bg-white dark:hover:text-black transition-all duration-200"
                     >
                         {{ t('navigation.contact') }}

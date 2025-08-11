@@ -50,8 +50,8 @@ const contactInfo = [
     },
     {
         icon: MapPin,
-        title: 'Studio Location',
-        value: '123 Photography Street, City, State 12345',
+        title: 'FOTOMIMI STUDIO',
+        value: 'Bjelovarska 34, Krizevci, 48260',
         link: 'https://maps.google.com'
     },
     {
@@ -69,8 +69,8 @@ const contactInfo = [
     </Head>
     <div class="min-h-screen bg-white dark:bg-black transition-colors duration-300">
         <Navigation />
-        <section class="py-20 px-4 bg-black dark:bg-white transition-colors duration-300">
-            <div class="max-w-4xl mx-auto text-center text-white dark:text-black">
+        <section class="py-20 px-4 bg-white dark:bg-black transition-colors duration-300">
+            <div class="max-w-4xl mx-auto text-center text-black dark:text-white">
                 <h1 class="text-4xl md:text-6xl font-bold mb-6">Contact</h1>
                 <p class="text-xl text-red-600 dark:text-red-500 max-w-2xl mx-auto">
                     Let's connect and make your vision a reality.

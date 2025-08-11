@@ -218,3 +218,36 @@ a:hover,
 .dark .btn-camera {
     cursor: url("/cursor-camera.svg") 16 16, pointer;
 }
+
+/* Enhanced button animations */
+.btn-camera:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.dark .btn-camera:hover {
+    box-shadow: 0 10px 25px rgba(255, 255, 255, 0.1);
+}
+
+/* Service card hover effects */
+.service-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.service-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.dark .service-card:hover {
+    box-shadow: 0 20px 40px rgba(255, 255, 255, 0.1);
+}
+
+/* Arrow animation for buttons with arrows */
+.arrow-animate {
+    transition: transform 0.3s ease;
+}
+
+.group:hover .arrow-animate {
+    transform: translateX(4px);
+}
