@@ -35,9 +35,19 @@ class Media extends Model
     public function getUrlAttribute()
     {
         try {
+            // Check if main_disk is configured and available
+            if (config('filesystems.disks.main_disk.driver') === 's3' && !class_exists('League\Flysystem\AwsS3V3\AwsS3V3Adapter')) {
+                // S3 driver requested but not available, fallback to local
+                return asset('storage/' . $this->filepath);
+            }
+            
             return Storage::disk('main_disk')->url($this->filepath);
         } catch (\Exception $e) {
             // Fallback to local storage if main_disk is not available
+            \Log::warning('Failed to generate URL for main_disk, falling back to local storage', [
+                'filepath' => $this->filepath,
+                'error' => $e->getMessage()
+            ]);
             return asset('storage/' . $this->filepath);
         }
     }

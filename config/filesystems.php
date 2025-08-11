@@ -61,7 +61,7 @@ return [
         ],
 
         'main_disk' => [
-            'driver' => env('MAIN_STORAGE_DRIVER', 'local') === 'local' ? 'local' : 's3',
+            'driver' => env('MAIN_STORAGE_DRIVER', 'local') === 'local' ? 'local' : (class_exists('League\Flysystem\AwsS3V3\AwsS3V3Adapter') ? 's3' : 'local'),
             'key' => env('AWS_ACCESS_KEY_ID'),
             'secret' => env('AWS_SECRET_ACCESS_KEY'),
             'region' => env('AWS_DEFAULT_REGION', 'auto'),
@@ -69,7 +69,7 @@ return [
             'url' => env('AWS_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
-            'root' => env('MAIN_STORAGE_DRIVER', 'local') === 'local' ? storage_path('app/public') : null,
+            'root' => env('MAIN_STORAGE_DRIVER', 'local') === 'local' || !class_exists('League\Flysystem\AwsS3V3\AwsS3V3Adapter') ? storage_path('app/public') : null,
             'visibility' => 'public',
             'throw' => false,
             'report' => false,
