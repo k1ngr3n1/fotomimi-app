@@ -2,14 +2,18 @@
 import { Head, Link } from '@inertiajs/vue3';
 import { onMounted } from 'vue';
 import Navigation from '@/components/Navigation.vue';
-import { Camera, Heart, Users, Star, ArrowRight } from 'lucide-vue-next';
+import { Camera, Heart, Users, Star, ArrowRight, Baby, Video, Drum} from 'lucide-vue-next';
 import { useTranslation } from '@/composables/useTranslation';
+import { useThemeLogo } from '@/composables/useThemeLogo';
 
 const { t, initLanguage } = useTranslation();
+const { logoSrc } = useThemeLogo();
 
 onMounted(() => {
     initLanguage();
 });
+
+
 
 const services = [
     {
@@ -19,22 +23,16 @@ const services = [
         image: '/vjencanja.jpg'
     },
     {
-        icon: Users,
+        icon: Baby,
         titleKey: 'home.services.baptism.title',
         descriptionKey: 'home.services.baptism.description',
         image: '/krstenja.jpg'
     },
     {
-        icon: Camera,
+        icon: Video,
         titleKey: 'home.services.video.title',
         descriptionKey: 'home.services.video.description',
         image: '/video.jpg'
-    },
-    {
-        icon: Star,
-        titleKey: 'home.services.onSet.title',
-        descriptionKey: 'home.services.onSet.description',
-        image: '/onSet.jpg'
     },
     {
         icon: Camera,
@@ -49,7 +47,7 @@ const services = [
         image: '/modeling.jpg'
     },
     {
-        icon: Star,
+        icon: Drum,
         titleKey: 'home.services.concerts.title',
         descriptionKey: 'home.services.concerts.description',
         image: '/koncerti.jpg'
@@ -106,7 +104,7 @@ const services = [
         <section class="py-20 px-4 bg-white dark:bg-black transition-colors duration-300">
             <div class="max-w-7xl mx-auto">
                 <div class="text-center mb-16">
-                    <h2 class="text-4xl md:text-5xl font-bold text-black dark:text-white mb-4">
+                    <h2 class="text-4xl md:text-5xl font-bold text-red-600 dark:text-red-500 mb-4">
                         {{ t('home.services.title') }}
                     </h2>
                     <p class="text-xl text-black/70 dark:text-white/70 max-w-3xl mx-auto">
@@ -118,7 +116,7 @@ const services = [
                     <div 
                         v-for="service in services" 
                         :key="service.title"
-                        class="group relative overflow-hidden rounded-xl bg-white dark:bg-black shadow-lg hover:shadow-xl transition-all duration-300 border border-black/10 dark:border-white/10 transform hover:scale-105 cursor-pointer service-card"
+                        class="group relative overflow-hidden rounded-xl bg-white dark:bg-black shadow-lg transition-all duration-300 border border-black/10 dark:border-white/10 cursor-pointer service-card"
                     >
                         <div class="aspect-[4/3] overflow-hidden">
                             <img 
@@ -131,7 +129,7 @@ const services = [
                             <div class="flex items-center gap-3 mb-3">
                                 <component 
                                     :is="service.icon" 
-                                    class="w-6 h-6 text-red-600 dark:text-red-500"
+                                    class="w-6 h-6 text-red-600 dark:text-red-500 transition-transform duration-300 group-hover:scale-125"
                                 />
                                 <h3 class="text-xl font-semibold text-black dark:text-white">{{ t(service.titleKey) }}</h3>
                             </div>
@@ -172,7 +170,7 @@ const services = [
                         />
                         <div class="absolute -bottom-6 -left-6 bg-white dark:bg-black p-6 rounded-xl shadow-lg border border-black/10 dark:border-white/10">
                             <div class="text-center">
-                                <div class="text-3xl font-bold text-red-600 dark:text-red-500 mb-1">500+</div>
+                                <div class="text-3xl font-bold text-red-600 dark:text-red-500 mb-1">2500+</div>
                                 <div class="text-black/70 dark:text-white/70">{{ t('home.about.stats.clients') }}</div>
                             </div>
                         </div>
@@ -193,15 +191,9 @@ const services = [
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
                     <Link 
                         :href="route('contact')" 
-                        class="btn-camera bg-red-600 text-black px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-red-600 dark:bg-red-600 dark:hover:bg-black dark:hover:text-white transition-all duration-300 transform hover:scale-110 hover:shadow-xl"
+                        class="btn-camera bg-red-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-red-600 dark:bg-red-600 dark:hover:bg-black dark:hover:text-white transition-all duration-300 transform hover:scale-110 hover:shadow-xl"
                     >
                         {{ t('home.cta.contactButton') }}
-                    </Link>
-                    <Link 
-                        :href="route('booking')" 
-                        class="btn-camera border-2 border-red-600 text-black dark:text-white px-8 py-4 rounded-lg font-semibold hover:bg-red-600 hover:text-black dark:hover:bg-red-600 dark:hover:text-black transition-all duration-300 transform hover:scale-110 hover:shadow-xl"
-                    >
-                        {{ t('home.cta.bookingButton') }}
                     </Link>
                 </div>
             </div>
@@ -212,11 +204,10 @@ const services = [
             <div class="max-w-7xl mx-auto">
                 <div class="grid md:grid-cols-4 gap-8">
                     <div>
-              <Link :href="route('home')" class="flex items-center space-x-2">
-                    <div class="w-10 h-10 rounded-lg flex items-center justify-center bg-white dark:bg-black">
-                        <img src="/fotomimi-logo.jpg" alt="Mimi Logo" class="object-contain w-8 h-8" />
+                <Link :href="route('home')" class="flex items-center space-x-2">
+                    <div class="rounded-lg flex items-center justify-center bg-white dark:bg-black">
+                        <img :src="logoSrc" alt="Fotomimi Logo" class="h-14" />
                     </div>
-                    <span class="text-xl font-bold text-black dark:text-white">Fotomimi</span>
                 </Link>
   
 
@@ -227,7 +218,6 @@ const services = [
                             <li><Link :href="route('gallery', 'wedding')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors cursor-pointer">{{ t('gallery.filter.weddings') }}</Link></li>
                             <li><Link :href="route('gallery', 'baptism')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors cursor-pointer">{{ t('gallery.filter.baptism') }}</Link></li>
                             <li><Link :href="route('gallery', 'video')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors cursor-pointer">{{ t('gallery.filter.video') }}</Link></li>
-                            <li><Link :href="route('gallery', 'on-set')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors cursor-pointer">{{ t('gallery.filter.onSet') }}</Link></li>
                             <li><Link :href="route('gallery', 'studio')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors cursor-pointer">{{ t('gallery.filter.studio') }}</Link></li>
                             <li><Link :href="route('gallery', 'modelling')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors cursor-pointer">{{ t('gallery.filter.modelling') }}</Link></li>
                             <li><Link :href="route('gallery', 'concert')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors cursor-pointer">{{ t('gallery.filter.concerts') }}</Link></li>
@@ -238,21 +228,19 @@ const services = [
                         <ul class="space-y-2 text-black/70 dark:text-white/70">
                             <li><Link :href="route('home')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors cursor-pointer">{{ t('navigation.home') }}</Link></li>
                             <li><Link :href="route('about')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors cursor-pointer">{{ t('navigation.about') }}</Link></li>
-                            <li><Link :href="route('contact')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors cursor-pointer">{{ t('navigation.contact') }}</Link></li>
-                            <li><Link :href="route('booking')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors cursor-pointer">{{ t('navigation.booking') }}</Link></li>
-                        </ul>
+                            <li><Link :href="route('contact')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors cursor-pointer">{{ t('navigation.contact') }}</Link></li>                        </ul>
                     </div>
                     <div>
                         <h3 class="font-semibold mb-4">{{ t('home.footer.contactInfo') }}</h3>
                         <ul class="space-y-2 text-black/70 dark:text-white/70">
-                            <li>📧 info@photostudio.com</li>
-                            <li>📞 +1 (555) 123-4567</li>
-                            <li>📍 123 Photography St, City</li>
+                            <li>📧 fotomimi@gmail.com</li>
+                            <li>📞 + 385 912397004</li>
+                            <li>📍 Bjelovarska 34, Križevci</li>
                         </ul>
                     </div>
                 </div>
                 <div class="border-t border-black/10 dark:border-white/10 mt-8 pt-8 text-center text-black/70 dark:text-white/70">
-                    <p>&copy; 2024 Fotomimi. {{ t('home.footer.copyright') }}</p>
+                    <p>&copy; 2025 Fotomimi. {{ t('home.footer.copyright') }}</p>
                 </div>
             </div>
         </footer>
@@ -345,6 +333,7 @@ const services = [
 /* Enhanced service card hover effects */
 .service-card {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(0) scale(1);
 }
 
 .service-card:hover {

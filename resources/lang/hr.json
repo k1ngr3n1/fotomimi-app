@@ -13,47 +13,47 @@
     },
     "home": {
         "hero": {
-            "title": "Svaka fotografija",
-            "titleHighlight": "priča vašu priču",
-            "subtitle": "Profesionalna fotografija vjenčanja, proslava i posebnih događaja - zauvijek sačuvajte uspomene koje vrijede.",
+            "title": "Uhvatiti trenutak znači",
+            "titleHighlight": "sačuvati osjećaj zauvijek.",
+            "subtitle": "Od vjenčanja i krštenja do koncerata i modnih editorijala — stvaramo uspomene koje ostaju jednako žive kao i dan kada su nastale.",
             "galleryButton": "Galerija",
             "contactButton": "Kontaktiraj me"
         },
         "services": {
-            "title": "Naše usluge",
-            "subtitle": "Od intimnih vjenčanja do velikih događaja, specijalizirani smo za snimanje trenutaka koji su najvažniji.",
+            "title": "Usluge koje pričaju vašu priču",
+            "subtitle": "Od intimnih trenutaka do velikih pozornica — svaki kadar stvaramo s pažnjom, strašću i umjetničkim dodirom.",
             "weddings": {
                 "title": "Vjenčanja",
-                "description": "Snimite svoj poseban dan s elegancijom i stilom. Svaki trenutak zauvijek sačuvan."
+                "description": "Vaš dan iz snova pretvoren u vječne uspomene — s elegancijom, emocijom i besprijekornim detaljima."
             },
             "video": {
                 "title": "Video",
-                "description": "Profesionalna video produkcija za događaje, reklame i kreativni sadržaj."
+                "description": "Kreiramo vizualne priče koje pokreću emocije — od događaja do reklama i kreativnih projekata."
             },
             "onSet": {
                 "title": "Na setu",
-                "description": "Fotografija iza scene i produkcijska fotografija za filmove i komercijalne snimanja."
+                "description": "Bilježimo trenutke iza kamere — produkcijske i BTS fotografije koje otkrivaju čaroliju stvaranja."
             },
             "studio": {
                 "title": "Studio",
-                "description": "Profesionalne studio sesije za portrete, headshotove i kreativnu fotografiju."
+                "description": "Kontrola svjetla, kompozicije i stila — profesionalni portreti i kreativne sesije koje osvajaju pogled."
             },
             "modelling": {
                 "title": "Modeling",
-                "description": "Modna i portretna fotografija za modele i talentirane osobe."
+                "description": "Istaknute osobnosti i jedinstvena ljepota — modne i portretne fotografije koje pričaju vaš karakter."
             },
             "concerts": {
                 "title": "Koncerti",
-                "description": "Dinamična fotografija događaja koja snima energiju i uzbuđenje uživo nastupa."
+                "description": "Uhvatimo energiju, ritam i strast svake izvedbe — jer glazba zaslužuje biti viđena, ne samo čuvana u sjećanju."
             },
             "baptism": {
                 "title": "Krštenja",
-                "description": "Proslavite nove početke s prekrasnim obiteljskim portretima i pokrivanjem ceremonije."
+                "description": "Prvi koraci u novom poglavlju života — nježne i emotivne fotografije koje slave obitelj i ljubav."
             }
         },
         "about": {
             "title": "Upoznajte svog fotografa",
-            "description1": "S više od 10 godina iskustva u profesionalnoj fotografiji, imao sam privilegiju snimiti bezbroj posebnih trenutaka i stvoriti trajne uspomene za obitelji i parove.",
+            "description1": "S više od 30 godina iskustva u profesionalnoj fotografiji, imao sam privilegiju snimiti bezbroj posebnih trenutaka i stvoriti trajne uspomene za obitelji i parove.",
             "description2": "Moja strast leži u razumijevanju vaše vizije i prenošenju je u prekrasne, vremenske fotografije koje ćete čuvati zauvijek.",
             "button": "Saznajte više o meni",
             "stats": {
@@ -101,10 +101,10 @@
     },
     "about": {
         "title": "O meni",
-        "subtitle": "Strastvena sam u hvatanju vaših najvažnijih trenutaka s stilom i srcem.",
-        "greeting": "Bok, ja sam Mimi!",
-        "description1": "S više od desetljeća iskustva, specijalizirana sam za fotografiju vjenčanja, događaja i studio fotografiju. Moj pristup je osobni, kreativan i uvijek usmjeren na prenošenje vaše jedinstvene priče.",
-        "description2": "Vjerujem da svaka fotografija treba izazvati emocije i sačuvati uspomene za cijeli život. Radimo zajedno da stvorimo nešto prekrasno!",
+        "subtitle": "Strastven sam u hvatanju vaših najvažnijih trenutaka s stilom i srcem.",
+        "greeting": "Pozdrav, ja sam Mimi!",
+        "description1": "Više od 30 godina bilježim trenutke koji traju zauvijek — od romantičnih vjenčanja i nezaboravnih događaja do pažljivo oblikovanih studijskih fotografija. Moj stil spaja kreativnost, iskustvo i osobni pristup, kako bi svaka slika pričala vašu priču na jedinstven način.",
+        "description2": "Vjerujem da fotografija nije samo slika, već emocija uhvaćena u pravom trenutku. Zajedno ćemo stvoriti uspomene koje će vas svaki put iznova vratiti u te posebne trenutke — opušteno, autentično i s puno srca.",
         "contactButton": "Kontaktiraj me",
         "stats": {
             "sessionsCompleted": "Završenih sesija",

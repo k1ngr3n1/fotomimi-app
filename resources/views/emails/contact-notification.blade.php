@@ -50,15 +50,15 @@
 </head>
 <body>
     <div class="header">
-        <h1>New Contact Form Submission</h1>
+        <h1>NOVA PORUKA SA WEB-A</h1>
         <p>Fotomimi Photography</p>
     </div>
     
     <div class="content">
-        <p>A new contact form has been submitted on your website.</p>
+        <p>Nova poruka je poslana sa web stranice.</p>
         
         <div class="field">
-            <div class="label">Name:</div>
+            <div class="label">Ime:</div>
             <div class="value">{{ $contactData['name'] }}</div>
         </div>
         
@@ -69,19 +69,19 @@
         
         @if(!empty($contactData['phone']))
         <div class="field">
-            <div class="label">Phone:</div>
+            <div class="label">Broj mobitela:</div>
             <div class="value">{{ $contactData['phone'] }}</div>
         </div>
         @endif
         
         <div class="field">
-            <div class="label">Message:</div>
+            <div class="label">Poruka:</div>
             <div class="value">{{ $contactData['message'] }}</div>
         </div>
         
         <div class="footer">
-            <p>This message was sent from the contact form on your website.</p>
-            <p>Submitted at: {{ now()->format('F j, Y \a\t g:i A') }}</p>
+            <p>Ova poruka je poslana sa stranice Fotomimi.hr</p>
+            <p>Poslano: {{ now()->locale('hr')->translatedFormat('F j, Y \u\ g:i A') }}</p>
         </div>
     </div>
 </body>

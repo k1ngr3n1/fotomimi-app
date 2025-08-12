@@ -26,7 +26,8 @@ class PhotographyController extends Controller
 
         // Send email notification
         try {
-            Mail::send(new ContactNotification($request->all()));
+            Mail::to(env('MAIL_TO_ADDRESS', 'vrhovec.renato@gmail.com'))
+                ->send(new ContactNotification($request->all()));
             
             return back()->with('success', 'Thank you for your message! We will get back to you soon.');
         } catch (\Exception $e) {

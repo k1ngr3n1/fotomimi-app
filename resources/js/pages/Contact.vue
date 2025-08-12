@@ -39,20 +39,20 @@ const contactInfo = [
     {
         icon: Mail,
         title: 'Email',
-        value: 'k1ngr3n1@gmail.com',
-        link: 'mailto:k1ngr3n1@gmail.com'
+        value: 'fotomimi@gmail.com',
+        link: 'mailto:fotomimi@gmail.com'
     },
     {
         icon: Phone,
         title: 'Phone',
-        value: '+1 (555) 123-4567',
-        link: 'tel:+15551234567'
+        value: '+385 912397004',
+        link: 'tel:+385912397004'
     },
     {
         icon: MapPin,
         title: 'FOTOMIMI STUDIO',
-        value: 'Bjelovarska 34, Krizevci, 48260',
-        link: 'https://maps.google.com'
+        value: 'Bjelovarska 34, Križevci, 48260',
+        link: 'https://maps.app.goo.gl/tXskLj7N42Fn2XNJ8'
     },
     {
         icon: Clock,
@@ -180,7 +180,7 @@ const contactInfo = [
         
         <footer class="bg-white dark:bg-black text-black dark:text-white py-12 px-4 transition-colors duration-300">
             <div class="max-w-7xl mx-auto text-center">
-                <p class="text-black/70 dark:text-white/70">&copy; 2024 Fotomimi. All rights reserved.</p>
+                <p class="text-black/70 dark:text-white/70">&copy; 2025 Fotomimi. {{ t('home.footer.copyright') }}</p>
             </div>
         </footer>
     </div>

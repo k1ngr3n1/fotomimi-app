@@ -29,7 +29,7 @@ class ContactNotification extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'New Contact Form Submission - Fotomimi',
+            subject: 'Nova poruka sa web stranice - Fotomimi',
         );
     }
 
