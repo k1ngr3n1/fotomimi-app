@@ -220,7 +220,7 @@
             "confirmPassword": "Potvrdi lozinku",
             "registerButton": "Stvori račun",
             "hasAccount": "Već imate račun?",
-            "logIn": "Prijaviť se"
+            "logIn": "Prijavite se"
         },
         "forgotPassword": {
             "title": "Zaboravljena lozinka",
@@ -249,7 +249,7 @@
             "title": "Potvrdi email",
             "description": "Molimo potvrdite svoju email adresu klikom na link koji smo vam poslali.",
             "resendButton": "Pošalji novi link za potvrdu",
-            "logoutButton": "Odjaviť se",
+            "logoutButton": "Odjavite se",
             "verificationSent": "Novi link za potvrdu je poslan na email adresu koju ste unijeli tijekom registracije."
         }
     },
