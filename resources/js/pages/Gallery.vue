@@ -44,12 +44,12 @@ const galleryImages = computed(() => {
 // Reactive category list with computed counts
 const categoryList = computed(() => [
     { id: 'all', nameKey: 'gallery.filter.allPhotos', count: galleryImages.value.length },
-    { id: 'wedding', nameKey: 'gallery.filter.weddings', count: galleryImages.value.filter(img => img.category === 'wedding').length },
+    { id: 'wedding', nameKey: 'gallery.filter.wedding', count: galleryImages.value.filter(img => img.category === 'wedding').length },
     { id: 'video', nameKey: 'gallery.filter.video', count: galleryImages.value.filter(img => img.category === 'video').length },
     { id: 'on-set', nameKey: 'gallery.filter.onSet', count: galleryImages.value.filter(img => img.category === 'on-set').length },
     { id: 'studio', nameKey: 'gallery.filter.studio', count: galleryImages.value.filter(img => img.category === 'studio').length },
     { id: 'modelling', nameKey: 'gallery.filter.modelling', count: galleryImages.value.filter(img => img.category === 'modelling').length },
-    { id: 'concert', nameKey: 'gallery.filter.concerts', count: galleryImages.value.filter(img => img.category === 'concert').length },
+    { id: 'concert', nameKey: 'gallery.filter.concert', count: galleryImages.value.filter(img => img.category === 'concert').length },
     { id: 'baptism', nameKey: 'gallery.filter.baptism', count: galleryImages.value.filter(img => img.category === 'baptism').length }
 ]);
 
@@ -90,6 +90,21 @@ const handleKeydown = (event: KeyboardEvent) => {
         closeLightbox();
     } else if (event.key === 'f' || event.key === 'F') {
         toggleFullSize();
+    }
+};
+
+// Generate video thumbnail by seeking to first frame
+const seekToFirstFrame = (event: Event) => {
+    const video = event.target as HTMLVideoElement;
+    if (video && video.duration) {
+        // Set time to 0.5 seconds or 10% of video duration, whichever is smaller
+        const thumbnailTime = Math.min(0.5, video.duration * 0.1);
+        video.currentTime = thumbnailTime;
+        
+        // Ensure the video shows the thumbnail frame
+        video.addEventListener('seeked', () => {
+            video.pause();
+        }, { once: true });
     }
 };
 
@@ -168,20 +183,31 @@ onUnmounted(() => {
                                 v-else
                                 class="w-full h-full relative group-hover:scale-110 transition-transform duration-300"
                             >
+                                <!-- Video thumbnail -->
                                 <video
                                     :src="image.src"
                                     class="w-full h-full object-cover"
                                     preload="metadata"
                                     muted
+                                    playsinline
+                                    @loadedmetadata="seekToFirstFrame"
+                                    @canplay="seekToFirstFrame"
                                     @click.stop
                                 >
                                     <source :src="image.src" type="video/mp4">
                                     Your browser does not support the video tag.
                                 </video>
-                                <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20">
-                                    <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
+                                <!-- Play button overlay -->
+                                <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30">
+                                    <div class="bg-white bg-opacity-95 rounded-full p-4 shadow-lg group-hover:scale-110 transition-transform duration-200">
+                                        <svg class="w-10 h-10 text-red-600" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M8 5v14l11-7z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <!-- Video indicator badge -->
+                                <div class="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 rounded-md text-xs font-medium">
+                                    VIDEO
                                 </div>
                             </div>
                         </div>
@@ -318,10 +344,10 @@ onUnmounted(() => {
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
                     <Link
-                        :href="route('booking')"
+                        :href="route('contact')"
                         class="border-2 border-red-600 text-black dark:text-white px-8 py-4 rounded-lg font-semibold hover:bg-red-600 hover:text-black dark:hover:bg-red-600 dark:hover:text-white transition-all duration-200 btn-camera"
                     >
-                        {{ t('gallery.cta.bookingButton') }}
+                        {{ t('gallery.cta.contactButton') }}
                     </Link>
                 </div>
             </div>

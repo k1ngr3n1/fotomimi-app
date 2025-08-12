@@ -75,17 +75,17 @@
         }
     },
     "gallery": {
-        "title": "Fotografska galerija",
+        "title": "Galerija",
         "subtitle": "Istražite našu kolekciju prekrasnih trenutaka snimljenih u različitim stilovima fotografije i događajima.",
         "filter": {
             "title": "Filtriraj po kategoriji",
             "allPhotos": "Sve fotografije",
-            "weddings": "Vjenčanja",
+            "wedding": "Vjenčanja",
             "video": "Video",
             "onSet": "Na setu",
             "studio": "Studio",
             "modelling": "Modeling",
-            "concerts": "Koncerti",
+            "concert": "Koncerti",
             "baptism": "Krštenja"
         },
         "emptyState": {
@@ -237,5 +237,38 @@
         "theme": "Tema",
         "darkMode": "Tamni način",
         "lightMode": "Svijetli način"
+    },
+    "contact": {
+        "title": "Kontakt",
+        "subtitle": "Povežimo se i ostvarimo vašu viziju.",
+        "form": {
+            "title": "Pošaljite nam poruku",
+            "name": "Ime",
+            "email": "Email",
+            "phone": "Broj mobitela (neobavezno)",
+            "message": "Poruka",
+            "placeholder": "Recite nam o vašim fotografskim potrebama...",
+            "sending": "Šalje se...",
+            "sendButton": "Pošalji poruku"
+        },
+        "info": {
+            "title": "Kontaktirajte nas",
+            "email": "Email",
+            "phone": "Telefon",
+            "studio": "FOTOMIMI STUDIO",
+            "hours": "Radno vrijeme",
+            "hoursValue": "Pon-Pet: 9-18h, Sub: 10-16h"
+        },
+        "expectations": {
+            "title": "Što možete očekivati",
+            "response": "• Odgovorit ćemo u roku od 24 sata",
+            "consultation": "• Besplatno savjetovanje za vaš projekt",
+            "quotes": "• Prilagođene ponude prema vašim potrebama",
+            "scheduling": "• Fleksibilne opcije zakazivanja"
+        },
+        "success": {
+            "title": "Poruka poslana!",
+            "message": "Hvala vam! Vaša poruka je uspješno poslana. Odgovorit ćemo vam u najkraćem mogućem roku."
+        }
     }
 } 

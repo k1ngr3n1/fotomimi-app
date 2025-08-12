@@ -227,8 +227,10 @@ const services = [
                         <h3 class="font-semibold mb-4">{{ t('home.footer.quickLinks') }}</h3>
                         <ul class="space-y-2 text-black/70 dark:text-white/70">
                             <li><Link :href="route('home')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors cursor-pointer">{{ t('navigation.home') }}</Link></li>
+                            <li><Link :href="route('gallery')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors cursor-pointer">{{ t('navigation.gallery') }}</Link></li>    
                             <li><Link :href="route('about')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors cursor-pointer">{{ t('navigation.about') }}</Link></li>
-                            <li><Link :href="route('contact')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors cursor-pointer">{{ t('navigation.contact') }}</Link></li>                        </ul>
+                            <li><Link :href="route('contact')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors cursor-pointer">{{ t('navigation.contact') }}</Link></li>                        
+                        </ul>
                     </div>
                     <div>
                         <h3 class="font-semibold mb-4">{{ t('home.footer.contactInfo') }}</h3>

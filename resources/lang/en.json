@@ -75,7 +75,7 @@
         }
     },
     "gallery": {
-        "title": "Photo Gallery",
+        "title": "Gallery",
         "subtitle": "Explore our collection of beautiful moments captured across different photography styles and events.",
         "filter": {
             "title": "Filter by Category",
@@ -237,5 +237,38 @@
         "theme": "Theme",
         "darkMode": "Dark Mode",
         "lightMode": "Light Mode"
+    },
+    "contact": {
+        "title": "Contact",
+        "subtitle": "Let's connect and make your vision a reality.",
+        "form": {
+            "title": "Send us a message",
+            "name": "Name",
+            "email": "Email",
+            "phone": "Phone (optional)",
+            "message": "Message",
+            "placeholder": "Tell us about your photography needs...",
+            "sending": "Sending...",
+            "sendButton": "Send Message"
+        },
+        "info": {
+            "title": "Get in touch",
+            "email": "Email",
+            "phone": "Phone",
+            "studio": "FOTOMIMI STUDIO",
+            "hours": "Business Hours",
+            "hoursValue": "Mon-Fri: 9AM-6PM, Sat: 10AM-4PM"
+        },
+        "expectations": {
+            "title": "What to expect",
+            "response": "• We'll respond within 24 hours",
+            "consultation": "• Free consultation for your project",
+            "quotes": "• Custom quotes based on your needs",
+            "scheduling": "• Flexible scheduling options"
+        },
+        "success": {
+            "title": "Message Sent!",
+            "message": "Thank you! Your message has been sent successfully. We will respond to you as soon as possible."
+        }
     }
 } 
