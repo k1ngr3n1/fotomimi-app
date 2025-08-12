@@ -10,7 +10,8 @@ import {
     X,
     LogOut,
     User,
-    Eye
+    Eye,
+    Users
 } from 'lucide-vue-next';
 import ThemeToggle from '@/components/ThemeToggle.vue';
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue';
@@ -21,6 +22,7 @@ const isSidebarOpen = ref(false);
 
 const navigation = [
     { name: 'Dashboard', href: route('admin.dashboard'), icon: Home },
+    { name: 'Users', href: route('admin.users'), icon: Users },
     { name: 'Media Library', href: route('admin.media'), icon: Image },
     { name: 'Upload Media', href: route('admin.upload'), icon: Upload },
     { name: 'Settings', href: route('admin.settings'), icon: Settings },

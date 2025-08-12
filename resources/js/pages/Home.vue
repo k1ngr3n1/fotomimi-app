@@ -215,12 +215,12 @@ const services = [
                     <div>
                         <h3 class="font-semibold mb-4">{{ t('home.footer.services') }}</h3>
                         <ul class="space-y-2 text-black/70 dark:text-white/70">
-                            <li><Link :href="route('gallery', 'wedding')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors cursor-pointer">{{ t('gallery.filter.weddings') }}</Link></li>
+                            <li><Link :href="route('gallery', 'wedding')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors cursor-pointer">{{ t('gallery.filter.wedding') }}</Link></li>
                             <li><Link :href="route('gallery', 'baptism')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors cursor-pointer">{{ t('gallery.filter.baptism') }}</Link></li>
                             <li><Link :href="route('gallery', 'video')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors cursor-pointer">{{ t('gallery.filter.video') }}</Link></li>
                             <li><Link :href="route('gallery', 'studio')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors cursor-pointer">{{ t('gallery.filter.studio') }}</Link></li>
                             <li><Link :href="route('gallery', 'modelling')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors cursor-pointer">{{ t('gallery.filter.modelling') }}</Link></li>
-                            <li><Link :href="route('gallery', 'concert')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors cursor-pointer">{{ t('gallery.filter.concerts') }}</Link></li>
+                            <li><Link :href="route('gallery', 'concert')" class="hover:text-red-600 dark:hover:text-red-500 transition-colors cursor-pointer">{{ t('gallery.filter.concert') }}</Link></li>
                         </ul>
                     </div>
                     <div>

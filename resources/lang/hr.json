@@ -200,22 +200,57 @@
     },
     "auth": {
         "login": {
-            "title": "Prijava",
-            "email": "E-mail",
+            "title": "Prijavite se na svoj račun",
+            "description": "Unesite svoj email i lozinku da se prijavite",
+            "email": "Email adresa",
             "password": "Lozinka",
             "rememberMe": "Zapamti me",
             "forgotPassword": "Zaboravili ste lozinku?",
-            "loginButton": "Prijavi se",
-            "noAccount": "Trebate račun?"
+            "loginButton": "Prijavite se",
+            "noAccount": "Nemate račun?",
+            "signUp": "Registriraj se"
         },
         "register": {
-            "title": "Registracija",
+            "title": "Stvori račun",
+            "description": "Unesite svoje podatke da stvorite račun",
             "name": "Ime",
-            "email": "E-mail",
+            "nameLabel": "Puno ime",
+            "email": "Email adresa",
             "password": "Lozinka",
             "confirmPassword": "Potvrdi lozinku",
-            "registerButton": "Registriraj se",
-            "hasAccount": "Već ste registrirani?"
+            "registerButton": "Stvori račun",
+            "hasAccount": "Već imate račun?",
+            "logIn": "Prijaviť se"
+        },
+        "forgotPassword": {
+            "title": "Zaboravljena lozinka",
+            "description": "Unesite svoj email da dobijete link za resetiranje lozinke",
+            "email": "Email adresa",
+            "emailPlaceholder": "email@primjer.com",
+            "submitButton": "Pošalji link za resetiranje lozinke",
+            "backToLogin": "Ili se vratite na",
+            "loginLink": "prijavu"
+        },
+        "resetPassword": {
+            "title": "Resetiraj lozinku",
+            "description": "Molimo unesite svoju novu lozinku",
+            "email": "Email",
+            "password": "Lozinka",
+            "confirmPassword": "Potvrdi lozinku",
+            "submitButton": "Resetiraj lozinku"
+        },
+        "confirmPassword": {
+            "title": "Potvrdite svoju lozinku",
+            "description": "Ovo je sigurno područje aplikacije. Molimo potvrdite svoju lozinku prije nastavka.",
+            "password": "Lozinka",
+            "submitButton": "Potvrdi lozinku"
+        },
+        "verifyEmail": {
+            "title": "Potvrdi email",
+            "description": "Molimo potvrdite svoju email adresu klikom na link koji smo vam poslali.",
+            "resendButton": "Pošalji novi link za potvrdu",
+            "logoutButton": "Odjaviť se",
+            "verificationSent": "Novi link za potvrdu je poslan na email adresu koju ste unijeli tijekom registracije."
         }
     },
     "common": {

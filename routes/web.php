@@ -29,11 +29,15 @@ Route::post('/booking', [PhotographyController::class, 'sendBooking'])->name('bo
 Route::post('/media/import', [App\Http\Controllers\MediaController::class, 'importFromDirectory'])->name('media.import');
 Route::post('/media/bulk-import', [App\Http\Controllers\MediaController::class, 'bulkImport'])->name('media.bulk-import');
 
-// Admin routes
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(function () {
+// Admin routes (superadmin only)
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'superadmin'])->group(function () {
     Route::get('/', [App\Http\Controllers\AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/dashboard', [App\Http\Controllers\AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/settings', [App\Http\Controllers\AdminController::class, 'settings'])->name('settings');
+    
+    // User management
+    Route::get('/users', [App\Http\Controllers\AdminController::class, 'users'])->name('users');
+    Route::patch('/users/{user}/approve', [App\Http\Controllers\AdminController::class, 'approveUser'])->name('users.approve');
     
     // Media management
     Route::get('/media', [App\Http\Controllers\MediaController::class, 'adminIndex'])->name('media');
@@ -46,7 +50,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
 
 Route::get('dashboard', function () {
     return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified', 'approved'])->name('dashboard');
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

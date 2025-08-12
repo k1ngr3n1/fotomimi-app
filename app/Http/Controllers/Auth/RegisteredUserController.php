@@ -40,6 +40,7 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'approved' => false,  // New users need approval by default
         ]);
 
         event(new Registered($user));

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Media;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -77,5 +78,40 @@ class AdminController extends Controller
     public function settings()
     {
         return Inertia::render('admin/Settings');
+    }
+
+    public function users()
+    {
+        $users = User::orderBy('created_at', 'desc')
+            ->get()
+            ->map(function ($user) {
+                return [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'approved' => $user->approved,
+                    'is_superadmin' => $user->is_superadmin,
+                    'email_verified_at' => $user->email_verified_at,
+                    'created_at' => $user->created_at,
+                    'created_at_human' => $user->created_at->diffForHumans(),
+                ];
+            });
+
+        return Inertia::render('admin/Users', [
+            'users' => $users
+        ]);
+    }
+
+    public function approveUser(Request $request, User $user)
+    {
+        $request->validate([
+            'approved' => 'required|boolean'
+        ]);
+
+        $user->update([
+            'approved' => $request->approved
+        ]);
+
+        return back()->with('success', $request->approved ? 'User approved successfully.' : 'User approval revoked.');
     }
 } 
