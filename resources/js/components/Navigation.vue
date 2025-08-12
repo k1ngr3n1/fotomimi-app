@@ -100,17 +100,10 @@ onMounted(() => {
                     </Link>
                     <Link 
                         :href="route('contact')" 
-                        class="block px-3 py-2 text-black dark:text-white hover:text-red-600 dark:hover:text-red-400 transition-colors duration-200"
-                        @click="isMenuOpen = false"
-                    >
-                        {{ t('navigation.contact') }}
-                    </Link>
-                    <Link 
-                        :href="route('booking')" 
                         class="block px-3 py-2 bg-red-600 text-white rounded-lg font-semibold hover:bg-black hover:text-red-600 dark:bg-red-600 dark:hover:bg-white dark:hover:text-black transition-all duration-200"
                         @click="isMenuOpen = false"
                     >
-                        {{ t('navigation.booking') }}
+                        {{ t('navigation.contact') }}
                     </Link>
                     <div class="px-3 py-2">
                         <LanguageSwitcher />
