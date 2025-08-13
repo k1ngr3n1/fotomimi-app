@@ -41,6 +41,7 @@ const categories = [
     { value: 'concert', label: 'Concerts' },
     { value: 'studio', label: 'Studio' },
     { value: 'modelling', label: 'Modelling' },
+    { value: 'travel', label: 'Travel' },
     { value: 'other', label: 'Other' }
 ];
 

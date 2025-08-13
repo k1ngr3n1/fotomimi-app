@@ -49,6 +49,10 @@
             "baptism": {
                 "title": "Baptism",
                 "description": "Celebrate new beginnings with beautiful family portraits and ceremony coverage."
+            },
+            "travel": {
+                "title": "Travel",
+                "description": "Capture your adventures and explore the world through stunning travel photography."
             }
         },
         "about": {
@@ -85,6 +89,7 @@
             "onSet": "On Set",
             "studio": "Studio",
             "modelling": "Modelling",
+            "travel": "Travel",
             "concert": "Concerts",
             "baptism": "Baptism"
         },
@@ -143,6 +148,7 @@
             "concert": "Concert",
             "studio": "Studio Session",
             "modelling": "Modelling",
+            "travel": "Travel Photography",
             "other": "Other Event"
         },
         "budgetRanges": {

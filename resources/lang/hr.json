@@ -49,11 +49,15 @@
             "baptism": {
                 "title": "Krštenja",
                 "description": "Prvi koraci u novom poglavlju života — nježne i emotivne fotografije koje slave obitelj i ljubav."
+            },
+            "travel": {
+                "title": "Putovanja",
+                "description": "Uhvatite svoja avanturska putovanja i istražite svijet kroz zadivljujuće fotografije putovanja."
             }
         },
         "about": {
             "title": "Upoznajte svog fotografa",
-            "description1": "S više od 30 godina iskustva u profesionalnoj fotografiji, imao sam privilegiju snimiti bezbroj posebnih trenutaka i stvoriti trajne uspomene za obitelji i parove.",
+            "description1": "Sa 30 godina iskustva u profesionalnoj fotografiji, imao sam privilegiju snimiti bezbroj posebnih trenutaka i stvoriti trajne uspomene za obitelji i parove.",
             "description2": "Moja strast leži u razumijevanju vaše vizije i prenošenju je u prekrasne, vremenske fotografije koje ćete čuvati zauvijek.",
             "button": "Saznajte više o meni",
             "stats": {
@@ -85,6 +89,7 @@
             "onSet": "Na setu",
             "studio": "Studio",
             "modelling": "Modeling",
+            "travel": "Putovanja",
             "concert": "Koncerti",
             "baptism": "Krštenja"
         },
@@ -103,8 +108,8 @@
         "title": "O meni",
         "subtitle": "Strastven sam u hvatanju vaših najvažnijih trenutaka s stilom i srcem.",
         "greeting": "Pozdrav, ja sam Mimi!",
-        "description1": "Više od 30 godina bilježim trenutke koji traju zauvijek — od romantičnih vjenčanja i nezaboravnih događaja do pažljivo oblikovanih studijskih fotografija. Moj stil spaja kreativnost, iskustvo i osobni pristup, kako bi svaka slika pričala vašu priču na jedinstven način.",
-        "description2": "Vjerujem da fotografija nije samo slika, već emocija uhvaćena u pravom trenutku. Zajedno ćemo stvoriti uspomene koje će vas svaki put iznova vratiti u te posebne trenutke — opušteno, autentično i s puno srca.",
+        "description1": "Već 30 godina bilježim trenutke koji traju zauvijek — od romantičnih vjenčanja i nezaboravnih događaja do pažljivo oblikovanih studijskih fotografija. Moj stil spaja kreativnost, iskustvo i osobni pristup, kako bi svaka slika pričala vašu priču na jedinstven način.",
+        "description2": "Vjerujem da fotografija nije samo fotografija, već emocija uhvaćena u pravom trenutku. Zajedno ćemo stvoriti uspomene koje će vas svaki put iznova vratiti u te posebne trenutke — opušteno, autentično i s puno ljubavi.",
         "contactButton": "Kontaktiraj me",
         "stats": {
             "sessionsCompleted": "Završenih sesija",
@@ -143,6 +148,7 @@
             "concert": "Koncert",
             "studio": "Studio sesija",
             "modelling": "Modeling",
+            "travel": "Fotografiranje putovanja",
             "other": "Drugi događaj"
         },
         "budgetRanges": {

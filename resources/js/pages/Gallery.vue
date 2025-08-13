@@ -49,6 +49,7 @@ const categoryList = computed(() => [
     { id: 'on-set', nameKey: 'gallery.filter.onSet', count: galleryImages.value.filter(img => img.category === 'on-set').length },
     { id: 'studio', nameKey: 'gallery.filter.studio', count: galleryImages.value.filter(img => img.category === 'studio').length },
     { id: 'modelling', nameKey: 'gallery.filter.modelling', count: galleryImages.value.filter(img => img.category === 'modelling').length },
+    { id: 'travel', nameKey: 'gallery.filter.travel', count: galleryImages.value.filter(img => img.category === 'travel').length },
     { id: 'concert', nameKey: 'gallery.filter.concert', count: galleryImages.value.filter(img => img.category === 'concert').length },
     { id: 'baptism', nameKey: 'gallery.filter.baptism', count: galleryImages.value.filter(img => img.category === 'baptism').length }
 ]);

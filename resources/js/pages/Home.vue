@@ -2,7 +2,7 @@
 import { Head, Link } from '@inertiajs/vue3';
 import { onMounted } from 'vue';
 import Navigation from '@/components/Navigation.vue';
-import { Camera, Heart, Users, Star, ArrowRight, Baby, Video, Drum} from 'lucide-vue-next';
+import { Camera, Heart, Users, Star, ArrowRight, Baby, Video, Drum, Plane} from 'lucide-vue-next';
 import { useTranslation } from '@/composables/useTranslation';
 import { useThemeLogo } from '@/composables/useThemeLogo';
 

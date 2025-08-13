@@ -37,7 +37,8 @@ class MediaController extends Controller
                 'baptism' => 'Baptisms', 
                 'concert' => 'Concerts',
                 'studio' => 'Studio',
-                'modelling' => 'Modelling'
+                'modelling' => 'Modelling',
+                'travel' => 'Travel'
             ]
         ]);
     }
@@ -82,6 +83,7 @@ class MediaController extends Controller
                     'concert' => 'Concerts',
                     'studio' => 'Studio',
                     'modelling' => 'Modelling',
+                    'travel' => 'Travel',
                     'other' => 'Other'
                 ],
                 'filters' => $request->only(['search', 'category', 'type', 'featured'])
@@ -100,6 +102,7 @@ class MediaController extends Controller
                     'concert' => 'Concerts',
                     'studio' => 'Studio',
                     'modelling' => 'Modelling',
+                    'travel' => 'Travel',
                     'other' => 'Other'
                 ],
                 'filters' => $request->only(['search', 'category', 'type', 'featured']),
@@ -118,7 +121,7 @@ class MediaController extends Controller
         $request->validate([
             'files' => 'required|array',
             'files.*' => 'required|file|mimes:jpeg,jpg,png,gif,webp,bmp,tiff,mp4,avi,mov,wmv,flv,webm,mkv|max:102400', // 100MB max
-            'category' => 'required|in:wedding,baptism,concert,studio,modelling,other',
+            'category' => 'required|in:wedding,baptism,concert,studio,modelling,travel,other',
             'titles.*' => 'nullable|string|max:255',
             'descriptions.*' => 'nullable|string',
             'alt_texts.*' => 'nullable|string|max:255',
@@ -398,7 +401,7 @@ class MediaController extends Controller
             return back()->withErrors(['base_directory' => 'Base directory not found']);
         }
 
-        $categories = ['wedding', 'baptism', 'concert', 'studio', 'modelling'];
+        $categories = ['wedding', 'baptism', 'concert', 'studio', 'modelling', 'travel'];
         $totalImported = 0;
         
         foreach ($categories as $category) {

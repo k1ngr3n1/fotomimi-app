@@ -36,6 +36,7 @@ const categories = [
     { value: 'concert', label: 'Concerts', icon: '🎵' },
     { value: 'studio', label: 'Studio', icon: '📸' },
     { value: 'modelling', label: 'Modelling', icon: '👗' },
+    { value: 'travel', label: 'Travel', icon: '✈️' },
     { value: 'other', label: 'Other', icon: '📁' }
 ];
 
