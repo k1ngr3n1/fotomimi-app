@@ -34,6 +34,7 @@ const categories = [
     { value: 'wedding', label: 'Weddings', icon: '💒' },
     { value: 'baptism', label: 'Baptisms', icon: '👶' },
     { value: 'concert', label: 'Concerts', icon: '🎵' },
+    { value: 'on-set', label: 'On Set', icon: '🎬' },
     { value: 'studio', label: 'Studio', icon: '📸' },
     { value: 'modelling', label: 'Modelling', icon: '👗' },
     { value: 'travel', label: 'Travel', icon: '✈️' },

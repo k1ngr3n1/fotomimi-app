@@ -91,7 +91,8 @@
             "modelling": "Modelling",
             "travel": "Travel",
             "concert": "Concerts",
-            "baptism": "Baptism"
+            "baptism": "Baptism",
+            "other": "Other"
         },
         "emptyState": {
             "title": "No images found",
@@ -146,6 +147,7 @@
             "wedding": "Wedding",
             "baptism": "Baptism",
             "concert": "Concert",
+            "onSet": "On Set",
             "studio": "Studio Session",
             "modelling": "Modelling",
             "travel": "Travel Photography",

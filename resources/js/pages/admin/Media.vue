@@ -39,6 +39,7 @@ const categories = [
     { value: 'wedding', label: 'Weddings' },
     { value: 'baptism', label: 'Baptisms' },
     { value: 'concert', label: 'Concerts' },
+    { value: 'on-set', label: 'On Set' },
     { value: 'studio', label: 'Studio' },
     { value: 'modelling', label: 'Modelling' },
     { value: 'travel', label: 'Travel' },

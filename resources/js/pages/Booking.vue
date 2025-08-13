@@ -44,8 +44,10 @@ const eventTypes = [
     { value: 'wedding', labelKey: 'booking.eventTypes.wedding', description: 'Complete wedding coverage' },
     { value: 'baptism', labelKey: 'booking.eventTypes.baptism', description: 'Religious ceremony coverage' },
     { value: 'concert', labelKey: 'booking.eventTypes.concert', description: 'Live performance photography' },
+    { value: 'on-set', labelKey: 'booking.eventTypes.onSet', description: 'On-set and behind the scenes photography' },
     { value: 'studio', labelKey: 'booking.eventTypes.studio', description: 'Professional portraits' },
     { value: 'modelling', labelKey: 'booking.eventTypes.modelling', description: 'Fashion and commercial' },
+    { value: 'travel', labelKey: 'booking.eventTypes.travel', description: 'Travel and destination photography' },
     { value: 'other', labelKey: 'booking.eventTypes.other', description: 'Custom photography needs' }
 ];
 

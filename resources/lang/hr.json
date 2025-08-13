@@ -91,7 +91,8 @@
             "modelling": "Modeling",
             "travel": "Putovanja",
             "concert": "Koncerti",
-            "baptism": "Krštenja"
+            "baptism": "Krštenja",
+            "other": "Ostalo"
         },
         "emptyState": {
             "title": "Nema pronađenih slika",
@@ -146,6 +147,7 @@
             "wedding": "Vjenčanje",
             "baptism": "Krštenje",
             "concert": "Koncert",
+            "onSet": "Na setu",
             "studio": "Studio sesija",
             "modelling": "Modeling",
             "travel": "Fotografiranje putovanja",

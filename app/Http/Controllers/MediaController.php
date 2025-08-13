@@ -36,6 +36,7 @@ class MediaController extends Controller
                 'wedding' => 'Weddings',
                 'baptism' => 'Baptisms', 
                 'concert' => 'Concerts',
+                'on-set' => 'On Set',
                 'studio' => 'Studio',
                 'modelling' => 'Modelling',
                 'travel' => 'Travel'
@@ -81,6 +82,7 @@ class MediaController extends Controller
                     'wedding' => 'Weddings',
                     'baptism' => 'Baptisms',
                     'concert' => 'Concerts',
+                    'on-set' => 'On Set',
                     'studio' => 'Studio',
                     'modelling' => 'Modelling',
                     'travel' => 'Travel',
@@ -100,6 +102,7 @@ class MediaController extends Controller
                     'wedding' => 'Weddings',
                     'baptism' => 'Baptisms',
                     'concert' => 'Concerts',
+                    'on-set' => 'On Set',
                     'studio' => 'Studio',
                     'modelling' => 'Modelling',
                     'travel' => 'Travel',
@@ -121,7 +124,7 @@ class MediaController extends Controller
         $request->validate([
             'files' => 'required|array',
             'files.*' => 'required|file|mimes:jpeg,jpg,png,gif,webp,bmp,tiff,mp4,avi,mov,wmv,flv,webm,mkv|max:102400', // 100MB max
-            'category' => 'required|in:wedding,baptism,concert,studio,modelling,travel,other',
+            'category' => 'required|in:wedding,baptism,concert,on-set,studio,modelling,travel,other',
             'titles.*' => 'nullable|string|max:255',
             'descriptions.*' => 'nullable|string',
             'alt_texts.*' => 'nullable|string|max:255',
@@ -308,7 +311,7 @@ class MediaController extends Controller
     {
         $request->validate([
             'directory_path' => 'required|string',
-            'category' => 'required|in:wedding,baptism,concert,studio,modelling,other'
+            'category' => 'required|in:wedding,baptism,concert,on-set,studio,modelling,travel,other'
         ]);
 
         $directoryPath = $request->input('directory_path');
@@ -401,7 +404,7 @@ class MediaController extends Controller
             return back()->withErrors(['base_directory' => 'Base directory not found']);
         }
 
-        $categories = ['wedding', 'baptism', 'concert', 'studio', 'modelling', 'travel'];
+        $categories = ['wedding', 'baptism', 'concert', 'on-set', 'studio', 'modelling', 'travel'];
         $totalImported = 0;
         
         foreach ($categories as $category) {
