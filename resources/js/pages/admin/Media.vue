@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { Head, Link, useForm, router } from '@inertiajs/vue3';
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import AdminLayout from '@/layouts/AdminLayout.vue';
+import { useTranslation } from '@/composables/useTranslation';
 import { 
     Image, 
     Video, 
@@ -14,71 +15,74 @@ import {
     Eye,
     Star,
     Download,
-    MoreVertical
+    MoreVertical,
+    X,
+    Check
 } from 'lucide-vue-next';
+
+const { t, initLanguage } = useTranslation();
+
+onMounted(() => {
+    initLanguage();
+});
 
 const props = defineProps({
     media: Array,
-    categories: Array,
+    categories: [Array, Object], // Allow both Array and Object
     filters: Object
 });
 
 const form = useForm({
     search: '',
     category: '',
-    type: '',
-    featured: ''
 });
+
+// Create reactive refs for filters to ensure proper reactivity
+const searchQuery = ref('');
+const selectedCategory = ref('');
 
 const viewMode = ref('grid'); // 'grid' or 'list'
 const selectedItems = ref([]);
 const isDeleting = ref(false);
 
+// Modal states
+const showEditModal = ref(false);
+const showDeleteModal = ref(false);
+const editingItem = ref(null);
+const deletingItem = ref(null);
+
+// Edit form
+const editForm = useForm({
+    title: '',
+    description: '',
+    alt_text: '',
+});
+
 const categories = [
-    { value: '', label: 'All Categories' },
-    { value: 'wedding', label: 'Weddings' },
-    { value: 'baptism', label: 'Baptisms' },
-    { value: 'concert', label: 'Concerts' },
-    { value: 'on-set', label: 'On Set' },
-    { value: 'studio', label: 'Studio' },
-    { value: 'modelling', label: 'Modelling' },
-    { value: 'travel', label: 'Travel' },
-    { value: 'other', label: 'Other' }
-];
-
-const typeFilters = [
-    { value: '', label: 'All Types' },
-    { value: 'image', label: 'Images' },
-    { value: 'video', label: 'Videos' }
-];
-
-const featuredFilters = [
-    { value: '', label: 'All Items' },
-    { value: '1', label: 'Featured Only' },
-    { value: '0', label: 'Not Featured' }
+    { value: '', labelKey: 'admin.media.filters.categories.all' },
+    { value: 'wedding', labelKey: 'admin.media.filters.categories.wedding' },
+    { value: 'baptism', labelKey: 'admin.media.filters.categories.baptism' },
+    { value: 'concert', labelKey: 'admin.media.filters.categories.concert' },
+    { value: 'on-set', labelKey: 'admin.media.filters.categories.onSet' },
+    { value: 'studio', labelKey: 'admin.media.filters.categories.studio' },
+    { value: 'modelling', labelKey: 'admin.media.filters.categories.modelling' },
+    { value: 'travel', labelKey: 'admin.media.filters.categories.travel' },
+    { value: 'other', labelKey: 'admin.media.filters.categories.other' }
 ];
 
 const filteredMedia = computed(() => {
     let filtered = props.media || [];
     
-    if (form.search) {
-        const search = form.search.toLowerCase();
+    if (searchQuery.value) {
+        const search = searchQuery.value.toLowerCase();
         filtered = filtered.filter(item => 
             item.title.toLowerCase().includes(search) ||
-            item.description.toLowerCase().includes(search)
+            (item.description && item.description.toLowerCase().includes(search))
         );
     }
     
-    if (form.category) {
-        filtered = filtered.filter(item => item.category === form.category);
-    }
-    
-    if (form.type) {
-        filtered = filtered.filter(item => item.type === form.type);
-    }
-    
-    if (form.featured !== '') {
-        filtered = filtered.filter(item => item.is_featured == form.featured);
+    if (selectedCategory.value) {
+        filtered = filtered.filter(item => item.category === selectedCategory.value);
     }
     
     return filtered;
@@ -101,41 +105,190 @@ const selectAll = () => {
     }
 };
 
-const deleteItem = (item) => {
-    if (isDeleting.value) return; // Prevent multiple clicks
+// Edit modal functions
+const openEditModal = (item) => {
+    console.log('Opening edit modal for:', item);
+    editingItem.value = item;
+    editForm.title = item.title || '';
+    editForm.description = item.description || '';
+    editForm.alt_text = item.alt_text || '';
+    showEditModal.value = true;
     
-    console.log('Delete item clicked:', item);
+    console.log('Form values set to:', {
+        title: editForm.title,
+        description: editForm.description,
+        alt_text: editForm.alt_text
+    });
+    console.log('Edit modal state:', showEditModal.value);
+};
+
+const closeEditModal = () => {
+    showEditModal.value = false;
+    editingItem.value = null;
+    editForm.reset();
+};
+
+const saveEdit = () => {
+    const formData = {
+        title: editForm.title,
+        description: editForm.description,
+        alt_text: editForm.alt_text
+    };
     
-    // Simple confirmation without modal
-    if (confirm(`Are you sure you want to delete "${item.title}"? This action cannot be undone.`)) {
-        isDeleting.value = true;
-        console.log('Delete confirmed for item:', item);
-        console.log('Delete route:', route('admin.media.destroy', item.id));
+    console.log('Saving edit with form data:', formData);
+    console.log('Original item data:', editingItem.value);
+    
+    // Try sending data explicitly
+    router.put(route('admin.media.update', editingItem.value.id), formData, {
+        onSuccess: () => {
+            console.log('Update successful');
+            closeEditModal();
+        },
+        onError: (errors) => {
+            console.error('Update failed:', errors);
+        }
+    });
+};
+
+// Delete modal functions
+const openDeleteModal = (item = null) => {
+    console.log('Opening delete modal for:', item);
+    if (item) {
+        deletingItem.value = item;
+    } else {
+        deletingItem.value = null; // For bulk delete
+    }
+    showDeleteModal.value = true;
+    console.log('Delete modal state:', showDeleteModal.value);
+};
+
+const closeDeleteModal = () => {
+    showDeleteModal.value = false;
+    deletingItem.value = null;
+};
+
+const confirmDelete = () => {
+    console.log('Confirm delete called');
+    console.log('Deleting item:', deletingItem.value);
+    console.log('Selected items:', selectedItems.value);
+    
+    if (deletingItem.value) {
+        // Single item delete
+        console.log('Deleting single item:', deletingItem.value.id);
         
-        // Use router.delete instead of form.delete for better compatibility
-        router.delete(route('admin.media.destroy', item.id), {
-            onSuccess: () => {
-                console.log('Delete successful');
-                isDeleting.value = false;
-                // The page will automatically refresh due to Inertia
-            },
-            onError: (errors) => {
-                console.error('Delete failed:', errors);
-                isDeleting.value = false;
-                alert('Failed to delete media: ' + (errors.error || 'Unknown error'));
+        try {
+            const deleteUrl = route('admin.media.destroy', deletingItem.value.id);
+            console.log('Delete URL:', deleteUrl);
+            
+            router.delete(deleteUrl, {
+                onSuccess: () => {
+                    console.log('Single delete successful');
+                    closeDeleteModal();
+                },
+                onError: (errors) => {
+                    console.error('Single delete failed:', errors);
+                    alert('Failed to delete media item. Please try again.');
+                }
+            });
+        } catch (error) {
+            console.error('Route generation failed:', error);
+            // Fallback: construct URL manually
+            const fallbackUrl = `/admin/media/${deletingItem.value.id}`;
+            console.log('Using fallback URL:', fallbackUrl);
+            
+            router.delete(fallbackUrl, {
+                onSuccess: () => {
+                    console.log('Single delete successful (fallback)');
+                    closeDeleteModal();
+                },
+                onError: (errors) => {
+                    console.error('Single delete failed (fallback):', errors);
+                    alert('Failed to delete media item. Please check the console for details.');
+                }
+            });
+        }
+    } else {
+        // Bulk delete - delete each item individually
+        console.log('Deleting multiple items:', selectedItems.value);
+        
+        if (selectedItems.value.length === 0) {
+            console.log('No items selected for deletion');
+            closeDeleteModal();
+            return;
+        }
+        
+        // Delete items one by one sequentially
+        const deleteSequentially = async (itemIds) => {
+            let deletedCount = 0;
+            const totalItems = itemIds.length;
+            
+            for (const itemId of itemIds) {
+                try {
+                    const deleteUrl = route('admin.media.destroy', itemId);
+                    console.log(`Bulk delete URL for item ${itemId}:`, deleteUrl);
+                    
+                    await new Promise((resolve, reject) => {
+                        router.delete(deleteUrl, {
+                            onSuccess: () => {
+                                deletedCount++;
+                                console.log(`Item ${itemId} deleted successfully (${deletedCount}/${totalItems})`);
+                                resolve();
+                            },
+                            onError: (errors) => {
+                                console.error(`Failed to delete item ${itemId}:`, errors);
+                                deletedCount++; // Count failed attempts too
+                                reject(errors);
+                            }
+                        });
+                    });
+                } catch (error) {
+                    console.error(`Route generation or deletion failed for item ${itemId}:`, error);
+                    // Try fallback URL
+                    try {
+                        const fallbackUrl = `/admin/media/${itemId}`;
+                        console.log(`Using fallback URL for item ${itemId}:`, fallbackUrl);
+                        
+                        await new Promise((resolve, reject) => {
+                            router.delete(fallbackUrl, {
+                                onSuccess: () => {
+                                    deletedCount++;
+                                    console.log(`Item ${itemId} deleted successfully via fallback (${deletedCount}/${totalItems})`);
+                                    resolve();
+                                },
+                                onError: (errors) => {
+                                    console.error(`Failed to delete item ${itemId} via fallback:`, errors);
+                                    deletedCount++;
+                                    reject(errors);
+                                }
+                            });
+                        });
+                    } catch (fallbackError) {
+                        console.error(`Both methods failed for item ${itemId}:`, fallbackError);
+                        deletedCount++;
+                    }
+                }
             }
-        });
+            
+            console.log(`Bulk delete completed. ${deletedCount}/${totalItems} operations finished.`);
+            selectedItems.value = [];
+            closeDeleteModal();
+            window.location.reload();
+        };
+        
+        deleteSequentially([...selectedItems.value]);
     }
 };
 
+// Legacy function - now opens delete modal
+const deleteItem = (item) => {
+    console.log('Delete item called with:', item);
+    openDeleteModal(item);
+};
 
-
-const toggleFeatured = (item) => {
-    form.patch(route('admin.media.update', item.id), {
-        data: {
-            is_featured: !item.is_featured
-        }
-    });
+// Test function to verify button clicks work
+const testFunction = () => {
+    console.log('Test function called - buttons are working!');
+    alert('Button click works!');
 };
 
 const formatFileSize = (bytes) => {
@@ -166,9 +319,9 @@ const formatDate = (dateString) => {
             <div class="mb-8">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h1 class="text-3xl font-bold text-gray-900">Media Library</h1>
+                        <h1 class="text-3xl font-bold text-gray-900">{{ t('admin.media.title') }}</h1>
                         <p class="mt-2 text-gray-600">
-                            Manage your photos and videos. Upload, edit, and organize your media files.
+                            {{ t('admin.media.subtitle') }}
                         </p>
                     </div>
                     <Link
@@ -176,7 +329,7 @@ const formatDate = (dateString) => {
                         class="inline-flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
                     >
                         <Image class="w-4 h-4 mr-2" />
-                        Upload Media
+                        {{ t('admin.media.uploadButton') }}
                     </Link>
                 </div>
             </div>
@@ -184,21 +337,21 @@ const formatDate = (dateString) => {
             <!-- Filters -->
             <div class="bg-white rounded-lg shadow mb-6">
                 <div class="p-6">
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <!-- Search -->
                         <div class="relative">
                             <Search class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
                             <input
-                                v-model="form.search"
+                                v-model="searchQuery"
                                 type="text"
-                                placeholder="Search media..."
+                                :placeholder="t('admin.media.search.placeholder')"
                                 class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white text-gray-900"
                             />
                         </div>
 
                         <!-- Category Filter -->
                         <select
-                            v-model="form.category"
+                            v-model="selectedCategory"
                             class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white text-gray-900"
                         >
                             <option
@@ -206,35 +359,7 @@ const formatDate = (dateString) => {
                                 :key="category.value"
                                 :value="category.value"
                             >
-                                {{ category.label }}
-                            </option>
-                        </select>
-
-                        <!-- Type Filter -->
-                        <select
-                            v-model="form.type"
-                            class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white text-gray-900"
-                        >
-                            <option
-                                v-for="type in typeFilters"
-                                :key="type.value"
-                                :value="type.value"
-                            >
-                                {{ type.label }}
-                            </option>
-                        </select>
-
-                        <!-- Featured Filter -->
-                        <select
-                            v-model="form.featured"
-                            class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white text-gray-900"
-                        >
-                            <option
-                                v-for="filter in featuredFilters"
-                                :key="filter.value"
-                                :value="filter.value"
-                            >
-                                {{ filter.label }}
+                                {{ t(category.labelKey) }}
                             </option>
                         </select>
                     </div>
@@ -245,7 +370,7 @@ const formatDate = (dateString) => {
             <div class="flex items-center justify-between mb-6">
                 <div class="flex items-center space-x-4">
                     <p class="text-sm text-gray-600">
-                        {{ filteredMedia.length }} item{{ filteredMedia.length !== 1 ? 's' : '' }} found
+                        {{ filteredMedia.length }} {{ t('admin.media.results.itemsFound', filteredMedia.length) }}
                     </p>
                     
                     <div v-if="selectedItems.length > 0" class="flex items-center space-x-2">
@@ -256,7 +381,13 @@ const formatDate = (dateString) => {
                             @click="selectAll"
                             class="text-sm text-purple-600 hover:text-purple-700"
                         >
-                            {{ selectedItems.length === filteredMedia.length ? 'Deselect All' : 'Select All' }}
+                            {{ selectedItems.length === filteredMedia.length ? 'Select None' : 'Select All' }}
+                        </button>
+                        <button
+                            @click="openDeleteModal()"
+                            class="text-sm text-red-600 hover:text-red-700 ml-4"
+                        >
+                            Delete Selected
                         </button>
                     </div>
                 </div>
@@ -297,6 +428,15 @@ const formatDate = (dateString) => {
                 >
                     <!-- Media Preview -->
                     <div class="relative aspect-square bg-gray-100">
+                        <!-- Checkbox -->
+                        <div class="absolute top-2 left-2 z-10">
+                            <input
+                                type="checkbox"
+                                :checked="selectedItems.includes(item.id)"
+                                @change="toggleSelection(item.id)"
+                                class="w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500"
+                            />
+                        </div>
                         <img
                             v-if="item.type === 'photo'"
                             :src="item.url"
@@ -325,41 +465,23 @@ const formatDate = (dateString) => {
                         <!-- Overlay Actions -->
                         <div class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-50 transition-all duration-200 flex items-center justify-center opacity-0 hover:opacity-100">
                             <div class="flex items-center space-x-2">
-                                <button
-                                    @click="toggleFeatured(item)"
-                                    :class="[
-                                        'p-2 rounded-full text-white transition-colors',
-                                        item.is_featured ? 'bg-yellow-500 hover:bg-yellow-600' : 'bg-gray-600 hover:bg-gray-700'
-                                    ]"
-                                >
-                                    <Star :class="['w-4 h-4', item.is_featured ? 'fill-current' : '']" />
-                                </button>
-                                <Link
-                                    :href="route('admin.media.edit', item.id)"
-                                    class="p-2 bg-blue-500 hover:bg-blue-600 rounded-full text-white transition-colors"
-                                >
-                                    <Edit class="w-4 h-4" />
-                                </Link>
+                                                             <button
+                                            @click="openEditModal(item)"
+                                            class="p-2 bg-blue-500 hover:bg-blue-600 rounded-full text-white transition-colors"
+                                            title="Edit"
+                                        >
+                                            <Edit class="w-4 h-4" />
+                                        </button>
                                 <button
                                     @click="deleteItem(item)"
-                                    :disabled="isDeleting"
-                                    :class="[
-                                        'p-2 rounded-full text-white transition-colors',
-                                        isDeleting ? 'bg-gray-400 cursor-not-allowed' : 'bg-red-500 hover:bg-red-600'
-                                    ]"
+                                    class="p-2 bg-red-500 hover:bg-red-600 rounded-full text-white transition-colors"
+                                    title="Delete"
                                 >
                                     <Trash2 class="w-4 h-4" />
                                 </button>
                             </div>
                         </div>
-
-                        <!-- Featured Badge -->
-                        <div
-                            v-if="item.is_featured"
-                            class="absolute top-2 left-2 bg-yellow-500 text-white px-2 py-1 rounded-full text-xs font-medium"
-                        >
-                            Featured
-                        </div>
+                    
 
                         <!-- Type Badge -->
                         <div class="absolute top-2 right-2 bg-black bg-opacity-75 text-white px-2 py-1 rounded-full text-xs font-medium">
@@ -386,25 +508,33 @@ const formatDate = (dateString) => {
                         <thead class="bg-gray-50">
                             <tr>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Media
+                                    <input
+                                        type="checkbox"
+                                        :checked="selectedItems.length === filteredMedia.length && filteredMedia.length > 0"
+                                        @change="selectAll"
+                                        class="w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500"
+                                    />
                                 </th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Title
+                                    {{ t('admin.media.table.headers.media') }}
                                 </th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Category
+                                    {{ t('admin.media.table.headers.title') }}
                                 </th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Type
+                                    {{ t('admin.media.table.headers.category') }}
                                 </th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Size
+                                    {{ t('admin.media.table.headers.type') }}
                                 </th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Uploaded
+                                    {{ t('admin.media.table.headers.size') }}
                                 </th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Actions
+                                    {{ t('admin.media.table.headers.uploaded') }}
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    {{ t('admin.media.table.headers.actions') }}
                                 </th>
                             </tr>
                         </thead>
@@ -414,6 +544,14 @@ const formatDate = (dateString) => {
                                 :key="item.id"
                                 class="hover:bg-gray-50"
                             >
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <input
+                                        type="checkbox"
+                                        :checked="selectedItems.includes(item.id)"
+                                        @change="toggleSelection(item.id)"
+                                        class="w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500"
+                                    />
+                                </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="w-16 h-16 bg-gray-100 rounded-lg overflow-hidden">
                                         <img
@@ -474,27 +612,16 @@ const formatDate = (dateString) => {
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                     <div class="flex items-center space-x-2">
                                         <button
-                                            @click="toggleFeatured(item)"
-                                            :class="[
-                                                'p-1 rounded transition-colors',
-                                                item.is_featured ? 'text-yellow-600 hover:text-yellow-700' : 'text-gray-400 hover:text-gray-600'
-                                            ]"
-                                        >
-                                            <Star :class="['w-4 h-4', item.is_featured ? 'fill-current' : '']" />
-                                        </button>
-                                        <Link
-                                            :href="route('admin.media.edit', item.id)"
+                                            @click="openEditModal(item)"
                                             class="text-blue-600 hover:text-blue-700"
+                                            title="Edit"
                                         >
                                             <Edit class="w-4 h-4" />
-                                        </Link>
+                                        </button>
                                         <button
                                             @click="deleteItem(item)"
-                                            :disabled="isDeleting"
-                                            :class="[
-                                                'transition-colors',
-                                                isDeleting ? 'text-gray-400 cursor-not-allowed' : 'text-red-600 hover:text-red-700'
-                                            ]"
+                                            class="text-red-600 hover:text-red-700"
+                                            title="Delete"
                                         >
                                             <Trash2 class="w-4 h-4" />
                                         </button>
@@ -509,9 +636,9 @@ const formatDate = (dateString) => {
             <!-- Empty State -->
             <div v-if="filteredMedia.length === 0" class="text-center py-12">
                 <Image class="mx-auto h-12 w-12 text-gray-400" />
-                <h3 class="mt-2 text-sm font-medium text-gray-900">No media found</h3>
+                <h3 class="mt-2 text-sm font-medium text-gray-900">{{ t('admin.media.emptyState.title') }}</h3>
                 <p class="mt-1 text-sm text-gray-500">
-                    Try adjusting your search or filter criteria.
+                    {{ t('admin.media.emptyState.description') }}
                 </p>
                 <div class="mt-6">
                     <Link
@@ -519,12 +646,119 @@ const formatDate = (dateString) => {
                         class="inline-flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
                     >
                         <Image class="w-4 h-4 mr-2" />
-                        Upload Media
+                        {{ t('admin.media.uploadButton') }}
                     </Link>
                 </div>
             </div>
         </div>
 
+        <!-- Edit Modal -->
+        <div v-if="showEditModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div class="bg-white rounded-lg p-6 w-full max-w-md mx-4">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold">Edit Media</h3>
+                    <button @click="closeEditModal" class="text-gray-400 hover:text-gray-600">
+                        <X class="w-6 h-6" />
+                    </button>
+                </div>
+                
+                <form @submit.prevent="saveEdit" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                            Title
+                        </label>
+                        <input
+                            v-model="editForm.title"
+                            type="text"
+                            placeholder="Enter media title"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        />
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                            Description
+                        </label>
+                        <textarea
+                            v-model="editForm.description"
+                            rows="3"
+                            placeholder="Enter media description"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        ></textarea>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                            Alt Text
+                        </label>
+                        <input
+                            v-model="editForm.alt_text"
+                            type="text"
+                            placeholder="Enter alt text for accessibility"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        />
+                    </div>
+                    
+                    <div class="flex justify-end space-x-3 pt-4">
+                        <button
+                            type="button"
+                            @click="closeEditModal"
+                            class="px-4 py-2 text-sm text-gray-700 bg-gray-100 border border-gray-300 rounded-md hover:bg-gray-200"
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            type="submit"
+                            :disabled="editForm.processing"
+                            class="px-4 py-2 text-sm text-white bg-purple-600 rounded-md hover:bg-purple-700 disabled:opacity-50"
+                        >
+                            {{ editForm.processing ? 'Saving...' : 'Save Changes' }}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Delete Modal -->
+        <div v-if="showDeleteModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div class="bg-white rounded-lg p-6 w-full max-w-md mx-4">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold">Delete Media</h3>
+                    <button @click="closeDeleteModal" class="text-gray-400 hover:text-gray-600">
+                        <X class="w-6 h-6" />
+                    </button>
+                </div>
+                
+                <div class="mb-6">
+                    <p class="text-sm text-gray-500">
+                        <span v-if="deletingItem">
+                            Are you sure you want to delete "<strong>{{ deletingItem.title }}</strong>"?
+                        </span>
+                        <span v-else>
+                            Are you sure you want to delete {{ selectedItems.length }} selected items?
+                        </span>
+                    </p>
+                    <p class="text-sm text-red-600 mt-2">
+                        This action cannot be undone.
+                    </p>
+                </div>
+                
+                <div class="flex justify-end space-x-3">
+                    <button
+                        @click="closeDeleteModal"
+                        class="px-4 py-2 text-sm text-gray-700 bg-gray-100 border border-gray-300 rounded-md hover:bg-gray-200"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        @click="confirmDelete"
+                        class="px-4 py-2 text-sm text-white bg-red-600 rounded-md hover:bg-red-700"
+                    >
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
 
     </AdminLayout>
 </template> 

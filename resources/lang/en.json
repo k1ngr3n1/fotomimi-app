@@ -261,6 +261,131 @@
             "verificationSent": "A new verification link has been sent to the email address you provided during registration."
         }
     },
+    "admin": {
+        "dashboard": {
+            "title": "Dashboard",
+            "subtitle": "Welcome back! Here's an overview of your photography website.",
+            "stats": {
+                "totalImages": "Total Images",
+                "totalVideos": "Total Videos", 
+                "featuredMedia": "Featured Media",
+                "totalMedia": "Total Media"
+            },
+            "quickActions": {
+                "title": "Quick Actions",
+                "uploadMedia": {
+                    "name": "Upload Media",
+                    "description": "Add new photos and videos"
+                },
+                "viewGallery": {
+                    "name": "View Gallery", 
+                    "description": "Browse all media files"
+                },
+                "analytics": {
+                    "name": "Analytics",
+                    "description": "View site statistics"
+                }
+            },
+            "recentUploads": {
+                "title": "Recent Uploads",
+                "viewAll": "View all media →"
+            }
+        },
+        "media": {
+            "title": "Media Library",
+            "subtitle": "Manage your photos and videos. Upload, edit, and organize your media files.",
+            "uploadButton": "Upload Media",
+            "search": {
+                "placeholder": "Search media..."
+            },
+            "filters": {
+                "categories": {
+                    "all": "All Categories",
+                    "wedding": "Weddings",
+                    "baptism": "Baptisms",
+                    "concert": "Concerts",
+                    "onSet": "On Set",
+                    "studio": "Studio",
+                    "modelling": "Modelling",
+                    "travel": "Travel",
+                    "other": "Other"
+                },
+                "types": {
+                    "all": "All Types",
+                    "images": "Images",
+                    "videos": "Videos"
+                },
+                "featured": {
+                    "all": "All Items",
+                    "featuredOnly": "Featured Only",
+                    "notFeatured": "Not Featured"
+                }
+            },
+            "results": {
+                "itemsFound": "item found | items found",
+                "selected": "selected",
+                "selectAll": "Select All",
+                "deselectAll": "Deselect All"
+            },
+            "table": {
+                "headers": {
+                    "media": "Media",
+                    "title": "Title",
+                    "category": "Category",
+                    "type": "Type",
+                    "size": "Size",
+                    "uploaded": "Uploaded",
+                    "actions": "Actions"
+                }
+            },
+            "badges": {
+                "featured": "Featured"
+            },
+            "actions": {
+                "edit": "Edit",
+                "delete": "Delete",
+                "bulkDelete": "Delete Selected",
+                "cancel": "Cancel",
+                "save": "Save Changes",
+                "deleteAction": {
+                    "confirm": "Are you sure you want to delete \"{title}\"? This action cannot be undone.",
+                    "bulkConfirm": "Are you sure you want to delete {count} selected items? This action cannot be undone.",
+                    "failed": "Failed to delete media: {error}",
+                    "success": "Media deleted successfully",
+                    "bulkSuccess": "{count} items deleted successfully"
+                }
+            },
+            "modals": {
+                "edit": {
+                    "title": "Edit Media",
+                    "fields": {
+                        "title": "Title",
+                        "titlePlaceholder": "Enter media title",
+                        "description": "Description",
+                        "descriptionPlaceholder": "Enter media description",
+                        "altText": "Alt Text",
+                        "altTextPlaceholder": "Enter alt text for accessibility",
+                        "category": "Category"
+                    }
+                },
+                "delete": {
+                    "title": "Delete Media",
+                    "confirmSingle": "Are you sure you want to delete this media?",
+                    "confirmBulk": "Are you sure you want to delete {count} selected items?"
+                }
+            },
+            "bulk": {
+                "selectAll": "Select All",
+                "selectNone": "Select None",
+                "selected": "{count} selected",
+                "actions": "Bulk Actions"
+            },
+            "emptyState": {
+                "title": "No media found",
+                "description": "Try adjusting your search or filter criteria."
+            }
+        }
+    },
     "common": {
         "loading": "Loading...",
         "save": "Save",

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
+import { ref, onMounted, watch } from 'vue';
 import { 
     Image, 
     Video, 
@@ -11,66 +12,53 @@ import {
     Calendar,
     Users
 } from 'lucide-vue-next';
+import { useTranslation } from '@/composables/useTranslation';
+
+const { t, initLanguage } = useTranslation();
+
+onMounted(() => {
+    initLanguage();
+});
 
 const props = defineProps({
     stats: Object,
     recentUploads: Array
 });
 
+const recentUploads = props.recentUploads || [];
+
 const stats = [
     {
-        name: 'Total Images',
+        nameKey: 'admin.dashboard.stats.totalImages',
         value: props.stats?.total_images?.toLocaleString() || '0',
-        change: '+12%',
-        changeType: 'positive',
         icon: Image
     },
     {
-        name: 'Total Videos',
+        nameKey: 'admin.dashboard.stats.totalVideos',
         value: props.stats?.total_videos?.toLocaleString() || '0',
-        change: '+5%',
-        changeType: 'positive',
         icon: Video
     },
     {
-        name: 'Featured Media',
-        value: props.stats?.featured_media?.toLocaleString() || '0',
-        change: '+8%',
-        changeType: 'positive',
-        icon: Star
-    },
-    {
-        name: 'Total Media',
+        nameKey: 'admin.dashboard.stats.totalMedia',
         value: props.stats?.total_media?.toLocaleString() || '0',
-        change: '+23%',
-        changeType: 'positive',
         icon: Eye
     }
 ];
 
-const recentUploads = props.recentUploads || [];
-
 const quickActions = [
     {
-        name: 'Upload Media',
-        description: 'Add new photos and videos',
+        nameKey: 'admin.dashboard.quickActions.uploadMedia.name',
+        descriptionKey: 'admin.dashboard.quickActions.uploadMedia.description',
         href: route('admin.upload'),
         icon: Upload,
         color: 'bg-purple-500'
     },
     {
-        name: 'View Gallery',
-        description: 'Browse all media files',
+        nameKey: 'admin.dashboard.quickActions.viewGallery.name',
+        descriptionKey: 'admin.dashboard.quickActions.viewGallery.description',
         href: route('admin.media'),
         icon: Image,
         color: 'bg-blue-500'
-    },
-    {
-        name: 'Analytics',
-        description: 'View site statistics',
-        href: '#',
-        icon: TrendingUp,
-        color: 'bg-green-500'
     }
 ];
 </script>
@@ -84,14 +72,14 @@ const quickActions = [
         <div class="max-w-7xl mx-auto">
             <!-- Header -->
             <div class="mb-8">
-                <h1 class="text-3xl font-bold text-gray-900">Dashboard</h1>
+                <h1 class="text-3xl font-bold text-gray-900">{{ t('admin.dashboard.title') }}</h1>
                 <p class="mt-2 text-gray-600">
-                    Welcome back! Here's an overview of your photography website.
+                    {{ t('admin.dashboard.subtitle') }}
                 </p>
             </div>
 
             <!-- Stats Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                 <div
                     v-for="stat in stats"
                     :key="stat.name"
@@ -107,31 +95,21 @@ const quickActions = [
                             </div>
                         </div>
                         <div class="ml-4 flex-1">
-                            <p class="text-sm font-medium text-gray-500">{{ stat.name }}</p>
+                            <p class="text-sm font-medium text-gray-500">{{ t(stat.nameKey) }}</p>
                             <p class="text-2xl font-bold text-gray-900">{{ stat.value }}</p>
                         </div>
                     </div>
-                    <div class="mt-4">
-                        <span 
-                            :class="[
-                                'inline-flex items-center text-sm font-medium',
-                                stat.changeType === 'positive' ? 'text-green-600' : 'text-red-600'
-                            ]"
-                        >
-                            {{ stat.change }}
-                        </span>
-                        <span class="text-sm text-gray-500 ml-1">from last month</span>
-                    </div>
+
                 </div>
             </div>
 
             <!-- Quick Actions -->
             <div class="bg-white rounded-lg shadow mb-8">
                 <div class="px-6 py-4 border-b border-gray-200">
-                    <h2 class="text-lg font-semibold text-gray-900">Quick Actions</h2>
+                    <h2 class="text-lg font-semibold text-gray-900">{{ t('admin.dashboard.quickActions.title') }}</h2>
                 </div>
                 <div class="p-6">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <Link
                             v-for="action in quickActions"
                             :key="action.name"
@@ -152,9 +130,9 @@ const quickActions = [
                                 </div>
                                 <div class="ml-4">
                                     <h3 class="text-lg font-medium text-gray-900 group-hover:text-purple-600 transition-colors">
-                                        {{ action.name }}
+                                        {{ t(action.nameKey) }}
                                     </h3>
-                                    <p class="text-sm text-gray-500">{{ action.description }}</p>
+                                    <p class="text-sm text-gray-500">{{ t(action.descriptionKey) }}</p>
                                 </div>
                             </div>
                         </Link>
@@ -165,7 +143,7 @@ const quickActions = [
             <!-- Recent Uploads -->
             <div class="bg-white rounded-lg shadow">
                 <div class="px-6 py-4 border-b border-gray-200">
-                    <h2 class="text-lg font-semibold text-gray-900">Recent Uploads</h2>
+                    <h2 class="text-lg font-semibold text-gray-900">{{ t('admin.dashboard.recentUploads.title') }}</h2>
                 </div>
                 <div class="p-6">
                     <div class="space-y-4">
@@ -175,18 +153,19 @@ const quickActions = [
                             class="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
                         >
                             <div class="flex-shrink-0">
-                                <div class="w-16 h-16 bg-gray-100 rounded-lg overflow-hidden">
+                                <div class="w-16 h-16 bg-gray-100 rounded-lg overflow-hidden relative">
                                     <img
-                                        v-if="upload.type === 'image'"
-                                        :src="upload.thumbnail"
+                                        :src="upload.thumbnail || upload.url"
                                         :alt="upload.title"
                                         class="w-full h-full object-cover"
+                                        @error="$event.target.style.display = 'none'"
                                     />
+                                    <!-- Video overlay icon for video files -->
                                     <div
-                                        v-else
-                                        class="w-full h-full flex items-center justify-center"
+                                        v-if="upload.type === 'video'"
+                                        class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30"
                                     >
-                                        <Video class="w-8 h-8 text-gray-400" />
+                                        <Video class="w-6 h-6 text-white" />
                                     </div>
                                 </div>
                             </div>
@@ -221,7 +200,7 @@ const quickActions = [
                             :href="route('admin.media')"
                             class="text-purple-600 hover:text-purple-700 text-sm font-medium"
                         >
-                            View all media →
+                            {{ t('admin.dashboard.recentUploads.viewAll') }}
                         </Link>
                     </div>
                 </div>

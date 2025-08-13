@@ -261,6 +261,131 @@
             "verificationSent": "Novi link za potvrdu je poslan na email adresu koju ste unijeli tijekom registracije."
         }
     },
+    "admin": {
+        "dashboard": {
+            "title": "Nadzorna ploča",
+            "subtitle": "Dobrodošli nazad! Evo pregleda vaše fotografske web stranice.",
+            "stats": {
+                "totalImages": "Ukupno slika",
+                "totalVideos": "Ukupno videa",
+                "featuredMedia": "Istaknuti mediji",
+                "totalMedia": "Ukupno medija"
+            },
+            "quickActions": {
+                "title": "Brze akcije",
+                "uploadMedia": {
+                    "name": "Prenesi medije",
+                    "description": "Dodaj nove fotografije i videa"
+                },
+                "viewGallery": {
+                    "name": "Pogledaj galeriju",
+                    "description": "Pregledaj sve medijske datoteke"
+                },
+                "analytics": {
+                    "name": "Analitika",
+                    "description": "Pogledaj statistike stranice"
+                }
+            },
+            "recentUploads": {
+                "title": "Nedavni prijenosi",
+                "viewAll": "Pogledaj sve medije →"
+            }
+        },
+        "media": {
+            "title": "Medijska biblioteka",
+            "subtitle": "Upravljajte svojim fotografijama i videozapisima. Prenesite, uredite i organizirajte svoje medijske datoteke.",
+            "uploadButton": "Prenesi medije",
+            "search": {
+                "placeholder": "Pretraži medije..."
+            },
+            "filters": {
+                "categories": {
+                    "all": "Sve kategorije",
+                    "wedding": "Vjenčanja",
+                    "baptism": "Krštenja",
+                    "concert": "Koncerti",
+                    "onSet": "Na setu",
+                    "studio": "Studio",
+                    "modelling": "Modeling",
+                    "travel": "Putovanja",
+                    "other": "Ostalo"
+                },
+                "types": {
+                    "all": "Sve vrste",
+                    "images": "Slike",
+                    "videos": "Videi"
+                },
+                "featured": {
+                    "all": "Sve stavke",
+                    "featuredOnly": "Samo istaknute",
+                    "notFeatured": "Neistaknute"
+                }
+            },
+            "results": {
+                "itemsFound": "stavka pronađena | stavki pronađeno",
+                "selected": "odabrano",
+                "selectAll": "Odaberi sve",
+                "deselectAll": "Poništi odabir"
+            },
+            "table": {
+                "headers": {
+                    "media": "Medij",
+                    "title": "Naslov",
+                    "category": "Kategorija",
+                    "type": "Vrsta",
+                    "size": "Veličina",
+                    "uploaded": "Preneseno",
+                    "actions": "Akcije"
+                }
+            },
+            "badges": {
+                "featured": "Istaknuto"
+            },
+            "actions": {
+                "edit": "Uredi",
+                "delete": "Obriši",
+                "bulkDelete": "Obriši odabrane",
+                "cancel": "Odustani",
+                "save": "Spremi promjene",
+                "deleteAction": {
+                    "confirm": "Jeste li sigurni da želite obrisati \"{title}\"? Ovu radnju nije moguće poništiti.",
+                    "bulkConfirm": "Jeste li sigurni da želite obrisati {count} odabranih stavki? Ovu radnju nije moguće poništiti.",
+                    "failed": "Brisanje medija neuspješno: {error}",
+                    "success": "Medij uspješno obrisan",
+                    "bulkSuccess": "{count} stavki uspješno obrisano"
+                }
+            },
+            "modals": {
+                "edit": {
+                    "title": "Uredi medij",
+                    "fields": {
+                        "title": "Naslov",
+                        "titlePlaceholder": "Unesite naslov medija",
+                        "description": "Opis",
+                        "descriptionPlaceholder": "Unesite opis medija",
+                        "altText": "Alt tekst",
+                        "altTextPlaceholder": "Unesite alt tekst za pristupačnost",
+                        "category": "Kategorija"
+                    }
+                },
+                "delete": {
+                    "title": "Obriši medij",
+                    "confirmSingle": "Jeste li sigurni da želite obrisati ovaj medij?",
+                    "confirmBulk": "Jeste li sigurni da želite obrisati {count} odabranih stavki?"
+                }
+            },
+            "bulk": {
+                "selectAll": "Odaberi sve",
+                "selectNone": "Poništi odabir",
+                "selected": "{count} odabrano",
+                "actions": "Grupne akcije"
+            },
+            "emptyState": {
+                "title": "Nema pronađenih medija",
+                "description": "Pokušajte prilagoditi kriterije pretrage ili filtera."
+            }
+        }
+    },
     "common": {
         "loading": "Učitavanje...",
         "save": "Spremi",

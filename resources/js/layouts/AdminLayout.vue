@@ -50,10 +50,7 @@ const navigation = [
             <!-- Header -->
             <div class="flex items-center justify-between h-16 px-6 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
                 <div class="flex items-center space-x-2">
-                    <div class="w-8 h-8 bg-gradient-to-br from-purple-600 to-pink-600 rounded-lg flex items-center justify-center">
-                        <span class="text-white font-bold text-sm">A</span>
-                    </div>
-                    <span class="text-xl font-bold text-gray-900 dark:text-white">Admin Panel</span>
+                    <span class="text-xl font-bold text-gray-900 dark:text-white">FOTOMIMI</span>
                 </div>
                 <button 
                     @click="isSidebarOpen = false"
@@ -128,8 +125,6 @@ const navigation = [
                     <div class="flex-1 lg:hidden"></div>
                     
                     <div class="flex items-center space-x-4">
-                        <LanguageSwitcher />
-                        <ThemeToggle />
                         <Link 
                             :href="route('home')" 
                             class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
@@ -137,6 +132,8 @@ const navigation = [
                             <Eye class="w-4 h-4 mr-2" />
                             View Site
                         </Link>
+                        <ThemeToggle />
+                        <LanguageSwitcher />
                     </div>
                 </div>
             </div>
