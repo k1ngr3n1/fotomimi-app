@@ -43,8 +43,8 @@ const approveUser = (userId: number, approved: boolean) => {
 
         <div class="space-y-6">
             <div>
-                <h1 class="text-3xl font-bold tracking-tight">User Management</h1>
-                <p class="text-muted-foreground">
+                <h1 class="text-3xl font-bold tracking-tight text-white">User Management</h1>
+                <p class="text-gray-400">
                     Manage user approvals and permissions
                 </p>
             </div>

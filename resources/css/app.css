@@ -166,56 +166,56 @@
     }
 }
 
-/* Custom Camera Cursor */
+/* Custom Camera Cursor - Only for frontend pages */
 .cursor-camera {
     cursor: url("/cursor-camera.svg") 16 16, auto;
 }
 
-/* Apply camera cursor to clickable elements */
-.cursor-pointer,
-button,
-a,
-[role="button"],
-.gallery-item,
-.lightbox-trigger {
+/* Apply camera cursor to clickable elements - Only for frontend pages */
+body:not(.admin-page) .cursor-pointer,
+body:not(.admin-page) button,
+body:not(.admin-page) a,
+body:not(.admin-page) [role="button"],
+body:not(.admin-page) .gallery-item,
+body:not(.admin-page) .lightbox-trigger {
     cursor: url("/cursor-camera.svg") 16 16, pointer;
 }
 
-/* Hover effect for camera cursor */
-.cursor-pointer:hover,
-button:hover,
-a:hover,
-[role="button"]:hover,
-.gallery-item:hover,
-.lightbox-trigger:hover {
+/* Hover effect for camera cursor - Only for frontend pages */
+body:not(.admin-page) .cursor-pointer:hover,
+body:not(.admin-page) button:hover,
+body:not(.admin-page) a:hover,
+body:not(.admin-page) [role="button"]:hover,
+body:not(.admin-page) .gallery-item:hover,
+body:not(.admin-page) .lightbox-trigger:hover {
     cursor: url("/cursor-camera.svg") 16 16, pointer;
 }
 
-/* Dark mode uses the same colored cursor to remain visible */
-.dark .cursor-pointer,
-.dark button,
-.dark a,
-.dark [role="button"],
-.dark .gallery-item,
-.dark .lightbox-trigger {
+/* Dark mode uses the same colored cursor to remain visible - Only for frontend pages */
+body:not(.admin-page) .dark .cursor-pointer,
+body:not(.admin-page) .dark button,
+body:not(.admin-page) .dark a,
+body:not(.admin-page) .dark [role="button"],
+body:not(.admin-page) .dark .gallery-item,
+body:not(.admin-page) .dark .lightbox-trigger {
     cursor: url("/cursor-camera.svg") 16 16, pointer;
 }
 
-/* Gallery specific cursor styles */
-.gallery-grid .group {
+/* Gallery specific cursor styles - Only for frontend pages */
+body:not(.admin-page) .gallery-grid .group {
     cursor: url("/cursor-camera.svg") 16 16, pointer;
 }
 
-.dark .gallery-grid .group {
+body:not(.admin-page) .dark .gallery-grid .group {
     cursor: url("/cursor-camera.svg") 16 16, pointer;
 }
 
-/* Button specific cursor */
-.btn-camera {
+/* Button specific cursor - Only for frontend pages */
+body:not(.admin-page) .btn-camera {
     cursor: url("/cursor-camera.svg") 16 16, pointer;
 }
 
-.dark .btn-camera {
+body:not(.admin-page) .dark .btn-camera {
     cursor: url("/cursor-camera.svg") 16 16, pointer;
 }
 

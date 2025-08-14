@@ -57,7 +57,7 @@
         },
         "about": {
             "title": "Upoznajte svog fotografa",
-            "description1": "Sa 30 godina iskustva u profesionalnoj fotografiji, imao sam privilegiju snimiti bezbroj posebnih trenutaka i stvoriti trajne uspomene za obitelji i parove.",
+            "description1": "S 30 godina iskustva u profesionalnoj fotografiji, imao sam privilegiju snimiti bezbroj posebnih trenutaka i stvoriti trajne uspomene za obitelji i parove.",
             "description2": "Moja strast leži u razumijevanju vaše vizije i prenošenju je u prekrasne, vremenske fotografije koje ćete čuvati zauvijek.",
             "button": "Saznajte više o meni",
             "stats": {
@@ -262,6 +262,13 @@
         }
     },
     "admin": {
+        "navigation": {
+            "dashboard": "Nadzorna ploča",
+            "users": "Korisnici",
+            "mediaLibrary": "Medijska biblioteka",
+            "uploadMedia": "Prenesi medije",
+            "viewSite": "Pogledaj stranicu"
+        },
         "dashboard": {
             "title": "Nadzorna ploča",
             "subtitle": "Dobrodošli nazad! Evo pregleda vaše fotografske web stranice.",
@@ -295,6 +302,50 @@
             "title": "Medijska biblioteka",
             "subtitle": "Upravljajte svojim fotografijama i videozapisima. Prenesite, uredite i organizirajte svoje medijske datoteke.",
             "uploadButton": "Prenesi medije",
+            "upload": {
+                "title": "Prenesi medije",
+                "subtitle": "Prenesite fotografije i videozapise u svoju galeriju. Odaberite kategoriju i dodajte svoje medijske datoteke.",
+                "categorySelection": {
+                    "title": "Odaberite kategoriju",
+                    "categories": {
+                        "wedding": "Vjenčanja",
+                        "baptism": "Krštenja",
+                        "concert": "Koncerti", 
+                        "onSet": "Na setu",
+                        "studio": "Studio",
+                        "modelling": "Modeling",
+                        "travel": "Putovanja",
+                        "other": "Ostalo"
+                    }
+                },
+                "fileUpload": {
+                    "title": "Prenesi datoteke",
+                    "dropZone": {
+                        "title": "Ispustite datoteke ovdje ili kliknite za pregled",
+                        "description": "Podrška za JPG, PNG, GIF, WebP, MP4, AVI, MOV i više",
+                        "chooseFiles": "Odaberite datoteke"
+                    },
+                    "selectedFiles": {
+                        "title": "Odabrane datoteke",
+                        "clearAll": "Obriši sve",
+                        "titleLabel": "Naslov",
+                        "descriptionLabel": "Opis",
+                        "altTextLabel": "Alt tekst",
+                        "featured": "Istaknuto",
+                        "readyToUpload": "Spremno za prijenos",
+                        "files": "datoteka | datoteke",
+                        "noFilesSelected": "Nema odabranih datoteka"
+                    }
+                },
+                "uploadButton": {
+                    "uploading": "Prenosi se...",
+                    "uploadFiles": "Prenesi datoteke"
+                },
+                "alerts": {
+                    "selectCategory": "Molimo odaberite kategoriju",
+                    "selectFiles": "Molimo odaberite datoteke za prijenos"
+                }
+            },
             "search": {
                 "placeholder": "Pretraži medije..."
             },

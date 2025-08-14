@@ -2,6 +2,7 @@
 import { useTranslation } from '@/composables/useTranslation';
 import { onMounted, ref, computed } from 'vue';
 import { ChevronDown } from 'lucide-vue-next';
+import { router } from '@inertiajs/vue3';
 
 const { t, setLanguage, getCurrentLanguage, getAvailableLanguages, initLanguage } = useTranslation();
 
@@ -26,8 +27,11 @@ const closeDropdown = () => {
 const switchLanguage = (langCode: string) => {
     setLanguage(langCode);
     closeDropdown();
-    // Reload the page to apply language changes
-    window.location.reload();
+    
+    // Navigate to the same page with the new language parameter
+    const currentUrl = new URL(window.location.href);
+    currentUrl.searchParams.set('lang', langCode);
+    router.visit(currentUrl.toString(), { preserveState: true });
 };
 
 // Close dropdown when clicking outside

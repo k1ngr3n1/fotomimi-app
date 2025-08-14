@@ -307,6 +307,98 @@ class MediaController extends Controller
         }
     }
 
+    public function bulkDestroy(Request $request)
+    {
+        $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'integer|exists:media,id'
+        ]);
+
+        $ids = $request->input('ids');
+        $deletedCount = 0;
+        $failedCount = 0;
+        $errors = [];
+
+        \Log::info('Attempting bulk delete', [
+            'count' => count($ids),
+            'ids' => $ids,
+            'user_id' => auth()->id()
+        ]);
+
+        foreach ($ids as $id) {
+            try {
+                $media = Media::find($id);
+                if (!$media) {
+                    $failedCount++;
+                    $errors[] = "Media with ID {$id} not found";
+                    continue;
+                }
+
+                // Delete file from storage
+                $fileDeleted = false;
+                try {
+                    if (Storage::disk('main_disk')->exists($media->filepath)) {
+                        Storage::disk('main_disk')->delete($media->filepath);
+                        $fileDeleted = true;
+                    }
+                } catch (\Exception $e) {
+                    \Log::error('File deletion failed from main_disk', [
+                        'file' => $media->filepath,
+                        'error' => $e->getMessage(),
+                        'disk' => 'main_disk'
+                    ]);
+                    
+                    // Fallback to public disk if main_disk fails
+                    try {
+                        if (Storage::disk('public')->exists($media->filepath)) {
+                            Storage::disk('public')->delete($media->filepath);
+                            $fileDeleted = true;
+                        }
+                    } catch (\Exception $e2) {
+                        \Log::error('File deletion failed from public disk', [
+                            'file' => $media->filepath,
+                            'error' => $e2->getMessage(),
+                            'disk' => 'public'
+                        ]);
+                    }
+                }
+
+                // Delete database record
+                $media->delete();
+                $deletedCount++;
+
+                \Log::info('Media deleted in bulk operation', [
+                    'media_id' => $id,
+                    'file_deleted' => $fileDeleted
+                ]);
+
+            } catch (\Exception $e) {
+                $failedCount++;
+                $errors[] = "Failed to delete media {$id}: " . $e->getMessage();
+                
+                \Log::error('Media deletion failed in bulk operation', [
+                    'media_id' => $id,
+                    'error' => $e->getMessage()
+                ]);
+            }
+        }
+
+        \Log::info('Bulk delete completed', [
+            'total_requested' => count($ids),
+            'deleted_count' => $deletedCount,
+            'failed_count' => $failedCount
+        ]);
+
+        if ($failedCount > 0) {
+            return back()->withErrors([
+                'bulk_delete' => "Deleted {$deletedCount} items, failed to delete {$failedCount} items.",
+                'bulk_errors' => $errors
+            ]);
+        }
+
+        return back()->with('success', "Successfully deleted {$deletedCount} media items.");
+    }
+
     public function importFromDirectory(Request $request)
     {
         $request->validate([

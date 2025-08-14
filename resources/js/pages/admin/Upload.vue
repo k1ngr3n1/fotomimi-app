@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Head, useForm } from '@inertiajs/vue3';
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import { 
     Upload, 
@@ -8,12 +8,19 @@ import {
     Image, 
     Video, 
     File, 
-    CheckCircle, 
-    AlertCircle,
     Trash2,
     Eye,
     EyeOff
 } from 'lucide-vue-next';
+import { useTranslation } from '@/composables/useTranslation';
+import { useToast } from '@/composables/useToast';
+
+const { t, initLanguage } = useTranslation();
+const { success, error } = useToast();
+
+onMounted(() => {
+    initLanguage();
+});
 
 const form = useForm({
     files: [],
@@ -30,15 +37,17 @@ const dragOver = ref(false);
 const selectedFiles = ref([]);
 const previews = ref({});
 
+// Toast functionality is now handled by useToast composable
+
 const categories = [
-    { value: 'wedding', label: 'Weddings', icon: '💒' },
-    { value: 'baptism', label: 'Baptisms', icon: '👶' },
-    { value: 'concert', label: 'Concerts', icon: '🎵' },
-    { value: 'on-set', label: 'On Set', icon: '🎬' },
-    { value: 'studio', label: 'Studio', icon: '📸' },
-    { value: 'modelling', label: 'Modelling', icon: '👗' },
-    { value: 'travel', label: 'Travel', icon: '✈️' },
-    { value: 'other', label: 'Other', icon: '📁' }
+    { value: 'wedding', labelKey: 'admin.media.upload.categorySelection.categories.wedding', icon: '💒' },
+    { value: 'baptism', labelKey: 'admin.media.upload.categorySelection.categories.baptism', icon: '👶' },
+    { value: 'concert', labelKey: 'admin.media.upload.categorySelection.categories.concert', icon: '🎵' },
+    { value: 'on-set', labelKey: 'admin.media.upload.categorySelection.categories.onSet', icon: '🎬' },
+    { value: 'studio', labelKey: 'admin.media.upload.categorySelection.categories.studio', icon: '📸' },
+    { value: 'modelling', labelKey: 'admin.media.upload.categorySelection.categories.modelling', icon: '👗' },
+    { value: 'travel', labelKey: 'admin.media.upload.categorySelection.categories.travel', icon: '✈️' },
+    { value: 'other', labelKey: 'admin.media.upload.categorySelection.categories.other', icon: '📁' }
 ];
 
 const supportedTypes = {
@@ -146,12 +155,12 @@ const formatFileSize = (bytes) => {
 
 const submitUpload = () => {
     if (!form.category) {
-        alert('Please select a category');
+        alert(t('admin.media.upload.alerts.selectCategory'));
         return;
     }
     
     if (selectedFiles.value.length === 0) {
-        alert('Please select files to upload');
+        alert(t('admin.media.upload.alerts.selectFiles'));
         return;
     }
     
@@ -185,9 +194,11 @@ const submitUpload = () => {
             previews.value = {};
             form.reset();
             isUploading.value = false;
+            success('Files uploaded successfully!');
         },
-        onError: () => {
+        onError: (errors) => {
             isUploading.value = false;
+            error('Upload failed. Please try again.');
         }
     });
 };
@@ -200,7 +211,7 @@ const clearAll = () => {
 </script>
 
 <template>
-    <Head title="Upload Media - Admin">
+    <Head :title="t('admin.media.upload.title') + ' - Admin'">
         <meta name="description" content="Upload photos and videos to your photography website." />
     </Head>
 
@@ -208,36 +219,15 @@ const clearAll = () => {
         <div class="max-w-7xl mx-auto">
             <!-- Header -->
             <div class="mb-8">
-                <h1 class="text-3xl font-bold text-gray-900">Upload Media</h1>
-                <p class="mt-2 text-gray-600">
-                    Upload photos and videos to your gallery. Select a category and add your media files.
+                <h1 class="text-3xl font-bold text-white">{{ t('admin.media.upload.title') }}</h1>
+                <p class="mt-2 text-gray-300">
+                    {{ t('admin.media.upload.subtitle') }}
                 </p>
             </div>
 
-            <!-- Category Selection -->
-            <div class="bg-white rounded-lg shadow p-6 mb-6">
-                <h2 class="text-lg font-semibold text-gray-900 mb-4">Select Category</h2>
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-                    <button
-                        v-for="category in categories"
-                        :key="category.value"
-                        @click="form.category = category.value"
-                        :class="[
-                            'flex flex-col items-center p-4 rounded-lg border-2 transition-all duration-200',
-                            form.category === category.value
-                                ? 'border-purple-500 bg-purple-50 text-purple-700'
-                                : 'border-gray-200 hover:border-gray-300 text-gray-700 hover:bg-gray-50'
-                        ]"
-                    >
-                        <span class="text-2xl mb-2">{{ category.icon }}</span>
-                        <span class="text-sm font-medium">{{ category.label }}</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- File Upload Area -->
-            <div class="bg-white rounded-lg shadow p-6 mb-6">
-                <h2 class="text-lg font-semibold text-gray-900 mb-4">Upload Files</h2>
+            <!-- File Upload Area (First) -->
+            <div class="bg-gray-900 rounded-lg shadow p-6 mb-6 border border-gray-800">
+                <h2 class="text-lg font-semibold text-white mb-4">{{ t('admin.media.upload.fileUpload.title') }}</h2>
                 
                 <!-- Drag & Drop Zone -->
                 <div
@@ -247,16 +237,16 @@ const clearAll = () => {
                     :class="[
                         'border-2 border-dashed rounded-lg p-8 text-center transition-colors duration-200',
                         dragOver
-                            ? 'border-purple-500 bg-purple-50'
-                            : 'border-gray-300 hover:border-gray-400'
+                            ? 'border-red-500 bg-red-900/20'
+                            : 'border-gray-600 hover:border-gray-500'
                     ]"
                 >
                     <Upload class="mx-auto h-12 w-12 text-gray-400 mb-4" />
-                    <p class="text-lg font-medium text-gray-900 mb-2">
-                        Drop files here or click to browse
+                    <p class="text-lg font-medium text-white mb-2">
+                        {{ t('admin.media.upload.fileUpload.dropZone.title') }}
                     </p>
-                    <p class="text-gray-600 mb-4">
-                        Support for JPG, PNG, GIF, WebP, MP4, AVI, MOV and more
+                    <p class="text-gray-400 mb-4">
+                        {{ t('admin.media.upload.fileUpload.dropZone.description') }}
                     </p>
                     <input
                         type="file"
@@ -268,23 +258,23 @@ const clearAll = () => {
                     />
                     <label
                         for="file-input"
-                        class="inline-flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors cursor-pointer"
+                        class="inline-flex items-center px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors cursor-pointer"
                     >
-                        Choose Files
+                        {{ t('admin.media.upload.fileUpload.dropZone.chooseFiles') }}
                     </label>
                 </div>
 
                 <!-- Selected Files -->
                 <div v-if="selectedFiles.length > 0" class="mt-6">
                     <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-lg font-medium text-gray-900">
-                            Selected Files ({{ selectedFiles.length }})
+                        <h3 class="text-lg font-medium text-white">
+                            {{ t('admin.media.upload.fileUpload.selectedFiles.title') }} ({{ selectedFiles.length }})
                         </h3>
                         <button
                             @click="clearAll"
-                            class="text-red-600 hover:text-red-700 text-sm font-medium"
+                            class="text-red-400 hover:text-red-300 text-sm font-medium"
                         >
-                            Clear All
+                            {{ t('admin.media.upload.fileUpload.selectedFiles.clearAll') }}
                         </button>
                     </div>
 
@@ -292,11 +282,11 @@ const clearAll = () => {
                         <div
                             v-for="fileObj in selectedFiles"
                             :key="fileObj.id"
-                            class="border border-gray-200 rounded-lg p-4"
+                            class="border border-gray-800 rounded-lg p-4 bg-gray-800"
                         >
                             <!-- File Preview -->
                             <div class="relative mb-4">
-                                <div class="aspect-square bg-gray-100 rounded-lg overflow-hidden">
+                                <div class="aspect-square bg-gray-700 rounded-lg overflow-hidden">
                                     <img
                                         v-if="previews[fileObj.id]"
                                         :src="previews[fileObj.id]"
@@ -322,35 +312,35 @@ const clearAll = () => {
                             <!-- File Info -->
                             <div class="space-y-3">
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">
-                                        Title
+                                    <label class="block text-sm font-medium text-gray-300 mb-1">
+                                        {{ t('admin.media.upload.fileUpload.selectedFiles.titleLabel') }}
                                     </label>
                                     <input
                                         v-model="form.titles[fileObj.id]"
                                         type="text"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white text-gray-900"
+                                        class="w-full px-3 py-2 border border-gray-600 rounded-md focus:ring-2 focus:ring-red-500 focus:border-transparent bg-black text-white placeholder-gray-500"
                                     />
                                 </div>
 
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">
-                                        Description
+                                    <label class="block text-sm font-medium text-gray-300 mb-1">
+                                        {{ t('admin.media.upload.fileUpload.selectedFiles.descriptionLabel') }}
                                     </label>
                                     <textarea
                                         v-model="form.descriptions[fileObj.id]"
                                         rows="2"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none bg-white text-gray-900"
+                                        class="w-full px-3 py-2 border border-gray-600 rounded-md focus:ring-2 focus:ring-red-500 focus:border-transparent resize-none bg-black text-white placeholder-gray-500"
                                     ></textarea>
                                 </div>
 
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">
-                                        Alt Text
+                                    <label class="block text-sm font-medium text-gray-300 mb-1">
+                                        {{ t('admin.media.upload.fileUpload.selectedFiles.altTextLabel') }}
                                     </label>
                                     <input
                                         v-model="form.alt_texts[fileObj.id]"
                                         type="text"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white text-gray-900"
+                                        class="w-full px-3 py-2 border border-gray-600 rounded-md focus:ring-2 focus:ring-red-500 focus:border-transparent bg-black text-white placeholder-gray-500"
                                     />
                                 </div>
 
@@ -360,9 +350,9 @@ const clearAll = () => {
                                             <input
                                                 v-model="form.is_featured[fileObj.id]"
                                                 type="checkbox"
-                                                class="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                                                class="rounded border-gray-600 text-red-600 focus:ring-red-500 bg-black"
                                             />
-                                            <span class="ml-2 text-sm text-gray-700">Featured</span>
+                                            <span class="ml-2 text-sm text-gray-300">{{ t('admin.media.upload.fileUpload.selectedFiles.featured') }}</span>
                                         </label>
                                     </div>
                                     <div class="text-xs text-gray-500">
@@ -375,25 +365,46 @@ const clearAll = () => {
                 </div>
             </div>
 
+            <!-- Category Selection (Second) -->
+            <div class="bg-gray-900 rounded-lg shadow p-6 mb-6 border border-gray-800">
+                <h2 class="text-lg font-semibold text-white mb-4">{{ t('admin.media.upload.categorySelection.title') }}</h2>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                    <button
+                        v-for="category in categories"
+                        :key="category.value"
+                        @click="form.category = category.value"
+                        :class="[
+                            'flex flex-col items-center p-4 rounded-lg border-2 transition-all duration-200',
+                            form.category === category.value
+                                ? 'border-red-500 bg-red-900/20 text-red-400'
+                                : 'border-gray-700 hover:border-gray-600 text-gray-300 hover:bg-gray-800'
+                        ]"
+                    >
+                        <span class="text-2xl mb-2">{{ category.icon }}</span>
+                        <span class="text-sm font-medium">{{ t(category.labelKey) }}</span>
+                    </button>
+                </div>
+            </div>
+
             <!-- Upload Button -->
-            <div class="bg-white rounded-lg shadow p-6">
+            <div class="bg-gray-900 rounded-lg shadow p-6 border border-gray-800">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm text-gray-600">
+                        <p class="text-sm text-gray-400">
                             <span v-if="selectedFiles.length > 0">
-                                Ready to upload {{ selectedFiles.length }} file{{ selectedFiles.length > 1 ? 's' : '' }}
+                                {{ t('admin.media.upload.fileUpload.selectedFiles.readyToUpload') }} {{ selectedFiles.length }} {{ t('admin.media.upload.fileUpload.selectedFiles.files', selectedFiles.length) }}
                             </span>
-                            <span v-else>No files selected</span>
+                            <span v-else>{{ t('admin.media.upload.fileUpload.selectedFiles.noFilesSelected') }}</span>
                         </p>
                     </div>
                     <button
                         @click="submitUpload"
                         :disabled="!form.category || selectedFiles.length === 0 || isUploading"
-                        class="inline-flex items-center px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        class="inline-flex items-center px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     >
                         <Upload v-if="!isUploading" class="w-5 h-5 mr-2" />
-                        <span v-if="isUploading">Uploading...</span>
-                        <span v-else>Upload Files</span>
+                        <span v-if="isUploading">{{ t('admin.media.upload.uploadButton.uploading') }}</span>
+                        <span v-else>{{ t('admin.media.upload.uploadButton.uploadFiles') }}</span>
                     </button>
                 </div>
             </div>

@@ -1,7 +1,7 @@
 {
     "navigation": {
         "home": "Home",
-        "about": "About",
+        "about": "About Us",
         "gallery": "Gallery",
         "contact": "Contact",
         "booking": "Booking",
@@ -13,74 +13,74 @@
     },
     "home": {
         "hero": {
-            "title": "Every photograph",
-            "titleHighlight": "tells your story",
-            "subtitle": "Professional photography for weddings, celebrations and special events - forever preserve memories that matter.",
+            "title": "Capturing a moment means",
+            "titleHighlight": "preserving the feeling forever.",
+            "subtitle": "From weddings and baptisms to concerts and fashion editorials — we create memories that remain as vivid as the day they were made.",
             "galleryButton": "Gallery",
-            "contactButton": "Contact me"
+            "contactButton": "Contact Me"
         },
         "services": {
-            "title": "Our Services",
-            "subtitle": "From intimate weddings to grand events, we specialize in capturing the moments that matter most.",
+            "title": "Services that tell your story",
+            "subtitle": "From intimate moments to big stages — every shot is created with care, passion, and an artistic touch.",
             "weddings": {
                 "title": "Weddings",
-                "description": "Capture your special day with elegance and style. Every moment preserved forever."
+                "description": "Your dream day turned into everlasting memories — with elegance, emotion, and impeccable details."
             },
             "video": {
                 "title": "Video",
-                "description": "Professional video production for events, commercials, and creative content."
+                "description": "We create visual stories that move emotions — from events to commercials and creative projects."
             },
             "onSet": {
                 "title": "On Set",
-                "description": "Behind-the-scenes and production photography for film and commercial shoots."
+                "description": "Capturing behind-the-scenes moments — production and BTS photography that reveals the magic of creation."
             },
             "studio": {
                 "title": "Studio",
-                "description": "Professional studio sessions for portraits, headshots, and creative photography."
+                "description": "Control of light, composition, and style — professional portraits and creative sessions that captivate the eye."
             },
             "modelling": {
-                "title": "Modelling",
-                "description": "Fashion and portrait photography for models and aspiring talent."
+                "title": "Modeling",
+                "description": "Highlighted personalities and unique beauty — fashion and portrait photography that tells your character."
             },
             "concerts": {
                 "title": "Concerts",
-                "description": "Dynamic event photography that captures the energy and excitement of live performances."
+                "description": "We capture the energy, rhythm, and passion of every performance — because music deserves to be seen, not just remembered."
             },
             "baptism": {
-                "title": "Baptism",
-                "description": "Celebrate new beginnings with beautiful family portraits and ceremony coverage."
+                "title": "Baptisms",
+                "description": "First steps into a new chapter of life — gentle and emotional photographs that celebrate family and love."
             },
             "travel": {
                 "title": "Travel",
-                "description": "Capture your adventures and explore the world through stunning travel photography."
+                "description": "Capture your travel adventures and explore the world through stunning travel photography."
             }
         },
         "about": {
             "title": "Meet Your Photographer",
-            "description1": "With over 10 years of experience in professional photography, I've had the privilege of capturing countless special moments and creating lasting memories for families and couples.",
-            "description2": "My passion lies in understanding your vision and translating it into stunning, timeless photographs that you'll treasure forever.",
+            "description1": "With 30 years of experience in professional photography, I have had the privilege to capture countless special moments and create lasting memories for families and couples.",
+            "description2": "My passion lies in understanding your vision and turning it into beautiful, timeless photographs you will cherish forever.",
             "button": "Learn More About Me",
             "stats": {
                 "clients": "Happy Clients"
             }
         },
         "cta": {
-            "title": "Ready to Create Beautiful Memories?",
-            "subtitle": "Let's discuss your vision and create something extraordinary together.",
-            "contactButton": "Get in Touch",
+            "title": "Ready to create beautiful memories?",
+            "subtitle": "Let's talk about your vision and create something extraordinary together.",
+            "contactButton": "Contact Us",
             "bookingButton": "Book Your Session"
         },
         "footer": {
             "tagline": "Professional photography services for all your special moments.",
             "services": "Services",
             "quickLinks": "Quick Links",
-            "contactInfo": "Contact Info",
+            "contactInfo": "Contact Information",
             "copyright": "All rights reserved."
         }
     },
     "gallery": {
         "title": "Gallery",
-        "subtitle": "Explore our collection of beautiful moments captured across different photography styles and events.",
+        "subtitle": "Explore our collection of beautiful moments captured in different photography styles and events.",
         "filter": {
             "title": "Filter by Category",
             "allPhotos": "All Photos",
@@ -88,34 +88,34 @@
             "video": "Video",
             "onSet": "On Set",
             "studio": "Studio",
-            "modelling": "Modelling",
+            "modelling": "Modeling",
             "travel": "Travel",
             "concert": "Concerts",
-            "baptism": "Baptism",
+            "baptism": "Baptisms",
             "other": "Other"
         },
         "emptyState": {
-            "title": "No images found",
+            "title": "No Images Found",
             "description": "Try selecting a different category or check back later for new additions."
         },
         "cta": {
-            "title": "Love What You See?",
-            "subtitle": "Ready to create your own beautiful memories? Let's discuss your photography needs.",
-            "contactButton": "Get in Touch",
+            "title": "Do you like what you see?",
+            "subtitle": "Ready to create your own beautiful memories? Let’s talk about your photography needs.",
+            "contactButton": "Contact Us",
             "bookingButton": "Book Your Session"
         }
     },
     "about": {
         "title": "About Me",
-        "subtitle": "Passionate about capturing your most important moments with style and heart.",
+        "subtitle": "I am passionate about capturing your most important moments with style and heart.",
         "greeting": "Hi, I'm Mimi!",
-        "description1": "With over a decade of experience, I specialize in wedding, event, and studio photography. My approach is personal, creative, and always focused on telling your unique story.",
-        "description2": "I believe every photo should evoke emotion and preserve memories for a lifetime. Let's work together to create something beautiful!",
+        "description1": "For 30 years, I have been capturing moments that last forever — from romantic weddings and unforgettable events to carefully crafted studio portraits. My style combines creativity, experience, and a personal approach to ensure each image tells your story in a unique way.",
+        "description2": "I believe photography is not just a picture, but an emotion captured in the right moment. Together, we will create memories that will bring you back to those special moments again and again — relaxed, authentic, and full of love.",
         "contactButton": "Contact Me",
         "stats": {
             "sessionsCompleted": "Sessions Completed",
             "happyCouples": "Happy Couples",
-            "yearsExperience": "Years Experience",
+            "yearsExperience": "Years of Experience",
             "eventsCovered": "Events Covered"
         },
         "testimonials": {
@@ -130,7 +130,7 @@
     },
     "booking": {
         "title": "Book Your Session",
-        "subtitle": "Reserve your date and let's create something beautiful together.",
+        "subtitle": "Reserve your date and let’s create something beautiful together.",
         "form": {
             "name": "Name",
             "email": "Email",
@@ -149,7 +149,7 @@
             "concert": "Concert",
             "onSet": "On Set",
             "studio": "Studio Session",
-            "modelling": "Modelling",
+            "modelling": "Modeling",
             "travel": "Travel Photography",
             "other": "Other Event"
         },
@@ -167,7 +167,7 @@
                 "price": "$500",
                 "description": "Perfect for small events and sessions",
                 "features": [
-                    "2 hours of coverage",
+                    "2 hours coverage",
                     "50 edited photos",
                     "Online gallery",
                     "Basic editing",
@@ -179,7 +179,7 @@
                 "price": "$1,200",
                 "description": "Most popular choice for events",
                 "features": [
-                    "4 hours of coverage",
+                    "4 hours coverage",
                     "100 edited photos",
                     "Online gallery",
                     "Advanced editing",
@@ -190,7 +190,7 @@
             "premium": {
                 "title": "Premium Package",
                 "price": "$2,500",
-                "description": "Complete coverage for special occasions",
+                "description": "Full coverage for special occasions",
                 "features": [
                     "Full day coverage",
                     "200+ edited photos",
@@ -209,65 +209,72 @@
     "auth": {
         "login": {
             "title": "Log in to your account",
-            "description": "Enter your email and password below to log in",
-            "email": "Email address",
+            "description": "Enter your email and password to log in",
+            "email": "Email Address",
             "password": "Password",
-            "rememberMe": "Remember me",
-            "forgotPassword": "Forgot password?",
-            "loginButton": "Log in",
+            "rememberMe": "Remember Me",
+            "forgotPassword": "Forgot your password?",
+            "loginButton": "Log In",
             "noAccount": "Don't have an account?",
-            "signUp": "Sign up"
+            "signUp": "Sign Up"
         },
         "register": {
-            "title": "Create an account",
-            "description": "Enter your details below to create your account",
+            "title": "Create an Account",
+            "description": "Enter your details to create an account",
             "name": "Name",
-            "nameLabel": "Full name",
-            "email": "Email address",
+            "nameLabel": "Full Name",
+            "email": "Email Address",
             "password": "Password",
-            "confirmPassword": "Confirm password",
-            "registerButton": "Create account",
+            "confirmPassword": "Confirm Password",
+            "registerButton": "Create Account",
             "hasAccount": "Already have an account?",
-            "logIn": "Log in"
+            "logIn": "Log In"
         },
         "forgotPassword": {
-            "title": "Forgot password",
+            "title": "Forgot Password",
             "description": "Enter your email to receive a password reset link",
-            "email": "Email address",
+            "email": "Email Address",
             "emailPlaceholder": "email@example.com",
-            "submitButton": "Email password reset link",
-            "backToLogin": "Or, return to",
-            "loginLink": "log in"
+            "submitButton": "Send Password Reset Link",
+            "backToLogin": "Or go back to",
+            "loginLink": "login"
         },
         "resetPassword": {
-            "title": "Reset password",
-            "description": "Please enter your new password below",
+            "title": "Reset Password",
+            "description": "Please enter your new password",
             "email": "Email",
             "password": "Password",
             "confirmPassword": "Confirm Password",
-            "submitButton": "Reset password"
+            "submitButton": "Reset Password"
         },
         "confirmPassword": {
-            "title": "Confirm your password",
+            "title": "Confirm Your Password",
             "description": "This is a secure area of the application. Please confirm your password before continuing.",
             "password": "Password",
             "submitButton": "Confirm Password"
         },
         "verifyEmail": {
-            "title": "Verify email",
-            "description": "Please verify your email address by clicking on the link we just emailed to you.",
-            "resendButton": "Resend verification email",
-            "logoutButton": "Log out",
+            "title": "Verify Email",
+            "description": "Please verify your email address by clicking on the link we sent you.",
+            "resendButton": "Resend Verification Link",
+            "logoutButton": "Log Out",
             "verificationSent": "A new verification link has been sent to the email address you provided during registration."
         }
     },
     "admin": {
+        "navigation": {
+            "dashboard": "Dashboard",
+            "users": "Users",
+            "mediaLibrary": "Media Library",
+            "uploadMedia": "Upload Media",
+            "viewSite": "View Site"
+        },
         "dashboard": {
             "title": "Dashboard",
-            "subtitle": "Welcome back! Here's an overview of your photography website.",
+            "subtitle": "Welcome back! Here’s an overview of your photography website.",
             "stats": {
                 "totalImages": "Total Images",
-                "totalVideos": "Total Videos", 
+                "totalVideos": "Total Videos",
                 "featuredMedia": "Featured Media",
                 "totalMedia": "Total Media"
             },
@@ -278,23 +285,67 @@
                     "description": "Add new photos and videos"
                 },
                 "viewGallery": {
-                    "name": "View Gallery", 
+                    "name": "View Gallery",
                     "description": "Browse all media files"
                 },
                 "analytics": {
                     "name": "Analytics",
-                    "description": "View site statistics"
+                    "description": "View website statistics"
                 }
             },
             "recentUploads": {
                 "title": "Recent Uploads",
-                "viewAll": "View all media →"
+                "viewAll": "View All Media →"
             }
         },
         "media": {
             "title": "Media Library",
             "subtitle": "Manage your photos and videos. Upload, edit, and organize your media files.",
             "uploadButton": "Upload Media",
+            "upload": {
+                "title": "Upload Media",
+                "subtitle": "Upload photos and videos to your gallery. Select a category and add your media files.",
+                "categorySelection": {
+                    "title": "Select Category",
+                    "categories": {
+                        "wedding": "Weddings",
+                        "baptism": "Baptisms",
+                        "concert": "Concerts", 
+                        "onSet": "On Set",
+                        "studio": "Studio",
+                        "modelling": "Modeling",
+                        "travel": "Travel",
+                        "other": "Other"
+                    }
+                },
+                "fileUpload": {
+                    "title": "Upload Files",
+                    "dropZone": {
+                        "title": "Drop files here or click to browse",
+                        "description": "Support for JPG, PNG, GIF, WebP, MP4, AVI, MOV and more",
+                        "chooseFiles": "Choose Files"
+                    },
+                    "selectedFiles": {
+                        "title": "Selected Files",
+                        "clearAll": "Clear All",
+                        "titleLabel": "Title",
+                        "descriptionLabel": "Description",
+                        "altTextLabel": "Alt Text",
+                        "featured": "Featured",
+                        "readyToUpload": "Ready to Upload",
+                        "files": "file | files",
+                        "noFilesSelected": "No files selected"
+                    }
+                },
+                "uploadButton": {
+                    "uploading": "Uploading...",
+                    "uploadFiles": "Upload Files"
+                },
+                "alerts": {
+                    "selectCategory": "Please select a category",
+                    "selectFiles": "Please select files for upload"
+                }
+            },
             "search": {
                 "placeholder": "Search media..."
             },
@@ -306,7 +357,7 @@
                     "concert": "Concerts",
                     "onSet": "On Set",
                     "studio": "Studio",
-                    "modelling": "Modelling",
+                    "modelling": "Modeling",
                     "travel": "Travel",
                     "other": "Other"
                 },
@@ -350,9 +401,9 @@
                 "deleteAction": {
                     "confirm": "Are you sure you want to delete \"{title}\"? This action cannot be undone.",
                     "bulkConfirm": "Are you sure you want to delete {count} selected items? This action cannot be undone.",
-                    "failed": "Failed to delete media: {error}",
-                    "success": "Media deleted successfully",
-                    "bulkSuccess": "{count} items deleted successfully"
+                    "failed": "Media deletion failed: {error}",
+                    "success": "Media successfully deleted",
+                    "bulkSuccess": "{count} items successfully deleted"
                 }
             },
             "modals": {
@@ -376,12 +427,12 @@
             },
             "bulk": {
                 "selectAll": "Select All",
-                "selectNone": "Select None",
+                "selectNone": "Deselect All",
                 "selected": "{count} selected",
                 "actions": "Bulk Actions"
             },
             "emptyState": {
-                "title": "No media found",
+                "title": "No Media Found",
                 "description": "Try adjusting your search or filter criteria."
             }
         }
@@ -408,35 +459,35 @@
     },
     "contact": {
         "title": "Contact",
-        "subtitle": "Let's connect and make your vision a reality.",
+        "subtitle": "Let’s connect and make your vision come to life.",
         "form": {
-            "title": "Send us a message",
+            "title": "Send Us a Message",
             "name": "Name",
             "email": "Email",
-            "phone": "Phone (optional)",
+            "phone": "Phone Number (optional)",
             "message": "Message",
             "placeholder": "Tell us about your photography needs...",
             "sending": "Sending...",
             "sendButton": "Send Message"
         },
         "info": {
-            "title": "Get in touch",
+            "title": "Contact Us",
             "email": "Email",
             "phone": "Phone",
             "studio": "FOTOMIMI STUDIO",
-            "hours": "Business Hours",
-            "hoursValue": "Mon-Fri: 9AM-6PM, Sat: 10AM-4PM"
+            "hours": "Working Hours",
+            "hoursValue": "Mon-Fri: 9am-6pm, Sat: 10am-4pm"
         },
         "expectations": {
-            "title": "What to expect",
-            "response": "• We'll respond within 24 hours",
+            "title": "What You Can Expect",
+            "response": "• We’ll respond within 24 hours",
             "consultation": "• Free consultation for your project",
-            "quotes": "• Custom quotes based on your needs",
+            "quotes": "• Custom quotes tailored to your needs",
             "scheduling": "• Flexible scheduling options"
         },
         "success": {
             "title": "Message Sent!",
-            "message": "Thank you! Your message has been sent successfully. We will respond to you as soon as possible."
+            "message": "Thank you! Your message has been successfully sent. We will get back to you as soon as possible."
         }
     }
-} 
+}

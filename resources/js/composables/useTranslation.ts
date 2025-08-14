@@ -1,4 +1,5 @@
 import { ref, computed } from 'vue';
+import { usePage } from '@inertiajs/vue3';
 
 // Import language files
 import en from '../../lang/en.json';
@@ -11,7 +12,7 @@ const languages: Record<string, LanguageData> = {
     hr
 };
 
-const currentLanguage = ref('en');
+const currentLanguage = ref('hr');
 
 export function useTranslation() {
     const t = computed(() => {
@@ -56,11 +57,25 @@ export function useTranslation() {
         { code: 'hr', name: 'Hrvatski', flag: '🇭🇷' }
     ];
 
-    // Initialize language from localStorage or default to 'en'
+    // Initialize language from server locale, localStorage, or default to 'hr'
     const initLanguage = () => {
-        const savedLanguage = localStorage.getItem('language');
-        if (savedLanguage && savedLanguage in languages) {
-            currentLanguage.value = savedLanguage;
+        const page = usePage();
+        const serverLocale = page.props.locale as string;
+        
+        // Check if server locale is available and valid
+        if (serverLocale && serverLocale in languages) {
+            currentLanguage.value = serverLocale;
+            localStorage.setItem('language', serverLocale);
+        } else {
+            // Check localStorage
+            const savedLanguage = localStorage.getItem('language');
+            if (savedLanguage && savedLanguage in languages) {
+                currentLanguage.value = savedLanguage;
+            } else {
+                // Set Croatian as default if no language is saved
+                currentLanguage.value = 'hr';
+                localStorage.setItem('language', 'hr');
+            }
         }
     };
 

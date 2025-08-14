@@ -45,6 +45,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'superad
     Route::post('/media', [App\Http\Controllers\MediaController::class, 'store'])->name('media.store');
     Route::get('/media/{media}/edit', [App\Http\Controllers\MediaController::class, 'edit'])->name('media.edit');
     Route::put('/media/{media}', [App\Http\Controllers\MediaController::class, 'update'])->name('media.update');
+    Route::delete('/media/bulk', [App\Http\Controllers\MediaController::class, 'bulkDestroy'])->name('media.bulk-destroy');
     Route::delete('/media/{media}', [App\Http\Controllers\MediaController::class, 'destroy'])->name('media.destroy');
 });
 

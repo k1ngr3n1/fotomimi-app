@@ -3,6 +3,7 @@ import { Head, Link, useForm, router } from '@inertiajs/vue3';
 import { ref, computed, onMounted } from 'vue';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import { useTranslation } from '@/composables/useTranslation';
+import { useToast } from '@/composables/useToast';
 import { 
     Image, 
     Video, 
@@ -21,6 +22,7 @@ import {
 } from 'lucide-vue-next';
 
 const { t, initLanguage } = useTranslation();
+const { success, error } = useToast();
 
 onMounted(() => {
     initLanguage();
@@ -183,11 +185,12 @@ const confirmDelete = () => {
             router.delete(deleteUrl, {
                 onSuccess: () => {
                     console.log('Single delete successful');
+                    success('Media item deleted successfully');
                     closeDeleteModal();
                 },
                 onError: (errors) => {
                     console.error('Single delete failed:', errors);
-                    alert('Failed to delete media item. Please try again.');
+                    error('Failed to delete media item. Please try again.');
                 }
             });
         } catch (error) {
@@ -199,16 +202,17 @@ const confirmDelete = () => {
             router.delete(fallbackUrl, {
                 onSuccess: () => {
                     console.log('Single delete successful (fallback)');
+                    success('Media item deleted successfully');
                     closeDeleteModal();
                 },
                 onError: (errors) => {
                     console.error('Single delete failed (fallback):', errors);
-                    alert('Failed to delete media item. Please check the console for details.');
+                    error('Failed to delete media item. Please check the console for details.');
                 }
             });
         }
     } else {
-        // Bulk delete - delete each item individually
+        // Bulk delete - use the new bulk endpoint
         console.log('Deleting multiple items:', selectedItems.value);
         
         if (selectedItems.value.length === 0) {
@@ -217,65 +221,22 @@ const confirmDelete = () => {
             return;
         }
         
-        // Delete items one by one sequentially
-        const deleteSequentially = async (itemIds) => {
-            let deletedCount = 0;
-            const totalItems = itemIds.length;
-            
-            for (const itemId of itemIds) {
-                try {
-                    const deleteUrl = route('admin.media.destroy', itemId);
-                    console.log(`Bulk delete URL for item ${itemId}:`, deleteUrl);
-                    
-                    await new Promise((resolve, reject) => {
-                        router.delete(deleteUrl, {
-                            onSuccess: () => {
-                                deletedCount++;
-                                console.log(`Item ${itemId} deleted successfully (${deletedCount}/${totalItems})`);
-                                resolve();
-                            },
-                            onError: (errors) => {
-                                console.error(`Failed to delete item ${itemId}:`, errors);
-                                deletedCount++; // Count failed attempts too
-                                reject(errors);
-                            }
-                        });
-                    });
-                } catch (error) {
-                    console.error(`Route generation or deletion failed for item ${itemId}:`, error);
-                    // Try fallback URL
-                    try {
-                        const fallbackUrl = `/admin/media/${itemId}`;
-                        console.log(`Using fallback URL for item ${itemId}:`, fallbackUrl);
-                        
-                        await new Promise((resolve, reject) => {
-                            router.delete(fallbackUrl, {
-                                onSuccess: () => {
-                                    deletedCount++;
-                                    console.log(`Item ${itemId} deleted successfully via fallback (${deletedCount}/${totalItems})`);
-                                    resolve();
-                                },
-                                onError: (errors) => {
-                                    console.error(`Failed to delete item ${itemId} via fallback:`, errors);
-                                    deletedCount++;
-                                    reject(errors);
-                                }
-                            });
-                        });
-                    } catch (fallbackError) {
-                        console.error(`Both methods failed for item ${itemId}:`, fallbackError);
-                        deletedCount++;
-                    }
-                }
+        // Use bulk delete endpoint
+        router.delete(route('admin.media.bulk-destroy'), {
+            data: {
+                ids: selectedItems.value
+            },
+            onSuccess: () => {
+                console.log('Bulk delete successful');
+                success(`Successfully deleted ${selectedItems.value.length} items`);
+                selectedItems.value = [];
+                closeDeleteModal();
+            },
+            onError: (errors) => {
+                console.error('Bulk delete failed:', errors);
+                error('Failed to delete some items. Please try again.');
             }
-            
-            console.log(`Bulk delete completed. ${deletedCount}/${totalItems} operations finished.`);
-            selectedItems.value = [];
-            closeDeleteModal();
-            window.location.reload();
-        };
-        
-        deleteSequentially([...selectedItems.value]);
+        });
     }
 };
 
@@ -319,14 +280,14 @@ const formatDate = (dateString) => {
             <div class="mb-8">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h1 class="text-3xl font-bold text-gray-900">{{ t('admin.media.title') }}</h1>
-                        <p class="mt-2 text-gray-600">
+                        <h1 class="text-3xl font-bold text-white">{{ t('admin.media.title') }}</h1>
+                        <p class="mt-2 text-gray-300">
                             {{ t('admin.media.subtitle') }}
                         </p>
                     </div>
                     <Link
                         :href="route('admin.upload')"
-                        class="inline-flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+                        class="inline-flex items-center px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
                     >
                         <Image class="w-4 h-4 mr-2" />
                         {{ t('admin.media.uploadButton') }}
@@ -335,7 +296,7 @@ const formatDate = (dateString) => {
             </div>
 
             <!-- Filters -->
-            <div class="bg-white rounded-lg shadow mb-6">
+            <div class="bg-gray-900 rounded-lg shadow mb-6 border border-gray-800">
                 <div class="p-6">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <!-- Search -->
@@ -345,14 +306,14 @@ const formatDate = (dateString) => {
                                 v-model="searchQuery"
                                 type="text"
                                 :placeholder="t('admin.media.search.placeholder')"
-                                class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white text-gray-900"
+                                class="w-full pl-10 pr-4 py-2 border border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent bg-black text-white placeholder-gray-500"
                             />
                         </div>
 
                         <!-- Category Filter -->
                         <select
                             v-model="selectedCategory"
-                            class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white text-gray-900"
+                            class="px-4 py-2 border border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent bg-black text-white"
                         >
                             <option
                                 v-for="category in categories"
@@ -369,23 +330,23 @@ const formatDate = (dateString) => {
             <!-- Results Header -->
             <div class="flex items-center justify-between mb-6">
                 <div class="flex items-center space-x-4">
-                    <p class="text-sm text-gray-600">
+                    <p class="text-sm text-gray-400">
                         {{ filteredMedia.length }} {{ t('admin.media.results.itemsFound', filteredMedia.length) }}
                     </p>
                     
                     <div v-if="selectedItems.length > 0" class="flex items-center space-x-2">
-                        <span class="text-sm text-gray-600">
+                        <span class="text-sm text-gray-400">
                             {{ selectedItems.length }} selected
                         </span>
                         <button
                             @click="selectAll"
-                            class="text-sm text-purple-600 hover:text-purple-700"
+                            class="text-sm text-red-400 hover:text-red-300"
                         >
                             {{ selectedItems.length === filteredMedia.length ? 'Select None' : 'Select All' }}
                         </button>
                         <button
                             @click="openDeleteModal()"
-                            class="text-sm text-red-600 hover:text-red-700 ml-4"
+                            class="text-sm text-red-400 hover:text-red-300 ml-4"
                         >
                             Delete Selected
                         </button>
@@ -399,8 +360,8 @@ const formatDate = (dateString) => {
                         :class="[
                             'p-2 rounded-lg transition-colors',
                             viewMode === 'grid' 
-                                ? 'bg-purple-100 text-purple-600' 
-                                : 'text-gray-400 hover:text-gray-600'
+                                ? 'bg-red-900/30 text-red-400 border border-red-800' 
+                                : 'text-gray-400 hover:text-gray-300'
                         ]"
                     >
                         <Grid class="w-5 h-5" />
@@ -410,8 +371,8 @@ const formatDate = (dateString) => {
                         :class="[
                             'p-2 rounded-lg transition-colors',
                             viewMode === 'list' 
-                                ? 'bg-purple-100 text-purple-600' 
-                                : 'text-gray-400 hover:text-gray-600'
+                                ? 'bg-red-900/30 text-red-400 border border-red-800' 
+                                : 'text-gray-400 hover:text-gray-300'
                         ]"
                     >
                         <List class="w-5 h-5" />
@@ -424,17 +385,17 @@ const formatDate = (dateString) => {
                 <div
                     v-for="item in filteredMedia"
                     :key="item.id"
-                    class="bg-white rounded-lg shadow overflow-hidden hover:shadow-lg transition-shadow"
+                    class="bg-gray-900 rounded-lg shadow overflow-hidden hover:shadow-lg transition-shadow border border-gray-800"
                 >
                     <!-- Media Preview -->
-                    <div class="relative aspect-square bg-gray-100">
+                    <div class="relative aspect-square bg-gray-800">
                         <!-- Checkbox -->
                         <div class="absolute top-2 left-2 z-10">
                             <input
                                 type="checkbox"
                                 :checked="selectedItems.includes(item.id)"
                                 @change="toggleSelection(item.id)"
-                                class="w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500"
+                                class="w-4 h-4 text-red-600 border-gray-600 rounded focus:ring-red-500 bg-black"
                             />
                         </div>
                         <img
@@ -491,69 +452,69 @@ const formatDate = (dateString) => {
 
                     <!-- Media Info -->
                     <div class="p-4">
-                        <h3 class="font-medium text-gray-900 truncate">{{ item.title }}</h3>
-                        <p class="text-sm text-gray-500 mt-1">{{ item.category }}</p>
+                        <h3 class="font-medium text-white truncate">{{ item.title }}</h3>
+                        <p class="text-sm text-gray-400 mt-1">{{ item.category }}</p>
                         <div class="flex items-center justify-between mt-2">
-                            <span class="text-xs text-gray-400">{{ formatDate(item.created_at) }}</span>
-                            <span class="text-xs text-gray-400">{{ formatFileSize(item.file_size) }}</span>
+                            <span class="text-xs text-gray-500">{{ formatDate(item.created_at) }}</span>
+                            <span class="text-xs text-gray-500">{{ formatFileSize(item.file_size) }}</span>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Media List -->
-            <div v-else class="bg-white rounded-lg shadow overflow-hidden">
+            <div v-else class="bg-gray-900 rounded-lg shadow overflow-hidden border border-gray-800">
                 <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
+                    <table class="min-w-full divide-y divide-gray-800">
+                        <thead class="bg-gray-800">
                             <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                                     <input
                                         type="checkbox"
                                         :checked="selectedItems.length === filteredMedia.length && filteredMedia.length > 0"
                                         @change="selectAll"
-                                        class="w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500"
+                                        class="w-4 h-4 text-red-600 border-gray-600 rounded focus:ring-red-500 bg-black"
                                     />
                                 </th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                                     {{ t('admin.media.table.headers.media') }}
                                 </th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                                     {{ t('admin.media.table.headers.title') }}
                                 </th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                                     {{ t('admin.media.table.headers.category') }}
                                 </th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                                     {{ t('admin.media.table.headers.type') }}
                                 </th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                                     {{ t('admin.media.table.headers.size') }}
                                 </th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                                     {{ t('admin.media.table.headers.uploaded') }}
                                 </th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                                     {{ t('admin.media.table.headers.actions') }}
                                 </th>
                             </tr>
                         </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
+                        <tbody class="bg-gray-900 divide-y divide-gray-800">
                             <tr
                                 v-for="item in filteredMedia"
                                 :key="item.id"
-                                class="hover:bg-gray-50"
+                                class="hover:bg-gray-800"
                             >
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <input
                                         type="checkbox"
                                         :checked="selectedItems.includes(item.id)"
                                         @change="toggleSelection(item.id)"
-                                        class="w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500"
+                                        class="w-4 h-4 text-red-600 border-gray-600 rounded focus:ring-red-500 bg-black"
                                     />
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="w-16 h-16 bg-gray-100 rounded-lg overflow-hidden">
+                                    <div class="w-16 h-16 bg-gray-800 rounded-lg overflow-hidden">
                                         <img
                                             v-if="item.type === 'photo'"
                                             :src="item.url"
@@ -582,12 +543,12 @@ const formatDate = (dateString) => {
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div>
-                                        <div class="text-sm font-medium text-gray-900">{{ item.title }}</div>
-                                        <div class="text-sm text-gray-500">{{ item.description }}</div>
+                                        <div class="text-sm font-medium text-white">{{ item.title }}</div>
+                                        <div class="text-sm text-gray-400">{{ item.description }}</div>
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-800 text-gray-300 border border-gray-700">
                                         {{ item.category }}
                                     </span>
                                 </td>
@@ -596,31 +557,31 @@ const formatDate = (dateString) => {
                                         :class="[
                                             'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium',
                                             item.type === 'photo' 
-                                                ? 'bg-blue-100 text-blue-800' 
-                                                : 'bg-purple-100 text-purple-800'
+                                                ? 'bg-red-900/30 text-red-400 border border-red-800' 
+                                                : 'bg-red-900/30 text-red-400 border border-red-800'
                                         ]"
                                     >
                                         {{ item.type }}
                                     </span>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
                                     {{ formatFileSize(item.file_size) }}
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
                                     {{ formatDate(item.created_at) }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                     <div class="flex items-center space-x-2">
                                         <button
                                             @click="openEditModal(item)"
-                                            class="text-blue-600 hover:text-blue-700"
+                                            class="text-red-400 hover:text-red-300"
                                             title="Edit"
                                         >
                                             <Edit class="w-4 h-4" />
                                         </button>
                                         <button
                                             @click="deleteItem(item)"
-                                            class="text-red-600 hover:text-red-700"
+                                            class="text-red-400 hover:text-red-300"
                                             title="Delete"
                                         >
                                             <Trash2 class="w-4 h-4" />
@@ -636,14 +597,14 @@ const formatDate = (dateString) => {
             <!-- Empty State -->
             <div v-if="filteredMedia.length === 0" class="text-center py-12">
                 <Image class="mx-auto h-12 w-12 text-gray-400" />
-                <h3 class="mt-2 text-sm font-medium text-gray-900">{{ t('admin.media.emptyState.title') }}</h3>
-                <p class="mt-1 text-sm text-gray-500">
+                <h3 class="mt-2 text-sm font-medium text-white">{{ t('admin.media.emptyState.title') }}</h3>
+                <p class="mt-1 text-sm text-gray-400">
                     {{ t('admin.media.emptyState.description') }}
                 </p>
                 <div class="mt-6">
                     <Link
                         :href="route('admin.upload')"
-                        class="inline-flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+                        class="inline-flex items-center px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
                     >
                         <Image class="w-4 h-4 mr-2" />
                         {{ t('admin.media.uploadButton') }}
@@ -654,48 +615,48 @@ const formatDate = (dateString) => {
 
         <!-- Edit Modal -->
         <div v-if="showEditModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div class="bg-white rounded-lg p-6 w-full max-w-md mx-4">
+            <div class="bg-gray-900 rounded-lg p-6 w-full max-w-md mx-4 border border-gray-800">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-semibold">Edit Media</h3>
-                    <button @click="closeEditModal" class="text-gray-400 hover:text-gray-600">
+                    <h3 class="text-lg font-semibold text-white">Edit Media</h3>
+                    <button @click="closeEditModal" class="text-gray-400 hover:text-gray-300">
                         <X class="w-6 h-6" />
                     </button>
                 </div>
                 
                 <form @submit.prevent="saveEdit" class="space-y-4">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                        <label class="block text-sm font-medium text-gray-300 mb-1">
                             Title
                         </label>
                         <input
                             v-model="editForm.title"
                             type="text"
                             placeholder="Enter media title"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                            class="w-full px-3 py-2 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 bg-black text-white placeholder-gray-500"
                         />
                     </div>
                     
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                        <label class="block text-sm font-medium text-gray-300 mb-1">
                             Description
                         </label>
                         <textarea
                             v-model="editForm.description"
                             rows="3"
                             placeholder="Enter media description"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                            class="w-full px-3 py-2 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 bg-black text-white placeholder-gray-500"
                         ></textarea>
                     </div>
                     
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                        <label class="block text-sm font-medium text-gray-300 mb-1">
                             Alt Text
                         </label>
                         <input
                             v-model="editForm.alt_text"
                             type="text"
                             placeholder="Enter alt text for accessibility"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                            class="w-full px-3 py-2 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 bg-black text-white placeholder-gray-500"
                         />
                     </div>
                     
@@ -703,14 +664,14 @@ const formatDate = (dateString) => {
                         <button
                             type="button"
                             @click="closeEditModal"
-                            class="px-4 py-2 text-sm text-gray-700 bg-gray-100 border border-gray-300 rounded-md hover:bg-gray-200"
+                            class="px-4 py-2 text-sm text-gray-300 bg-gray-800 border border-gray-600 rounded-md hover:bg-gray-700"
                         >
                             Cancel
                         </button>
                         <button
                             type="submit"
                             :disabled="editForm.processing"
-                            class="px-4 py-2 text-sm text-white bg-purple-600 rounded-md hover:bg-purple-700 disabled:opacity-50"
+                            class="px-4 py-2 text-sm text-white bg-red-600 rounded-md hover:bg-red-700 disabled:opacity-50"
                         >
                             {{ editForm.processing ? 'Saving...' : 'Save Changes' }}
                         </button>
@@ -721,24 +682,24 @@ const formatDate = (dateString) => {
 
         <!-- Delete Modal -->
         <div v-if="showDeleteModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div class="bg-white rounded-lg p-6 w-full max-w-md mx-4">
+            <div class="bg-gray-900 rounded-lg p-6 w-full max-w-md mx-4 border border-gray-800">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-semibold">Delete Media</h3>
-                    <button @click="closeDeleteModal" class="text-gray-400 hover:text-gray-600">
+                    <h3 class="text-lg font-semibold text-white">Delete Media</h3>
+                    <button @click="closeDeleteModal" class="text-gray-400 hover:text-gray-300">
                         <X class="w-6 h-6" />
                     </button>
                 </div>
                 
                 <div class="mb-6">
-                    <p class="text-sm text-gray-500">
+                    <p class="text-sm text-gray-400">
                         <span v-if="deletingItem">
-                            Are you sure you want to delete "<strong>{{ deletingItem.title }}</strong>"?
+                            Are you sure you want to delete "<strong class="text-white">{{ deletingItem.title }}</strong>"?
                         </span>
                         <span v-else>
                             Are you sure you want to delete {{ selectedItems.length }} selected items?
                         </span>
                     </p>
-                    <p class="text-sm text-red-600 mt-2">
+                    <p class="text-sm text-red-400 mt-2">
                         This action cannot be undone.
                     </p>
                 </div>
@@ -746,7 +707,7 @@ const formatDate = (dateString) => {
                 <div class="flex justify-end space-x-3">
                     <button
                         @click="closeDeleteModal"
-                        class="px-4 py-2 text-sm text-gray-700 bg-gray-100 border border-gray-300 rounded-md hover:bg-gray-200"
+                        class="px-4 py-2 text-sm text-gray-300 bg-gray-800 border border-gray-600 rounded-md hover:bg-gray-700"
                     >
                         Cancel
                     </button>
