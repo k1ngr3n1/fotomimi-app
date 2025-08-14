@@ -3,7 +3,7 @@ import { Head, useForm, usePage } from '@inertiajs/vue3';
 import { ref, onMounted, watch } from 'vue';
 import Navigation from '@/components/Navigation.vue';
 import SuccessPopup from '@/components/SuccessPopup.vue';
-import { Mail, Phone, MapPin, Clock, Send } from 'lucide-vue-next';
+import { Mail, Phone, MapPin, Clock, Send, Facebook, Instagram } from 'lucide-vue-next';
 import { useTranslation } from '@/composables/useTranslation';
 
 const { t, initLanguage } = useTranslation();
@@ -182,6 +182,31 @@ const contactInfo = [
                         </div>
                     </div>
                 </div>
+                 <!-- Social Media Links -->
+                 <div class="flex justify-center">
+
+                        <div class="mt-6">
+                             <h2 class="text-2xl font-bold text-black dark:text-white mb-6">{{ t('contact.info.followUs') }}</h2>
+                            <div class="flex justify-center gap-4">
+                                <a 
+                                    href="https://www.facebook.com/Fotomimi.hr/"
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    class="w-12 h-12 bg-red-600 text-white rounded-lg flex items-center justify-center hover:bg-black hover:text-red-600 dark:hover:bg-white dark:hover:text-black transition-all duration-300"
+                                >
+                                    <Facebook class="w-6 h-6" />
+                                </a>
+                                <a 
+                                    href="https://www.instagram.com/fotomimiemotion" 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    class="w-12 h-12 bg-red-600 text-white rounded-lg flex items-center justify-center hover:bg-black hover:text-red-600 dark:hover:bg-white dark:hover:text-black transition-all duration-300"
+                                >
+                                    <Instagram class="w-6 h-6" />
+                                </a>
+                            </div>
+                        </div>
+                        </div>
             </div>
         </section>
         

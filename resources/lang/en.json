@@ -476,7 +476,8 @@
             "phone": "Phone",
             "studio": "FOTOMIMI STUDIO",
             "hours": "Working Hours",
-            "hoursValue": "Mon-Fri: 9am-6pm, Sat: 10am-4pm"
+            "hoursValue": "Mon-Fri: 9am-6pm, Sat: 10am-4pm",
+            "followUs": "Follow Us"
         },
         "expectations": {
             "title": "What You Can Expect",
@@ -488,6 +489,9 @@
         "success": {
             "title": "Message Sent!",
             "message": "Thank you! Your message has been successfully sent. We will get back to you as soon as possible."
+        },
+        "social": {
+            "title": "Follow Us"
         }
     }
 }

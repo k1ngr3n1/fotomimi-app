@@ -109,7 +109,7 @@
         "title": "O meni",
         "subtitle": "Strastven sam u hvatanju vaših najvažnijih trenutaka s stilom i srcem.",
         "greeting": "Pozdrav, ja sam Mimi!",
-        "description1": "Već 30 godina bilježim trenutke koji traju zauvijek — od romantičnih vjenčanja i nezaboravnih događaja do pažljivo oblikovanih studijskih fotografija. Moj stil spaja kreativnost, iskustvo i osobni pristup, kako bi svaka slika pričala vašu priču na jedinstven način.",
+        "description1": "Već 30 godina bilježim trenutke koji traju zauvijek — od romantičnih vjenčanja i nezaboravnih događaja do pažljivo oblikovanih studijskih fotografija. Moj stil spaja kreativnost, iskustvo i osobni pristup, kako bi svaka fotografija pričala vašu priču na jedinstven način.",
         "description2": "Vjerujem da fotografija nije samo fotografija, već emocija uhvaćena u pravom trenutku. Zajedno ćemo stvoriti uspomene koje će vas svaki put iznova vratiti u te posebne trenutke — opušteno, autentično i s puno ljubavi.",
         "contactButton": "Kontaktiraj me",
         "stats": {
@@ -476,7 +476,8 @@
             "phone": "Telefon",
             "studio": "FOTOMIMI STUDIO",
             "hours": "Radno vrijeme",
-            "hoursValue": "Pon-Pet: 9-18h, Sub: 10-16h"
+            "hoursValue": "Pon-Pet: 9-18h, Sub: 10-16h",
+            "followUs": "Pratite nas"
         },
         "expectations": {
             "title": "Što možete očekivati",
@@ -488,6 +489,9 @@
         "success": {
             "title": "Poruka poslana!",
             "message": "Hvala vam! Vaša poruka je uspješno poslana. Odgovorit ćemo vam u najkraćem mogućem roku."
+        },
+        "social": {
+            "title": "Pratite nas"
         }
     }
 } 

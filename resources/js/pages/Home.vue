@@ -2,7 +2,7 @@
 import { Head, Link } from '@inertiajs/vue3';
 import { onMounted } from 'vue';
 import Navigation from '@/components/Navigation.vue';
-import { Camera, Heart, Users, Star, ArrowRight, Baby, Video, Drum, Plane} from 'lucide-vue-next';
+import { Camera, Heart, Users, Star, ArrowRight, Baby, Video, Drum, Plane, Facebook, Instagram} from 'lucide-vue-next';
 import { useTranslation } from '@/composables/useTranslation';
 import { useThemeLogo } from '@/composables/useThemeLogo';
 
@@ -239,6 +239,24 @@ const services = [
                             <li>📞 + 385 912397004</li>
                             <li>📍 Bjelovarska 34, Križevci</li>
                         </ul>
+                        <div class="flex gap-4 mt-4">
+                            <a 
+                                href="https://www.facebook.com/Fotomimi.hr/" 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                class="text-black/70 dark:text-white/70 hover:text-red-600 dark:hover:text-red-500 transition-colors duration-300"
+                            >
+                                <Facebook class="w-6 h-6" />
+                            </a>
+                            <a 
+                                href="https://www.instagram.com/fotomimiemotion" 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                class="text-black/70 dark:text-white/70 hover:text-red-600 dark:hover:text-red-500 transition-colors duration-300"
+                            >
+                                <Instagram class="w-6 h-6" />
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div class="border-t border-black/10 dark:border-white/10 mt-8 pt-8 text-center text-black/70 dark:text-white/70">
