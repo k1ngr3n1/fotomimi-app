@@ -122,8 +122,8 @@ class MediaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'files' => 'required|array',
-            'files.*' => 'required|file|mimes:jpeg,jpg,png,gif,webp,bmp,tiff,mp4,avi,mov,wmv,flv,webm,mkv|max:102400', // 100MB max
+            'files' => 'required|array|max:50', // Allow up to 50 files
+            'files.*' => 'required|file|mimes:jpeg,jpg,png,gif,webp,bmp,tiff,mp4,avi,mov,wmv,flv,webm,mkv|max:102400', // 100MB max per file
             'category' => 'required|in:wedding,baptism,concert,on-set,studio,modelling,travel,other',
             'titles.*' => 'nullable|string|max:255',
             'descriptions.*' => 'nullable|string',
@@ -133,6 +133,8 @@ class MediaController extends Controller
         ]);
 
         $uploadedCount = 0;
+        $failedCount = 0;
+        $errors = [];
         $files = $request->file('files');
         $titles = $request->input('titles', []);
         $descriptions = $request->input('descriptions', []);
@@ -144,7 +146,7 @@ class MediaController extends Controller
         \Log::info('Upload request received', [
             'files_count' => $files ? count($files) : 0,
             'category' => $request->category,
-            'request_data' => $request->all()
+            'max_files_allowed' => 50
         ]);
 
         // Check if files were uploaded
@@ -152,71 +154,97 @@ class MediaController extends Controller
             return back()->withErrors(['files' => 'No files were uploaded.']);
         }
 
+        // Check file count limit
+        if (count($files) > 50) {
+            return back()->withErrors(['files' => 'Maximum 50 files can be uploaded at once.']);
+        }
+
         foreach ($files as $index => $file) {
-            $extension = strtolower($file->getClientOriginalExtension());
-            $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-            
-            // Determine if it's a photo or video
-            $photoExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'tiff'];
-            $videoExtensions = ['mp4', 'avi', 'mov', 'wmv', 'flv', 'webm', 'mkv'];
-            
-            if (in_array($extension, $photoExtensions)) {
-                $type = 'photo';
-            } elseif (in_array($extension, $videoExtensions)) {
-                $type = 'video';
-            } else {
-                continue; // Skip unsupported files
-            }
-            
-            // Generate unique filename
-            $newFilename = $filename . '_' . time() . '_' . $index . '.' . $extension;
-            $storagePath = $type === 'photo' ? "photos/{$request->category}" : "videos/{$request->category}";
-            $filepath = $storagePath . '/' . $newFilename;
-            
-            // Store file
             try {
-                Storage::disk('main_disk')->put($filepath, file_get_contents($file));
-            } catch (\Exception $e) {
-                \Log::error('File upload failed', [
-                    'file' => $file->getClientOriginalName(),
-                    'error' => $e->getMessage(),
-                    'disk' => 'main_disk'
+                $extension = strtolower($file->getClientOriginalExtension());
+                $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                
+                // Determine if it's a photo or video
+                $photoExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'tiff'];
+                $videoExtensions = ['mp4', 'avi', 'mov', 'wmv', 'flv', 'webm', 'mkv'];
+                
+                if (in_array($extension, $photoExtensions)) {
+                    $type = 'photo';
+                } elseif (in_array($extension, $videoExtensions)) {
+                    $type = 'video';
+                } else {
+                    $failedCount++;
+                    $errors[] = "File {$file->getClientOriginalName()} has unsupported extension: {$extension}";
+                    continue; // Skip unsupported files
+                }
+                
+                // Generate unique filename
+                $newFilename = $filename . '_' . time() . '_' . $index . '.' . $extension;
+                $storagePath = $type === 'photo' ? "photos/{$request->category}" : "videos/{$request->category}";
+                $filepath = $storagePath . '/' . $newFilename;
+                
+                // Store file
+                try {
+                    Storage::disk('main_disk')->put($filepath, file_get_contents($file));
+                } catch (\Exception $e) {
+                    \Log::error('File upload failed', [
+                        'file' => $file->getClientOriginalName(),
+                        'error' => $e->getMessage(),
+                        'disk' => 'main_disk'
+                    ]);
+                    
+                    // Fallback to public disk if main_disk fails
+                    Storage::disk('public')->put($filepath, file_get_contents($file));
+                }
+                
+                // Get file info
+                $fileSize = $file->getSize();
+                $dimensions = null;
+                
+                if ($type === 'photo') {
+                    $imageInfo = getimagesize($file->getPathname());
+                    if ($imageInfo) {
+                        $dimensions = $imageInfo[0] . 'x' . $imageInfo[1];
+                    }
+                }
+                
+                // Create media record
+                Media::create([
+                    'title' => $titles[$index] ?? ucfirst(str_replace(['_', '-'], ' ', $filename)),
+                    'description' => $descriptions[$index] ?? null,
+                    'filename' => $newFilename,
+                    'filepath' => $filepath,
+                    'category' => $request->category,
+                    'type' => $type,
+                    'file_size' => $fileSize,
+                    'dimensions' => $dimensions,
+                    'alt_text' => $altTexts[$index] ?? ucfirst(str_replace(['_', '-'], ' ', $filename)),
+                    'is_featured' => isset($isFeatured[$index]) ? (bool)$isFeatured[$index] : false,
+                    'sort_order' => $sortOrders[$index] ?? 0
                 ]);
                 
-                // Fallback to public disk if main_disk fails
-                Storage::disk('public')->put($filepath, file_get_contents($file));
+                $uploadedCount++;
+                
+            } catch (\Exception $e) {
+                $failedCount++;
+                $errors[] = "Failed to upload {$file->getClientOriginalName()}: " . $e->getMessage();
+                \Log::error('File upload error', [
+                    'file' => $file->getClientOriginalName(),
+                    'error' => $e->getMessage()
+                ]);
             }
-            
-            // Get file info
-            $fileSize = $file->getSize();
-            $dimensions = null;
-            
-            if ($type === 'photo') {
-                $imageInfo = getimagesize($file->getPathname());
-                if ($imageInfo) {
-                    $dimensions = $imageInfo[0] . 'x' . $imageInfo[1];
-                }
-            }
-            
-            // Create media record
-            Media::create([
-                'title' => $titles[$index] ?? ucfirst(str_replace(['_', '-'], ' ', $filename)),
-                'description' => $descriptions[$index] ?? null,
-                'filename' => $newFilename,
-                'filepath' => $filepath,
-                'category' => $request->category,
-                'type' => $type,
-                'file_size' => $fileSize,
-                'dimensions' => $dimensions,
-                'alt_text' => $altTexts[$index] ?? ucfirst(str_replace(['_', '-'], ' ', $filename)),
-                'is_featured' => isset($isFeatured[$index]) ? (bool)$isFeatured[$index] : false,
-                'sort_order' => $sortOrders[$index] ?? 0
-            ]);
-            
-            $uploadedCount++;
         }
         
-        return redirect()->route('admin.media')->with('success', "Successfully uploaded {$uploadedCount} files.");
+        $message = "Successfully uploaded {$uploadedCount} files.";
+        if ($failedCount > 0) {
+            $message .= " Failed to upload {$failedCount} files.";
+        }
+        
+        if (!empty($errors)) {
+            return back()->withErrors(['upload_errors' => $errors])->with('success', $message);
+        }
+        
+        return redirect()->route('admin.media')->with('success', $message);
     }
 
     public function edit(Media $media)

@@ -322,7 +322,7 @@
                     "title": "Upload Files",
                     "dropZone": {
                         "title": "Drop files here or click to browse",
-                        "description": "Support for JPG, PNG, GIF, WebP, MP4, AVI, MOV and more",
+                        "description": "Support for JPG, PNG, GIF, WebP, MP4, AVI, MOV and more (up to 50 files)",
                         "chooseFiles": "Choose Files"
                     },
                     "selectedFiles": {
@@ -334,12 +334,24 @@
                         "featured": "Featured",
                         "readyToUpload": "Ready to Upload",
                         "files": "file | files",
-                        "noFilesSelected": "No files selected"
+                        "noFilesSelected": "No files selected",
+                        "fileLimitReached": "Maximum files reached",
+                        "fileLimitMessage": "You can upload up to 50 files at once"
                     }
                 },
                 "uploadButton": {
                     "uploading": "Uploading...",
                     "uploadFiles": "Upload Files"
+                },
+                "uploadProgress": {
+                    "title": "Upload Progress",
+                    "remaining": "remaining",
+                    "uploaded": "uploaded",
+                    "uploadSpeed": "Upload Speed",
+                    "totalSize": "Total Size",
+                    "status": "Status",
+                    "uploading": "Uploading...",
+                    "filesPerSec": "files/sec"
                 },
                 "alerts": {
                     "selectCategory": "Please select a category",

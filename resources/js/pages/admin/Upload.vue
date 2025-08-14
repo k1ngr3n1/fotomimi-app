@@ -10,7 +10,10 @@ import {
     File, 
     Trash2,
     Eye,
-    EyeOff
+    EyeOff,
+    Clock,
+    CheckCircle,
+    AlertCircle
 } from 'lucide-vue-next';
 import { useTranslation } from '@/composables/useTranslation';
 import { useToast } from '@/composables/useToast';
@@ -37,6 +40,15 @@ const dragOver = ref(false);
 const selectedFiles = ref([]);
 const previews = ref({});
 
+// Progress tracking
+const uploadProgress = ref(0);
+const uploadSpeed = ref(0);
+const timeRemaining = ref(0);
+const uploadedFiles = ref(0);
+const totalFiles = ref(0);
+const uploadStartTime = ref(0);
+const uploadErrors = ref([]);
+
 // Toast functionality is now handled by useToast composable
 
 const categories = [
@@ -54,6 +66,8 @@ const supportedTypes = {
     images: ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp', 'image/bmp', 'image/tiff'],
     videos: ['video/mp4', 'video/avi', 'video/mov', 'video/wmv', 'video/flv', 'video/webm', 'video/mkv']
 };
+
+const MAX_FILES = 50;
 
 const handleFileSelect = (event) => {
     const files = Array.from(event.target.files);
@@ -79,8 +93,29 @@ const handleDragLeave = (event) => {
 };
 
 const addFiles = (files) => {
+    const currentCount = selectedFiles.value.length;
+    const remainingSlots = MAX_FILES - currentCount;
+    
+    if (files.length > remainingSlots) {
+        error(`You can only upload up to ${MAX_FILES} files at once. You have ${currentCount} files selected and trying to add ${files.length} more.`);
+        files = files.slice(0, remainingSlots);
+    }
+    
+    let addedCount = 0;
+    let skippedCount = 0;
+    
     files.forEach(file => {
         if (isValidFile(file)) {
+            // Check if file is already selected
+            const isDuplicate = selectedFiles.value.some(existingFile => 
+                existingFile.name === file.name && existingFile.size === file.size
+            );
+            
+            if (isDuplicate) {
+                skippedCount++;
+                return;
+            }
+            
             const fileId = generateFileId();
             selectedFiles.value.push({
                 id: fileId,
@@ -106,13 +141,35 @@ const addFiles = (files) => {
             form.alt_texts[fileId] = generateTitleFromFilename(file.name);
             form.is_featured[fileId] = false;
             form.sort_orders[fileId] = selectedFiles.value.length;
+            
+            addedCount++;
+        } else {
+            skippedCount++;
         }
     });
+    
+    if (addedCount > 0) {
+        success(`Added ${addedCount} files successfully.`);
+    }
+    
+    if (skippedCount > 0) {
+        error(`Skipped ${skippedCount} files (unsupported format, too large, or duplicates). Maximum file size is 100MB.`);
+    }
 };
 
 const isValidFile = (file) => {
     const allSupportedTypes = [...supportedTypes.images, ...supportedTypes.videos];
-    return allSupportedTypes.includes(file.type);
+    const maxFileSize = 100 * 1024 * 1024; // 100MB
+    
+    if (!allSupportedTypes.includes(file.type)) {
+        return false;
+    }
+    
+    if (file.size > maxFileSize) {
+        return false;
+    }
+    
+    return true;
 };
 
 const getFileType = (file) => {
@@ -153,6 +210,25 @@ const formatFileSize = (bytes) => {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
 };
 
+const formatTime = (seconds) => {
+    if (seconds < 60) return `${Math.round(seconds)}s`;
+    if (seconds < 3600) return `${Math.round(seconds / 60)}m ${Math.round(seconds % 60)}s`;
+    return `${Math.round(seconds / 3600)}h ${Math.round((seconds % 3600) / 60)}m`;
+};
+
+const calculateTotalSize = () => {
+    return selectedFiles.value.reduce((total, file) => total + file.size, 0);
+};
+
+const updateProgress = () => {
+    if (uploadStartTime.value > 0) {
+        const elapsed = (Date.now() - uploadStartTime.value) / 1000;
+        uploadSpeed.value = uploadedFiles.value / elapsed;
+        const remainingFiles = totalFiles.value - uploadedFiles.value;
+        timeRemaining.value = remainingFiles / uploadSpeed.value;
+    }
+};
+
 const submitUpload = () => {
     if (!form.category) {
         alert(t('admin.media.upload.alerts.selectCategory'));
@@ -164,7 +240,20 @@ const submitUpload = () => {
         return;
     }
     
+    if (selectedFiles.value.length > MAX_FILES) {
+        error(`Maximum ${MAX_FILES} files can be uploaded at once.`);
+        return;
+    }
+    
+    // Reset progress
     isUploading.value = true;
+    uploadProgress.value = 0;
+    uploadSpeed.value = 0;
+    timeRemaining.value = 0;
+    uploadedFiles.value = 0;
+    totalFiles.value = selectedFiles.value.length;
+    uploadStartTime.value = Date.now();
+    uploadErrors.value = [];
     
     // Create a new form instance for file upload
     const uploadForm = useForm({
@@ -187,18 +276,35 @@ const submitUpload = () => {
         uploadForm.sort_orders[index] = form.sort_orders[fileObj.id] || index;
     });
     
+    // Update progress every second during upload
+    const progressInterval = setInterval(() => {
+        if (isUploading.value) {
+            updateProgress();
+        } else {
+            clearInterval(progressInterval);
+        }
+    }, 1000);
+    
     // Submit using Inertia form
     uploadForm.post(route('admin.media.store'), {
+        onProgress: (progress) => {
+            uploadProgress.value = progress;
+            uploadedFiles.value = Math.floor((progress / 100) * totalFiles.value);
+        },
         onSuccess: () => {
             selectedFiles.value = [];
             previews.value = {};
             form.reset();
             isUploading.value = false;
+            uploadProgress.value = 100;
             success('Files uploaded successfully!');
+            clearInterval(progressInterval);
         },
         onError: (errors) => {
             isUploading.value = false;
+            uploadErrors.value = errors.upload_errors || [];
             error('Upload failed. Please try again.');
+            clearInterval(progressInterval);
         }
     });
 };
@@ -207,7 +313,16 @@ const clearAll = () => {
     selectedFiles.value = [];
     previews.value = {};
     form.reset();
+    uploadErrors.value = [];
 };
+
+const canAddMoreFiles = computed(() => {
+    return selectedFiles.value.length < MAX_FILES;
+});
+
+const totalSize = computed(() => {
+    return calculateTotalSize();
+});
 </script>
 
 <template>
@@ -225,9 +340,78 @@ const clearAll = () => {
                 </p>
             </div>
 
+            <!-- Upload Progress (shown during upload) -->
+            <div v-if="isUploading" class="bg-gray-900 rounded-lg shadow p-6 mb-6 border border-gray-800">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-lg font-semibold text-white">{{ t('admin.media.upload.uploadProgress.title') }}</h2>
+                    <div class="flex items-center space-x-2">
+                        <Clock class="w-4 h-4 text-gray-400" />
+                        <span class="text-sm text-gray-400">{{ formatTime(timeRemaining) }} {{ t('admin.media.upload.uploadProgress.remaining') }}</span>
+                    </div>
+                </div>
+                
+                <!-- Progress Bar -->
+                <div class="mb-4">
+                    <div class="flex justify-between text-sm text-gray-400 mb-2">
+                        <span>{{ uploadedFiles }} {{ t('admin.media.upload.uploadProgress.uploaded') }} {{ totalFiles }} {{ t('admin.media.upload.fileUpload.selectedFiles.files', totalFiles) }}</span>
+                        <span>{{ Math.round(uploadProgress) }}%</span>
+                    </div>
+                    <div class="w-full bg-gray-700 rounded-full h-3">
+                        <div 
+                            class="bg-red-500 h-3 rounded-full transition-all duration-300 ease-out"
+                            :style="{ width: uploadProgress + '%' }"
+                        ></div>
+                    </div>
+                </div>
+                
+                <!-- Upload Stats -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                    <div class="bg-gray-800 rounded-lg p-3">
+                        <div class="text-gray-400">{{ t('admin.media.upload.uploadProgress.uploadSpeed') }}</div>
+                        <div class="text-white font-medium">{{ uploadSpeed.toFixed(1) }} {{ t('admin.media.upload.uploadProgress.filesPerSec') }}</div>
+                    </div>
+                    <div class="bg-gray-800 rounded-lg p-3">
+                        <div class="text-gray-400">{{ t('admin.media.upload.uploadProgress.totalSize') }}</div>
+                        <div class="text-white font-medium">{{ formatFileSize(totalSize) }}</div>
+                    </div>
+                    <div class="bg-gray-800 rounded-lg p-3">
+                        <div class="text-gray-400">{{ t('admin.media.upload.uploadProgress.status') }}</div>
+                        <div class="text-green-400 font-medium flex items-center">
+                            <CheckCircle class="w-4 h-4 mr-1" />
+                            {{ t('admin.media.upload.uploadProgress.uploading') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upload Errors (if any) -->
+            <div v-if="uploadErrors.length > 0" class="bg-red-900/20 border border-red-500 rounded-lg p-4 mb-6">
+                <div class="flex items-center mb-2">
+                    <AlertCircle class="w-5 h-5 text-red-400 mr-2" />
+                    <h3 class="text-red-400 font-medium">Upload Errors</h3>
+                </div>
+                <ul class="text-red-300 text-sm space-y-1">
+                    <li v-for="(error, index) in uploadErrors" :key="index">{{ error }}</li>
+                </ul>
+            </div>
+
             <!-- File Upload Area (First) -->
             <div class="bg-gray-900 rounded-lg shadow p-6 mb-6 border border-gray-800">
                 <h2 class="text-lg font-semibold text-white mb-4">{{ t('admin.media.upload.fileUpload.title') }}</h2>
+                
+                <!-- File Limit Info -->
+                <div class="mb-4 p-3 bg-blue-900/20 border border-blue-500 rounded-lg">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <span class="text-blue-400 text-sm">
+                                {{ selectedFiles.length }} of {{ MAX_FILES }} files selected
+                            </span>
+                        </div>
+                        <div class="text-gray-400 text-sm">
+                            Total size: {{ formatFileSize(totalSize) }}
+                        </div>
+                    </div>
+                </div>
                 
                 <!-- Drag & Drop Zone -->
                 <div
@@ -238,15 +422,16 @@ const clearAll = () => {
                         'border-2 border-dashed rounded-lg p-8 text-center transition-colors duration-200',
                         dragOver
                             ? 'border-red-500 bg-red-900/20'
-                            : 'border-gray-600 hover:border-gray-500'
+                            : 'border-gray-600 hover:border-gray-500',
+                        !canAddMoreFiles ? 'opacity-50 cursor-not-allowed' : ''
                     ]"
                 >
                     <Upload class="mx-auto h-12 w-12 text-gray-400 mb-4" />
                     <p class="text-lg font-medium text-white mb-2">
-                        {{ t('admin.media.upload.fileUpload.dropZone.title') }}
+                        {{ canAddMoreFiles ? t('admin.media.upload.fileUpload.dropZone.title') : t('admin.media.upload.fileUpload.selectedFiles.fileLimitReached') }}
                     </p>
                     <p class="text-gray-400 mb-4">
-                        {{ t('admin.media.upload.fileUpload.dropZone.description') }}
+                        {{ canAddMoreFiles ? t('admin.media.upload.fileUpload.dropZone.description') : t('admin.media.upload.fileUpload.selectedFiles.fileLimitMessage') }}
                     </p>
                     <input
                         type="file"
@@ -255,12 +440,18 @@ const clearAll = () => {
                         @change="handleFileSelect"
                         class="hidden"
                         id="file-input"
+                        :disabled="!canAddMoreFiles"
                     />
                     <label
                         for="file-input"
-                        class="inline-flex items-center px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors cursor-pointer"
+                        :class="[
+                            'inline-flex items-center px-4 py-2 rounded-lg transition-colors cursor-pointer',
+                            canAddMoreFiles 
+                                ? 'bg-red-600 text-white hover:bg-red-700' 
+                                : 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                        ]"
                     >
-                        {{ t('admin.media.upload.fileUpload.dropZone.chooseFiles') }}
+                        {{ canAddMoreFiles ? t('admin.media.upload.fileUpload.dropZone.chooseFiles') : t('admin.media.upload.fileUpload.selectedFiles.fileLimitReached') }}
                     </label>
                 </div>
 
@@ -395,6 +586,9 @@ const clearAll = () => {
                                 {{ t('admin.media.upload.fileUpload.selectedFiles.readyToUpload') }} {{ selectedFiles.length }} {{ t('admin.media.upload.fileUpload.selectedFiles.files', selectedFiles.length) }}
                             </span>
                             <span v-else>{{ t('admin.media.upload.fileUpload.selectedFiles.noFilesSelected') }}</span>
+                        </p>
+                        <p v-if="selectedFiles.length > 0" class="text-xs text-gray-500 mt-1">
+                            Total size: {{ formatFileSize(totalSize) }}
                         </p>
                     </div>
                     <button

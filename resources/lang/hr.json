@@ -322,7 +322,7 @@
                     "title": "Prenesi datoteke",
                     "dropZone": {
                         "title": "Ispustite datoteke ovdje ili kliknite za pregled",
-                        "description": "Podrška za JPG, PNG, GIF, WebP, MP4, AVI, MOV i više",
+                        "description": "Podrška za JPG, PNG, GIF, WebP, MP4, AVI, MOV i više (do 50 datoteka)",
                         "chooseFiles": "Odaberite datoteke"
                     },
                     "selectedFiles": {
@@ -334,12 +334,24 @@
                         "featured": "Istaknuto",
                         "readyToUpload": "Spremno za prijenos",
                         "files": "datoteka | datoteke",
-                        "noFilesSelected": "Nema odabranih datoteka"
+                        "noFilesSelected": "Nema odabranih datoteka",
+                        "fileLimitReached": "Dostignut maksimum datoteka",
+                        "fileLimitMessage": "Možete prenijeti do 50 datoteka odjednom"
                     }
                 },
                 "uploadButton": {
                     "uploading": "Prenosi se...",
                     "uploadFiles": "Prenesi datoteke"
+                },
+                "uploadProgress": {
+                    "title": "Napredak prijenosa",
+                    "remaining": "preostalo",
+                    "uploaded": "preneseno",
+                    "uploadSpeed": "Brzina prijenosa",
+                    "totalSize": "Ukupna veličina",
+                    "status": "Status",
+                    "uploading": "Prenosi se...",
+                    "filesPerSec": "datoteka/sek"
                 },
                 "alerts": {
                     "selectCategory": "Molimo odaberite kategoriju",
