@@ -124,7 +124,7 @@ class MediaController extends Controller
         $request->validate([
             'files' => 'required|array|max:50', // Allow up to 50 files
             'files.*' => 'required|file|mimes:jpeg,jpg,png,gif,webp,bmp,tiff,mp4,avi,mov,wmv,flv,webm,mkv|max:102400', // 100MB max per file
-            'category' => 'required|in:wedding,baptism,concert,on-set,studio,modelling,travel,other',
+            'category' => 'required|in:wedding,baptism,concert,on-set,studio,modelling,travel,video,other',
             'titles.*' => 'nullable|string|max:255',
             'descriptions.*' => 'nullable|string',
             'alt_texts.*' => 'nullable|string|max:255',
@@ -431,7 +431,7 @@ class MediaController extends Controller
     {
         $request->validate([
             'directory_path' => 'required|string',
-            'category' => 'required|in:wedding,baptism,concert,on-set,studio,modelling,travel,other'
+            'category' => 'required|in:wedding,baptism,concert,on-set,studio,modelling,travel,video,other'
         ]);
 
         $directoryPath = $request->input('directory_path');
@@ -524,7 +524,7 @@ class MediaController extends Controller
             return back()->withErrors(['base_directory' => 'Base directory not found']);
         }
 
-        $categories = ['wedding', 'baptism', 'concert', 'on-set', 'studio', 'modelling', 'travel'];
+        $categories = ['wedding', 'baptism', 'concert', 'on-set', 'studio', 'modelling', 'travel', 'video'];
         $totalImported = 0;
         
         foreach ($categories as $category) {

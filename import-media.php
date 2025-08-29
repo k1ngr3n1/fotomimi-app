@@ -13,7 +13,7 @@ echo "=== Media Import Script ===\n\n";
 
 // Configuration
 $baseDirectory = 'C:/path/to/your/photos'; // Change this to your actual path
-$categories = ['wedding', 'baptism', 'concert', 'studio', 'modelling', 'travel'];
+$categories = ['wedding', 'baptism', 'concert', 'studio', 'modelling', 'travel', 'video'];
 
 $totalImported = 0;
 

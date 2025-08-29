@@ -44,7 +44,7 @@ class PhotographyController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'phone' => 'required|string|max:20',
-            'event_type' => 'required|string|in:wedding,baptism,concert,on-set,studio,modelling,travel,other',
+            'event_type' => 'required|string|in:wedding,baptism,concert,on-set,studio,modelling,travel,video,other',
             'event_date' => 'required|date|after:today',
             'location' => 'required|string|max:255',
             'guests' => 'nullable|integer|min:1',

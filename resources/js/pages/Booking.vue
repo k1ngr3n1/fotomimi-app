@@ -48,6 +48,7 @@ const eventTypes = [
     { value: 'studio', labelKey: 'booking.eventTypes.studio', description: 'Professional portraits' },
     { value: 'modelling', labelKey: 'booking.eventTypes.modelling', description: 'Fashion and commercial' },
     { value: 'travel', labelKey: 'booking.eventTypes.travel', description: 'Travel and destination photography' },
+    { value: 'video', labelKey: 'booking.eventTypes.video', description: 'Video production and editing' },
     { value: 'other', labelKey: 'booking.eventTypes.other', description: 'Custom photography needs' }
 ];
 

@@ -59,6 +59,7 @@ const categories = [
     { value: 'studio', labelKey: 'admin.media.upload.categorySelection.categories.studio', icon: '📸' },
     { value: 'modelling', labelKey: 'admin.media.upload.categorySelection.categories.modelling', icon: '👗' },
     { value: 'travel', labelKey: 'admin.media.upload.categorySelection.categories.travel', icon: '✈️' },
+    { value: 'video', labelKey: 'admin.media.upload.categorySelection.categories.video', icon: '🎥' },
     { value: 'other', labelKey: 'admin.media.upload.categorySelection.categories.other', icon: '📁' }
 ];
 

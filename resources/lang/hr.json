@@ -151,6 +151,7 @@
             "studio": "Studio sesija",
             "modelling": "Modeling",
             "travel": "Fotografiranje putovanja",
+            "video": "Video produkcija",
             "other": "Drugi događaj"
         },
         "budgetRanges": {
@@ -315,6 +316,7 @@
                         "studio": "Studio",
                         "modelling": "Modeling",
                         "travel": "Putovanja",
+                        "video": "Video",
                         "other": "Ostalo"
                     }
                 },
@@ -371,6 +373,7 @@
                     "studio": "Studio",
                     "modelling": "Modeling",
                     "travel": "Putovanja",
+                    "video": "Video",
                     "other": "Ostalo"
                 },
                 "types": {
