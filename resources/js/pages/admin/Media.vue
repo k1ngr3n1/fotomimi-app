@@ -69,6 +69,7 @@ const categories = [
     { value: 'studio', labelKey: 'admin.media.filters.categories.studio' },
     { value: 'modelling', labelKey: 'admin.media.filters.categories.modelling' },
     { value: 'travel', labelKey: 'admin.media.filters.categories.travel' },
+    { value: 'video', labelKey: 'admin.media.filters.categories.video' },
     { value: 'other', labelKey: 'admin.media.filters.categories.other' }
 ];
 

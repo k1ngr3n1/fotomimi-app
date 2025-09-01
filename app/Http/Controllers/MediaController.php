@@ -86,6 +86,7 @@ class MediaController extends Controller
                     'studio' => 'Studio',
                     'modelling' => 'Modelling',
                     'travel' => 'Travel',
+                    'video' => 'Video',
                     'other' => 'Other'
                 ],
                 'filters' => $request->only(['search', 'category', 'type', 'featured'])
@@ -106,6 +107,7 @@ class MediaController extends Controller
                     'studio' => 'Studio',
                     'modelling' => 'Modelling',
                     'travel' => 'Travel',
+                    'video' => 'Video',
                     'other' => 'Other'
                 ],
                 'filters' => $request->only(['search', 'category', 'type', 'featured']),
