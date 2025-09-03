@@ -92,7 +92,9 @@
             "travel": "Travel",
             "concert": "Concerts",
             "baptism": "Baptisms",
-            "other": "Other"
+            "other": "Other",
+            "singleItem": "item",
+            "multipleItems": "items"
         },
         "emptyState": {
             "title": "No Images Found",

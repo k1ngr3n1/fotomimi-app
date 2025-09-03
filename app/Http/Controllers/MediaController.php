@@ -9,16 +9,12 @@ use Inertia\Inertia;
 
 class MediaController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request, $category = 'all')
     {
-        $category = $request->get('category', 'all');
         $type = $request->get('type', 'all');
         
+        // Always get all media for proper category counting
         $query = Media::query();
-        
-        if ($category !== 'all') {
-            $query->byCategory($category);
-        }
         
         if ($type === 'photo') {
             $query->photos();
@@ -39,7 +35,9 @@ class MediaController extends Controller
                 'on-set' => 'On Set',
                 'studio' => 'Studio',
                 'modelling' => 'Modelling',
-                'travel' => 'Travel'
+                'travel' => 'Travel',
+                'video' => 'Video',
+                'other' => 'Other'
             ]
         ]);
     }

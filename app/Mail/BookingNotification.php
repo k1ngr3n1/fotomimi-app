@@ -30,7 +30,7 @@ class BookingNotification extends Mailable
     {
         return new Envelope(
             subject: 'New Photography Booking Request - ' . $this->bookingData['name'],
-            to: 'k1ngr3n1@gmail.com',
+            to: 'fotomimi@gmail.com',
         );
     }
 

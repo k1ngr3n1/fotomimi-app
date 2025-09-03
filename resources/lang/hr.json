@@ -92,7 +92,9 @@
             "travel": "Putovanja",
             "concert": "Koncerti",
             "baptism": "Krštenja",
-            "other": "Ostalo"
+            "other": "Ostalo",
+            "singleItem": "stavka",
+            "multipleItems": "stavki"
         },
         "emptyState": {
             "title": "Nema pronađenih slika",

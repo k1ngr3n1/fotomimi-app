@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, router } from '@inertiajs/vue3';
 import { onMounted } from 'vue';
 import Navigation from '@/components/Navigation.vue';
 import { Camera, Heart, Users, Star, ArrowRight, Baby, Video, Drum, Plane, Facebook, Instagram} from 'lucide-vue-next';
@@ -13,46 +13,54 @@ onMounted(() => {
     initLanguage();
 });
 
-
-
 const services = [
     {
         icon: Heart,
         titleKey: 'home.services.weddings.title',
         descriptionKey: 'home.services.weddings.description',
-        image: '/vjencanja.jpg'
+        image: '/v_services.jpg',
+        category: 'wedding'
     },
     {
         icon: Baby,
         titleKey: 'home.services.baptism.title',
         descriptionKey: 'home.services.baptism.description',
-        image: '/krstenja.jpg'
+        image: '/k_services.jpg',
+        category: 'baptism'
     },
     {
         icon: Video,
         titleKey: 'home.services.video.title',
         descriptionKey: 'home.services.video.description',
-        image: '/video.jpg'
+        image: '/video.jpg',
+        category: 'video'
     },
     {
         icon: Camera,
         titleKey: 'home.services.studio.title',
         descriptionKey: 'home.services.studio.description',
-        image: '/studio.JPG'
+        image: '/studio.JPG',
+        category: 'studio'
     },
     {
         icon: Users,
         titleKey: 'home.services.modelling.title',
         descriptionKey: 'home.services.modelling.description',
-        image: '/modeling.jpg'
+        image: '/modeling.jpg',
+        category: 'modelling'
     },
     {
         icon: Drum,
         titleKey: 'home.services.concerts.title',
         descriptionKey: 'home.services.concerts.description',
-        image: '/koncerti.jpg'
+        image: '/koncerti.jpg',
+        category: 'concert'
     },
 ];
+
+const navigateToGallery = (category: string) => {
+    router.visit(route('gallery', category));
+};
 </script>
 
 <template>
@@ -116,6 +124,7 @@ const services = [
                     <div 
                         v-for="service in services" 
                         :key="service.title"
+                        @click="navigateToGallery(service.category)"
                         class="group relative overflow-hidden rounded-xl bg-white dark:bg-black shadow-lg transition-all duration-300 border border-black/10 dark:border-white/10 cursor-pointer service-card"
                     >
                         <div class="aspect-[4/3] overflow-hidden">
