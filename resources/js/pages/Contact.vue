@@ -212,7 +212,7 @@ const contactInfo = [
         
         <footer class="bg-white dark:bg-black text-black dark:text-white py-12 px-4 transition-colors duration-300">
             <div class="max-w-7xl mx-auto text-center">
-                <p class="text-black/70 dark:text-white/70">&copy; 2025 Fotomimi. {{ t('home.footer.copyright') }}</p>
+                <p class="text-black/70 dark:text-white/70">&copy; 2026 Fotomimi. {{ t('home.footer.copyright') }}</p>
             </div>
         </footer>
         

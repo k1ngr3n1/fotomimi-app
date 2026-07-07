@@ -269,7 +269,7 @@ const navigateToGallery = (category: string) => {
                     </div>
                 </div>
                 <div class="border-t border-black/10 dark:border-white/10 mt-8 pt-8 text-center text-black/70 dark:text-white/70">
-                    <p>&copy; 2025 Fotomimi. {{ t('home.footer.copyright') }}</p>
+                    <p>&copy; 2026 Fotomimi. {{ t('home.footer.copyright') }}</p>
                 </div>
             </div>
         </footer>
