@@ -41,7 +41,7 @@ class Media extends Model
                 return asset('storage/' . $this->filepath);
             }
             
-            return Storage::disk('main_disk')->url($this->filepath);
+            return Storage::disk('main_disk')->temporaryUrl($this->filepath, now()->addHours(6));
         } catch (\Exception $e) {
             // Fallback to local storage if main_disk is not available
             \Log::warning('Failed to generate URL for main_disk, falling back to local storage', [
